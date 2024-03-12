@@ -19,9 +19,9 @@ def getRouter(request):
         return JsonResponse('Hello',safe=False)
 
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    permission_classes = (IsAdminUser,)
+        queryset = Event.objects.all()
+        serializer_class = EventSerializer
+        permission_classes = (IsAdminUser,)
 
 
 @api_view(["GET"])
