@@ -23,6 +23,9 @@ urlpatterns = [
     path('api/',include('base.urls')),
     path('api/',include('schools.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('schools/',include('schools.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
