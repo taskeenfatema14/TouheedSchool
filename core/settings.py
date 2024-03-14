@@ -67,7 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
@@ -85,7 +85,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
@@ -227,13 +227,22 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 75
 DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
+
+# Email Backend Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
+
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
+EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  # Replace with your email username
+EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
 
 
 #########

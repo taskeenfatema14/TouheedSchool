@@ -36,3 +36,13 @@ class Event(BaseModel):
         image.save(self.event_image.path)    
 
     
+class ContactUs(BaseModel):
+    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='contact_us',)
+    user_email      = models.EmailField(
+        verbose_name = 'email_address',
+        max_length=255,
+        unique=True,
+    )
+    full_name  = models.CharField(max_length=100)
+    subject    = models.CharField(max_length=50)
+    message    = models.CharField(max_length=100)
