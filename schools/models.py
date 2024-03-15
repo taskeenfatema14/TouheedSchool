@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from portals.models import BaseModel
+from django.conf import settings
 
 # Create your models here.
 
@@ -11,8 +12,9 @@ class School(BaseModel):
     video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
     facility = models.CharField(max_length = 100)
     description = models.TextField()
-    principle = models.TextField()
+    principal = models.TextField()
     contact_no = models.IntegerField()
+
 
 class Events(models.Model):
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)

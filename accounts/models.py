@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
+from schools.models import School
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -31,13 +32,12 @@ class CustomUserManager(UserManager):
 
     
 class User(AbstractBaseUser, PermissionsMixin):
+    school = models.OneToOneField('schools.School', related_name='staff', on_delete=    models.CASCADE, null=True)
     email = models.EmailField(blank = True, default = '', unique = True)
     name = models.CharField(max_length = 50, blank = True, default = '')
-
     is_active = models.BooleanField(default = True)
     is_superuser = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = True)
-
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
 
@@ -56,3 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
+    
+    def get_school_name(self, obj):
+        if obj.school:
+            return obj.school.name
+        return None
