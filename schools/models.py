@@ -17,7 +17,9 @@ class School(BaseModel):
     principal = models.TextField()
     contact_no = models.IntegerField()
 
-
+    def __str__(self):
+        return self.name
+    
 class Events(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)

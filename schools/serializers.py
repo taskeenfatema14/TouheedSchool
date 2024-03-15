@@ -10,7 +10,7 @@ class SchoolSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Events
-        exclude = ['created_on','updated_on']
+        fields = '__all__'
 
 class EventSerializer1(serializers.ModelSerializer):
     class Meta:
