@@ -2,10 +2,12 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 from portals.models import BaseModel
 from django.conf import settings
+import uuid
 
 # Create your models here.
 
 class School(BaseModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length = 100)
     location = models.CharField(max_length = 100)
     image = models.ImageField(upload_to="schoolImage", blank=True, null=True)
@@ -17,6 +19,7 @@ class School(BaseModel):
 
 
 class Events(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)
     event_name = models.CharField(max_length = 20)
     event_title = models.CharField(max_length = 80)
@@ -31,6 +34,7 @@ class Events(models.Model):
         return self.event_name
     
 class EventSpeaker(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     events = models.ForeignKey('Events', related_name='event_speakers', on_delete=models.CASCADE)
     speaker_name = models.CharField(max_length=50)
     speaker_image = models.ImageField(upload_to='images/', validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])])
