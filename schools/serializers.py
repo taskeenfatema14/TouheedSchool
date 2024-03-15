@@ -4,12 +4,13 @@ from rest_framework import serializers
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
-        fields = '__all__'
+        exclude = ['created_on','updated_on']
+
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Events
-        fields = '__all__'
+        exclude = ['created_on','updated_on']
 
 class EventSerializer1(serializers.ModelSerializer):
     class Meta:
