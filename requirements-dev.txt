@@ -14,10 +14,3 @@ django-cors-headers==3.7.0
 #Pillow-10.2.0
 
 ################################
-#Username (leave blank to use 'komalsamal'): touheed
-#Email address: touheed@gmail.com
-#Pwd: 1234
-
-#Username (leave blank to use 'komalsamal'): touheed
-#Email address: touheed1@gmail.com
-#Pwd: 1234

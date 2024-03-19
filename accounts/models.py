@@ -63,3 +63,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         if obj.school:
             return obj.school.name
         return None
+    
+    

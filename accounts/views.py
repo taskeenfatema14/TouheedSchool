@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
-
+from rest_framework import viewsets
+from .permissions import *
+from schools.serializers import SchoolSerializer
 # Create your views here.
 
 
@@ -43,5 +45,9 @@ class LoginAPIView(APIView):
             # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        
+#################################################### RESTRICTING TO OTHER SCHOOLS ############################################################################
 
+class SchoolViewSet(viewsets.ModelViewSet):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+    permission_classes = [SchoolPermission]

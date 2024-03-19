@@ -93,7 +93,4 @@ class EventSpeakersCard(APIView):
         else:
             return Response(serializer.errors)
 
-#################################################### RESTRICTING TO OTHER SCHOOLS ############################################################################
 
-
-        
