@@ -248,4 +248,4 @@ EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
 
 
 #########
-# username:fatema  password:admin  email : test123@gmail.com
+# username:  password:admin  email : test123@gmail.com

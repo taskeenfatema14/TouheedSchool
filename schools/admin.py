@@ -14,3 +14,5 @@ class EventSpeakerAdmin(admin.ModelAdmin):
 @admin.register(School)
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'location', 'facility', 'contact_no'] 
+
+admin.site.register(ContactUs)
