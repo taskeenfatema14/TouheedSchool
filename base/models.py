@@ -54,7 +54,6 @@ class Staff(models.Model):
     person_occupation = models.TextField(null=True, blank=True)
     person_image = models.ImageField(upload_to="images/staff/", null=True, blank=True, help_text="Best Image Resolution width: 640 x Height: 825")
 
-
     def __str__(self):
         return self.person_name
 
@@ -65,7 +64,6 @@ class Staff(models.Model):
         size = (640, 825)
         image = image.resize(size, Image.LANCZOS)
         image.save(self.person_image.path)
-
 
     class Meta:
         ordering = ["-pk"]

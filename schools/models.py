@@ -1,21 +1,18 @@
 from django.db import models
-<<<<<<< HEAD
 from django.utils import timezone
+from portals.models import *
+from PIL import Image
+from django.core.validators import FileExtensionValidator
 
-class School(models.Model):
-    school_id = models.CharField(max_length=20, primary_key=True)
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='school_images/', null=True, blank=True)
-    video = models.FileField(upload_to='school_videos/', null=True, blank=True)
-    location = models.CharField(max_length=200)
-    courses = models.TextField()
-    facility = models.TextField()
+class School(BaseModel):
+    name = models.CharField(max_length = 100)
+    location = models.CharField(max_length = 100)
+    image = models.ImageField(upload_to="schoolImage", blank=True, null=True)
+    video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
+    facility = models.CharField(max_length = 100)
     description = models.TextField()
-    principal = models.CharField(max_length=100)
-    contact_no = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
+    principle = models.TextField()
+    contact_no = models.IntegerField()
 
 class BoardMember(models.Model):
     board_id = models.AutoField(primary_key=True)
@@ -38,22 +35,6 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review for {self.school.name} by {self.username}"
-=======
-from portals.models import *
-from PIL import Image
-from django.core.validators import FileExtensionValidator
-
-# Create your models here.
-
-class School(BaseModel):
-    name = models.CharField(max_length = 100)
-    location = models.CharField(max_length = 100)
-    image = models.ImageField(upload_to="schoolImage", blank=True, null=True)
-    video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
-    facility = models.CharField(max_length = 100)
-    description = models.TextField()
-    principle = models.TextField()
-    contact_no = models.IntegerField()
 
 class Event(BaseModel):
     event_title = models.TextField(null=False,blank=False)
@@ -75,5 +56,16 @@ class Event(BaseModel):
         image = image.resize(size, Image.LANCZOS )
         image.save(self.event_image.path)    
 
-    
->>>>>>> 162d812960618f74654658bb586d0e08fda77e96
+class MailLog(models.Model):
+    mail_id = models.AutoField(primary_key=True)
+    mFrom = models.EmailField()
+    to = models.EmailField()
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+    queue = models.CharField(max_length=50)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)  # Add foreign key field to associate each mail log with a school
+    principal = models.EmailField()  # Add field to store the email address of the principal
+
+    def __str__(self):
+        return f"Mail ID: {self.mail_id}, From: {self.mFrom}, To: {self.to}, Subject: {self.subject}"

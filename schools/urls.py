@@ -1,20 +1,14 @@
 from django.urls import path
-<<<<<<< HEAD
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('boardmembers/', views.BoardMemberListCreate.as_view(), name='boardmember-list-create'),
-    path('boardmembers/<int:pk>/', views.BoardMemberRetrieveUpdateDestroy.as_view(), name='boardmember-retrieve-update-destroy'),
-    path('reviews/', views.ReviewListCreateAPIView.as_view(), name='review-list-create'),
-    path('reviews/<int:pk>/', views.ReviewRetrieveUpdateDestroyAPIView.as_view(), name='review-retrieve-update-destroy'),
-]
-=======
-from .views import * 
+    path('boardmembers/', BoardMemberListCreate.as_view(), name='boardmember-list-create'),
+    path('boardmembers/<int:pk>/', BoardMemberRetrieveUpdateDestroy.as_view(), name='boardmember-retrieve-update-destroy'),
+    path('reviews/', ReviewListCreateAPIView.as_view(), name='review-list-create'),
+    path('reviews/<int:pk>/', ReviewRetrieveUpdateDestroyAPIView.as_view(), name='review-retrieve-update-destroy'),
+    path('mail-logs/', MailLogAPIView.as_view(), name='mail_logs'),
 
-
-urlpatterns = [
+###################################################
     path('school', SchoolApi.as_view()),
     path('productput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
-
 ]
->>>>>>> 162d812960618f74654658bb586d0e08fda77e96
