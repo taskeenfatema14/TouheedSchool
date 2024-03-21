@@ -15,4 +15,13 @@ class EventSpeakerAdmin(admin.ModelAdmin):
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'location', 'facility', 'contact_no'] 
 
+@admin.register(EventImages)
+class EventImagesAdmin(admin.ModelAdmin):
+    list_display = ['id', 'event_name', 'image']
+
+    def event_name(self, obj):
+        return obj.event.event_name  
+    
+    event_name.short_description = 'Event Name'
+
 admin.site.register(ContactUs)

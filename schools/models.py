@@ -72,8 +72,8 @@ def send_contact_email(sender, instance, created, **kwargs):
         send_mail(school_subject, school_message, email_from, [school_email], fail_silently=False)
 
 
-
 class Events(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)
     event_name = models.CharField(max_length = 20)
     event_title = models.CharField(max_length = 80)
@@ -81,9 +81,16 @@ class Events(models.Model):
     event_time = models.TimeField(null=True, blank=True)
     event_location = models.TextField(null = True, blank = True)
     event_desc = models.TextField(null=True, blank=True)
-    event_image = models.ImageField(upload_to ='images/', validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])])
+    thumbnail = models.ImageField(upload_to="img/thumbnails", null=True, blank=True)
     event_videos = models.FileField(upload_to='videos/', validators=[FileExtensionValidator(['mp4', 'avi', 'mov', 'wmv', 'flv'])], null=True, blank=True)
     
-    def __str__(self):
+    def _str_(self):
         return self.event_name
     
+
+class EventImages(models.Model):
+    event = models.ForeignKey(Events, on_delete = models.CASCADE, related_name = "images")
+    image = models.ImageField(upload_to="img", default=" ", validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])], null=True, blank=True)
+    
+    def _str_(self):
+        return f"Image for {self.event.event_name}"
