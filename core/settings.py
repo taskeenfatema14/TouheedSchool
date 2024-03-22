@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['touheed-education.herokuapp.com','127.0.0.1','0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    # 'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,11 +48,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
 
+    
     'tinymce',
     'schools',
     'portals',
     'accounts',
     'reviews',
+    'events',
+    
 
 ]
 
