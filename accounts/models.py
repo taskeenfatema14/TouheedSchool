@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length = 50, blank = True, default = '')
     is_superuser = models.BooleanField(default = False)
     is_staff = models.BooleanField(default = True)
-    school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user')
+    school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user',blank=True,null=True)
 
 
     date_joined = models.DateTimeField(default = timezone.now)
