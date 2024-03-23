@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'schools',
     'portals',
     'accounts',
-
+    'events',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -92,16 +92,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-default_dburl = 'sqlite:///' + os.path.join(BASE_DIR,'db.sqlite3')
+# default_dburl = 'sqlite:///' + os.path.join(BASE_DIR,'db.sqlite3')
 
 DATABASES = {
-    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
-}
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',
+		'NAME': 'touheed_db',
+		'USER': 'root',
+		'PASSWORD': 'Skomal@3012',
+		'HOST':'localhost',
+		'PORT':'3306',
+	}
 }
 
 # DATABASES = {
@@ -238,3 +239,10 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'komalsamal2001@gmail.com'
+EMAIL_HOST_PASSWORD = 'lvws ovvo qgsb visu'
+DEFAULT_FROM_EMAIL = 'samalkomalcs@gmail.com'

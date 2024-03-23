@@ -16,7 +16,7 @@ class CustomUserManager(UserManager):
         return user
     
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
     
@@ -34,7 +34,7 @@ class CustomUserManager(UserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    school = models.OneToOneField('schools.School', related_name='staff', on_delete=    models.CASCADE, null=True)
+    school = models.OneToOneField('schools.School', related_name='staff', on_delete=models.CASCADE, null=True)
     email = models.EmailField(blank = True, default = '', unique = True)
     name = models.CharField(max_length = 50, blank = True, default = '')
     is_active = models.BooleanField(default = True)
@@ -42,7 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default = True)
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
-
+    otp = models.PositiveIntegerField(null= True, blank=True)
+    
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
@@ -63,5 +64,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         if obj.school:
             return obj.school.name
         return None
+    
     
     
