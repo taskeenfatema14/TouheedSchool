@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'schools',
     'portals',
     'accounts',
-
+    # 'jet_4',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +84,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -161,14 +162,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Mail Config
 MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.zoho.in'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rafatshaikh9990@gmail.com'
-EMAIL_HOST_PASSWORD = "Jrshaikh12"
+EMAIL_HOST_PASSWORD = "paypneigerrtjjfr"
 # EMAIL_HOST_USER = 'admin@touheed.education'
 # EMAIL_HOST_PASSWORD = "Nekmg82YdX5a"
-EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -224,7 +225,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]

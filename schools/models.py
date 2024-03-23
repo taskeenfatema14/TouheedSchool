@@ -69,3 +69,5 @@ class MailLog(models.Model):
 
     def __str__(self):
         return f"Mail ID: {self.mail_id}, From: {self.mFrom}, To: {self.to}, Subject: {self.subject}"
+
+
