@@ -23,4 +23,11 @@ class LandinPageSchoolSerializer(serializers.ModelSerializer):
         model = School
         fiels = ['name', 'image', 'location']
         
+########################################## CONTACT US #######################################################
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = '_all_'
+
 ############################################################################################################
