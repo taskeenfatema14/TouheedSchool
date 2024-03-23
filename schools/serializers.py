@@ -15,6 +15,9 @@ class ContactUsSerializer(ModelSerializer):
         model = ContactUs
         fields = '__all__'
 
+# class EventLandingSerializer(ModelSerializer):
+#     class  Meta:
+#         models = 
 
 class SchoolSerializer1(ModelSerializer):
     class Meta:
@@ -32,6 +35,8 @@ class LandingPageSerializer(ModelSerializer):
         data = super().to_representation(instance)
         data['school_name'] = data['school']['name']
         del data['school']  
+
+
 
 
 

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 from django.db import models
 from django.utils import timezone
 import uuid
+from schools.models import *
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -38,6 +39,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length = 50, blank = True, default = '')
     is_superuser = models.BooleanField(default = False)
     is_staff = models.BooleanField(default = True)
+    school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user')
+
 
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
