@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from portals.models import *
 
+
 # Create your views here.
 
 ###################################### EVENT SPEAKER PAGINATION #############################################
@@ -15,7 +16,7 @@ from portals.models import *
 class EventPagination(PageNumberPagination):
     page_size = 4
 
-############################################ EVENT LIST ########################################################
+############################################ EVENT LIST (NON PRIMARY KEY)########################################################
 
 class EventView(APIView):
     pagination_class = EventPagination
@@ -33,16 +34,11 @@ class EventView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-############################################ EVENT DETAIL ########################################################
 
-class EventDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Events.objects.all()
-    serializer_class = EventSerializer
-    
-############################################ EVENT DETAILS API ########################################################
+############################################ EVENT DETAIL (USING PRIMARY KEY) ########################################################
 
-class EventFullDetail(APIView):
+class EventDetail(APIView): 
+
     def get_object(self, pk):
         try:
             return Events.objects.get(pk=pk)
@@ -51,8 +47,21 @@ class EventFullDetail(APIView):
 
     def get(self, request, pk):
         event = self.get_object(pk)
-        serializer = EventDetailSerializer(event)
+        serializer = EventSerializer(event)
         return Response(serializer.data)
+    
+    def put(self, request, pk):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        event = self.get_object(pk)
+        event.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
 ###################################### EVENT SPEAKER PAGINATION #############################################
 

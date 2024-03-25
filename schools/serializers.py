@@ -11,10 +11,10 @@ class SchoolSerializer(serializers.ModelSerializer):
 
 ##################################### LANDING PAGE ########################################################
 
-class LandingPageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Events
-        fields = ['event_title','event_image','']
+# class LandingPageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Events
+#         fields = ['event_title','event_image','']
 
 ##################################### LANDING PAGE SCHOOLS ################################################
 

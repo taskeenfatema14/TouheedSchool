@@ -22,11 +22,13 @@ class School(BaseModel):
     video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
     facility = models.CharField(max_length = 100)
     description = models.TextField()
-    principle = models.TextField()
+    principal = models.TextField(null = True, blank = True)
     contact_no = models.IntegerField()
     school_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
+        null = True,
+        blank = True
     )
 
     def __str__(self):
