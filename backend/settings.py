@@ -92,25 +92,25 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-# default_dburl = 'sqlite:///' + os.path.join(BASE_DIR,'db.sqlite3')
-
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'touheed_db',
-		'USER': 'root',
-		'PASSWORD': 'Skomal@3012',
-		'HOST':'localhost',
-		'PORT':'3306',
-	}
-}
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR,'db.sqlite3')
 
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 'touheed_db',
+# 		'USER': 'root',
+# 		'PASSWORD': 'Skomal@3012',
+# 		'HOST':'localhost',
+# 		'PORT':'3306',
+# 	}
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Global Security
 
