@@ -2,14 +2,9 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 import uuid
 from schools.models import *
-# Create your models here.
-    
-import uuid
-from schools.models import *
 from portals.models import BaseModel
-# Create your models here.
 
-############################################### EVENTS MODEL ######################################################
+# Create your models here.
 
 class Events(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -26,7 +21,6 @@ class Events(BaseModel):
     def _str_(self):
         return self.event_name
     
-############################################ EVENT IMAGES ######################################################
 
 class EventImages(BaseModel):
     event = models.ForeignKey(Events, on_delete = models.CASCADE, related_name = "images")
@@ -36,4 +30,11 @@ class EventImages(BaseModel):
     def __str__(self):
         return f"Image for {self.event.event_name}"
     
+class EventSpeaker(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, default = " "),
+    speaker_name = models.CharField(max_length=100)
+    speaker_image = models.URLField()
+    speaker_desc = models.TextField()
 
+    def __str__(self):
+        return f"{self.speaker_name} at {self.event}"
