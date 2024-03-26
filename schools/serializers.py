@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer
 from .models import *
 from rest_framework import serializers
 from events.models import *
@@ -8,6 +8,16 @@ from events.models import *
 ################################################# School #################################################
 
 ######################################   MY CODE    #####################################################
+
+class BoardMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoardMember
+        fields = '__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 class SchoolSerializer(ModelSerializer):
     class Meta:
@@ -59,3 +69,9 @@ class ContactUsSerializer(serializers.ModelSerializer):
         fields = '_all_'
 
 ############################################################################################################
+        fields = '__all__'
+
+class MailLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MailLog
+        fields = '__all__'

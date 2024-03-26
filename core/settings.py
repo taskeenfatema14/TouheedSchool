@@ -167,20 +167,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Mail Config
 MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.zoho.in'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'admin@touheed.education'
-EMAIL_HOST_PASSWORD = "Nekmg82YdX5a"
-EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rafatshaikh9990@gmail.com'
+EMAIL_HOST_PASSWORD = "paypneigerrtjjfr"
+# EMAIL_HOST_USER = 'admin@touheed.education'
+# EMAIL_HOST_PASSWORD = "Nekmg82YdX5a"
+# EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
-
-
 
 REST_FRAMEWORK = {
 

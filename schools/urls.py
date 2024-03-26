@@ -23,8 +23,8 @@ urlpatterns = [
     # path('infrastructure/<uuid:id>', InfrastructureAPI.as_view()),
     
 
-    path('contactus/', ContactUsApi.as_view()),
-    path('contactusall/', ContactUsAll.as_view()),
-    path('contactus/', ContactUsApi.as_view()),
-    path('contactusall/', ContactUsAll.as_view()),
+    # path('contactus/', ContactUsApi.as_view()),
+    # path('contactusall/', ContactUsAll.as_view()),
+    # path('contactus/', ContactUsApi.as_view()),
+    # path('contactusall/', ContactUsAll.as_view()),
 ]

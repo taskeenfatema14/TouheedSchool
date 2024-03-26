@@ -53,3 +53,9 @@ class SchoolAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'location', 'facility', 'contact_no'] 
 
 ###########################################################################################################
+
+admin.site.register(School)
+admin.site.register(BoardMember)
+admin.site.register(Review)
+admin.site.register(MailLog)
+# admin.site.register(MyModel)
