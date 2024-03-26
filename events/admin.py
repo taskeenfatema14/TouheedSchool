@@ -19,7 +19,6 @@ class EventSpeakerAdmin(admin.ModelAdmin):
 # class SchoolAdmin(admin.ModelAdmin):
 #     list_display = ['id', 'name', 'location', 'facility', 'contact_no'] 
 ########################################### EVENT IMAGES ##################################################
-########################################### EVENT IMAGES ##################################################
 
 @admin.register(EventImages)
 class EventImagesAdmin(admin.ModelAdmin):
@@ -33,8 +32,4 @@ class EventImagesAdmin(admin.ModelAdmin):
 
 ########################################### EVENT SPEAKER #################################################
 
-@admin.register(EventSpeaker)
-class EventSpeakerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'speaker_name', 'speaker_image', 'speaker_desc', 'events']  
 
-###########################################################################################################

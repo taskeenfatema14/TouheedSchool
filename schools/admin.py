@@ -44,7 +44,7 @@ class SchoolAdmin(admin.ModelAdmin):
         return super().has_add_permission(request)
 
 # Register the SchoolAdmin class with the School model
-admin.site.register(School, SchoolAdmin)
+# admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
 ########################################### School Admin ##################################################
 
@@ -54,7 +54,7 @@ class SchoolAdmin(admin.ModelAdmin):
 
 ###########################################################################################################
 
-admin.site.register(School)
+# admin.site.register(School)
 admin.site.register(BoardMember)
 admin.site.register(Review)
 admin.site.register(MailLog)

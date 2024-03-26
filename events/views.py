@@ -12,13 +12,6 @@ from rest_framework.response import Response
 
 ############################################ EVENT LIST ########################################################
 
-from rest_framework.views import APIView
-from django.http import Http404
-from rest_framework.response import Response
-from rest_framework import status
-from portals.models import *
-
-
 # Create your views here.
 
 ###################################### EVENT SPEAKER PAGINATION #############################################
