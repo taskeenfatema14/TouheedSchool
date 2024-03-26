@@ -19,7 +19,8 @@ from portals.constants import (
     GETALL,
     GET,
     POST,
-    PUT
+    PUT,
+    DELETE
 )
 # Create your views here.
 
@@ -167,7 +168,7 @@ class LandingPageApi(APIView):
 class InfrastructureAPI(BaseAPIView):
     serializer_class = InfrastructureSerializer
     model = Infrastructure
-    allowed_methods =  [GET, GETALL, POST, PUT] 
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
     def post(self, request, *args, **kwargs):
@@ -179,6 +180,8 @@ class InfrastructureAPI(BaseAPIView):
     
     def put(self, request,id=None, *args, **kwargs):
         return super().put(request, id, *args, **kwargs)
+    
+
 
 
 =======
