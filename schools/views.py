@@ -4,7 +4,14 @@ from .serializers import *
 from .models import *
 from rest_framework.response import Response
 from rest_framework import status
+from portals.base import BaseAPIView
 
+from portals.constants import (
+    GETALL,
+    GET,
+    POST,
+    PUT
+)
 # Create your views here.
 
 class SchoolApi(APIView):
@@ -47,7 +54,7 @@ class SchoolApiPagination(APIView):
     def get(self, request):
         params = request.GET
         page_number = int(params.get("pg", 1))
-        page_size = int(params.get("limit", 6 ))
+        page_size = int(params.get("limit", 3 ))
         offset = (page_number - 1) * page_size
         limit = page_size
 
@@ -56,10 +63,18 @@ class SchoolApiPagination(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+#*******************************************  SCHOOL TRIAL  *******************************************#
+
+class SchoolgetAPI(BaseAPIView):
+    serializer_class = SchoolSerializer
+    model = School
+    allowed_methods = [GET, GETALL]
+    related_models = {}
 
 
 
-################################   CONTACT US    #################################
+
+#*******************************************  CONTACT US  *******************************************#
 
 class ContactUsApi(APIView):
     def post(self, request):
@@ -87,6 +102,10 @@ class ContactUsAll(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
+
+
+#*******************************************  LANDING PAGE  *******************************************#
+
 class LandingPageApi(APIView):
     def get(self, request):
         page = Events.objects.all()
@@ -94,5 +113,23 @@ class LandingPageApi(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
+#*******************************************  INFRASTRUCTURE  *******************************************#
+
+class InfrastructureAPI(BaseAPIView):
+    serializer_class = InfrastructureSerializer
+    model = Infrastructure
+    allowed_methods =  [GET, GETALL, POST, PUT] 
+    related_models = {}
+
+    def post(self, request, *args, **kwargs):
+        serializer = InfrastructureSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+    
+    def put(self, request,id=None, *args, **kwargs):
+        return super().put(request, id, *args, **kwargs)
 
 

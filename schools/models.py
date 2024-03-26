@@ -3,13 +3,14 @@ from portals.models import *
 from PIL import Image
 from django.core.validators import FileExtensionValidator
 from django.core.validators import FileExtensionValidator
-from portals.models import BaseModel
+from portals.base import BaseModel
 
 from django.db import models
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import uuid
 
 
 # class Image(models.Model):
@@ -54,5 +55,14 @@ def send_contact_email(sender, instance, created, **kwargs):
         school_subject = 'New Contact Inquiry'
         school_message = f'A new contact inquiry has been received from {instance.full_name}.'
         send_mail(school_subject, school_message, email_from, [school_email], fail_silently=False)
+
+
+class Infrastructure(BaseModel):
+    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='infrastructure',)
+    image      = models.ImageField(upload_to="infrastructure",blank=True,null=True,)
+    title      = models.CharField(max_length=100)
+
+
+
 
 

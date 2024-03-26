@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import School
+from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -20,7 +20,9 @@ class SchoolAdmin(admin.ModelAdmin):
         if obj is not None and request.user.is_authenticated:
             # Check if the user has a school and if it matches the school being accessed
             try:
-                if request.user.school and request.user.school == obj:
+                if request.user.is_superuser:
+                    return True  # Superusers can delete schools
+                elif request.user.school and request.user.school == obj:
                     return True
             except ObjectDoesNotExist:
                 pass
@@ -43,3 +45,4 @@ class SchoolAdmin(admin.ModelAdmin):
 
 # Register the SchoolAdmin class with the School model
 admin.site.register(School, SchoolAdmin)
+admin.site.register(Infrastructure)

@@ -36,6 +36,11 @@ class LandingPageSerializer(ModelSerializer):
         data['school_name'] = data['school']['name']
         del data['school']  
 
+class InfrastructureSerializer(ModelSerializer):
+    class Meta:
+        model = Infrastructure
+        fields = '__all__'
+
 
 
 
