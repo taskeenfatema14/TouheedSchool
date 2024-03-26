@@ -9,18 +9,3 @@ urlpatterns = [
     path('speaker-card/',EventSpeakersCard.as_view(), name = 'speaker-card'),
     path('speaker-card/<int:pk>/'   ,EventSpeakersCard.as_view(), name = 'speaker-card'),
 ]
-# =======
-# =======
-# >>>>>>> 8f17eb23a9a95e4d24f7461b49da6064d342d7f5
-# from .views import *
-
-# urlpatterns = [
-#     path('events-np/',EventView.as_view(), name = 'all events'),
-#     path('events-pk/<str:pk>/',EventDetail.as_view(), name = 'single event'),
-#     path('speaker-card/',EventSpeakersCard.as_view(), name = 'speaker-card'),
-#     path('speaker-card/<int:pk>/'   ,EventSpeakersCard.as_view(), name = 'speaker-card')
-# <<<<<<< HEAD
-# >>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
-# =======
-# >>>>>>> 8f17eb23a9a95e4d24f7461b49da6064d342d7f5
-# ]

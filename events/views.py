@@ -21,12 +21,6 @@ class EventPagination(PageNumberPagination):
 
 ############################################ EVENT LIST (NON PRIMARY KEY)########################################################
 
-    
-class EventPagination(BaseAPIView):
-    page_size = 4
-
-############################################ EVENT LIST (NON PRIMARY KEY)########################################################
-
 class EventView(APIView):
     pagination_class = EventPagination
     
@@ -60,12 +54,6 @@ class EventDetail(APIView):
         event = self.get_object(pk)
         serializer = EventDetailSerializer(event)
         return Response(serializer.data)
-    
-# class EventSpeakersPagination(PageNumberPagination):
-#     page_size = 4
-
-#     serializer = EventSerializer(event)
-#     return Response(serializer.data)
     
     def put(self, request, pk):
         event = self.get_object(pk)
@@ -115,14 +103,4 @@ class EventSpeakersCard(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
-
-
-################################################################################################################################
-        
-
-        
-###########################################################################################################
-
-###########################################################################################################
-
 

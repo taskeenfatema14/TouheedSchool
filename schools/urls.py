@@ -8,10 +8,10 @@ urlpatterns = [
 
     path('school', SchoolApi.as_view()),
     path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
-    path('schoolpagination/', SchoolApiPagination.as_view()),
+    # path('schoolpagination/', SchoolApiPagination.as_view()),
 
-    path('schooltrial/<uuid:id>/', SchoolgetAPI.as_view()),
-    path('schooltrial/', SchoolgetAPI.as_view()),
+    # path('schooltrial/<uuid:id>/', SchoolApi.as_view()),
+    # path('schooltrial/', SchoolApi.as_view()),
 
 
     path('contactus/', ContactUsApi.as_view()),

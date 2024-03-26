@@ -15,8 +15,6 @@ class EventImageSerializer(serializers.ModelSerializer):
 
 ############################################ EVENT ########################################################
 
-############################################ EVENT ########################################################
-
 class EventSerializer(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
@@ -26,11 +24,6 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Events
-
-        # fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
-        # fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", 
-        #         "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
-
         fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", 
                 "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
 
@@ -43,15 +36,10 @@ class EventSerializer(serializers.ModelSerializer):
 
 ############################################################################################################
 
-############################################################################################################
-
 class EventSerializer1(serializers.ModelSerializer):
     class Meta:
         model = Events
         exclude = ['event_name']
-
-
-############################################ EVENT SPEAKER ##################################################
 
 ############################################ EVENT SPEAKER ##################################################
 
@@ -61,20 +49,16 @@ class EventSpeakerSerializer(serializers.ModelSerializer):
         fields = ['speaker_name', 'speaker_desc']
 
 ############################################################################################################
-############################################################################################################
 
 class EventDetailSerializer(serializers.ModelSerializer):
     event_speakers = EventSpeakerSerializer(many=True)
 
     class Meta:
         model = Events
-        # fields = ['id', 'event_name', 'event_title', 'event_date', 'event_time', 'event_location', 'event_desc', 'event_image', 'event_videos', 'event_speakers']
-
         fields = ['id', 'event_name', 'event_title', 'event_date', 'event_time', 
                 'event_location', 'event_desc', 'event_image', 'event_videos', 'event_speakers']
 
 #############################################################################################################
-
 
 class EventSpeakersCardSerializer(serializers.ModelSerializer):
     class Meta:
