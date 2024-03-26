@@ -28,7 +28,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['touheed-education.herokuapp.com','127.0.0.1','0.0.0.0']
+# ALLOWED_HOSTS = ['touheed-education.herokuapp.com','127.0.0.1','0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
