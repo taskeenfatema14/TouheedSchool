@@ -61,9 +61,7 @@ class LoginAPIView(APIView):
         email = request.data.get('email')  
         password = request.data.get('password')
 
-        # Authenticate the user
         user = authenticate(request, email=email, password=password)
-
         if user:
             # If authentication successful, return user details
             return Response({
@@ -76,6 +74,21 @@ class LoginAPIView(APIView):
             # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+from portals.services import generate_token
+
+class RegisterUserApi(APIView):
+    def post(self,request,*args, **kwargs):
+        try : 
+            serializer = UserSerializer(data=request.data)
+            
+            if  serializer.is_valid():
+                user = serializer.save()
+                print(user.id)
+                token = generate_token(user.email)
+                return Response({"message" : "User Created Succefully" , "data" : UserSerializer(user).data , "token" : token},status=status.HTTP_201_CREATED)
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e :
+            return Response({"error" : True , "message" : str(e)},status=status.HTTP_400_BAD_REQUEST)
 ######################################## Forget password ###############################################################
 
 class ForgotPasswordApi(APIView):
@@ -135,7 +148,7 @@ class VerificationOtpApi(APIView):
                 'message': 'Internal Server Error',
                 'data': str(e),
             })
-        
+
 
 ######################################## SET NEW password ##############################################################
         

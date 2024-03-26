@@ -1,6 +1,12 @@
+from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
+
+import uuid
+from schools.models import *
+from schools.models import School
+import uuid
 from schools.models import School
 import uuid
 
@@ -33,6 +39,22 @@ class CustomUserManager(UserManager):
 
     
 class User(AbstractBaseUser, PermissionsMixin):
+
+    id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
+    email = models.EmailField(blank = True, default = '', unique = True)
+    name = models.CharField(max_length = 50, blank = True, default = '')
+    is_superuser = models.BooleanField(default = False)
+    is_staff = models.BooleanField(default = True)
+    school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user',blank=True,null=True)
+
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    school = models.OneToOneField('schools.School', related_name='staff', on_delete=models.CASCADE, null=True)
+    email = models.EmailField(blank = True, default = '', unique = True)
+    name = models.CharField(max_length = 50, blank = True, default = '')
+    is_active = models.BooleanField(default = True)
+    is_superuser = models.BooleanField(default = True)
+    is_staff = models.BooleanField(default = True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.OneToOneField('schools.School', related_name='staff', on_delete=models.CASCADE, null=True)
     email = models.EmailField(blank = True, default = '', unique = True)
@@ -59,11 +81,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
+
     
     def get_school_name(self, obj):
         if obj.school:
             return obj.school.name
         return None
-    
-    
-    
