@@ -87,10 +87,10 @@ class Infrastructure(BaseModel):
 class FrequentlyAskedQuestions(BaseModel):
     questions = models.CharField(max_length=300)
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="questions")
+    answer  = models.CharField(max_length=300)
 
 
 class QuestionAnswer(BaseModel):
-    answer  = models.CharField(max_length=300)
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name="answers")
 
 
