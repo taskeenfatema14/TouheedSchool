@@ -3,23 +3,13 @@ from django.utils import timezone
 from portals.models import *
 from PIL import Image
 from django.core.validators import FileExtensionValidator
-from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
 from portals.models import BaseModel
-import uuid
-from django.db import models
-from portals.models import *
-from PIL import Image
 from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from django.db import models
-from django.core.mail import send_mail
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 import uuid
 
 
@@ -40,7 +30,6 @@ class School(BaseModel):
     school_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
-
     )
 
 
@@ -54,7 +43,7 @@ class Event(BaseModel):
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
     
 class ContactUs(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='contact_us',)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
     user_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
@@ -106,7 +95,7 @@ class QuestionAnswer(BaseModel):
 ########################################### CONTACT US ####################################################
 
 class ContactUs(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='contact_us',)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
     user_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,

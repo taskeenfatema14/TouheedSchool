@@ -8,7 +8,6 @@ pytz==2021.1
 sqlparse==0.4.1
 static3==0.7.0
 django-cors-headers==3.7.0
-
 djangorestframework-simplejwt-5.3.1 pyjwt-2.8.0
 django-tinymce-3.7.1
 Pillow-10.2.0
