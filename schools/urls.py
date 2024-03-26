@@ -2,13 +2,29 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('boardmembers/', BoardMemberListCreate.as_view(), name='boardmember-list-create'),
-    path('boardmembers/<int:pk>/', BoardMemberRetrieveUpdateDestroy.as_view(), name='boardmember-retrieve-update-destroy'),
-    path('reviews/', ReviewListCreateAPIView.as_view(), name='review-list-create'),
-    path('reviews/<int:pk>/', ReviewRetrieveUpdateDestroyAPIView.as_view(), name='review-retrieve-update-destroy'),
-    path('mail-logs/', MailLogAPIView.as_view(), name='mail_logs'),
 
-###################################################
-    path('school', SchoolApi.as_view()),
+    path('school/', SchoolApi.as_view()),
     path('productput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+
+    path('school', SchoolApi.as_view()),
+    path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+    path('schoolpagination/', SchoolApiPagination.as_view()),
+
+    path('schooltrial/<uuid:id>/', SchoolgetAPI.as_view()),
+    path('schooltrial/', SchoolgetAPI.as_view()),
+
+
+    path('contactus/', ContactUsApi.as_view()),
+    path('contactusall/', ContactUsAll.as_view()),
+
+    # path('landingpage/', LandingPageApi.as_view()),
+
+    # path('infrastructure/', InfrastructureAPI.as_view()),
+    # path('infrastructure/<uuid:id>', InfrastructureAPI.as_view()),
+    
+
+    # path('contactus/', ContactUsApi.as_view()),
+    # path('contactusall/', ContactUsAll.as_view()),
+    # path('contactus/', ContactUsApi.as_view()),
+    # path('contactusall/', ContactUsAll.as_view()),
 ]
