@@ -20,11 +20,11 @@ class SchoolPutDeleteApi(generics.RetrieveUpdateDestroyAPIView):
 
 ############################################ LANDING PAGE ####################################################
 
-class LandingPageApi(APIView):
-    def get(self, request):
-        page = Events.objects.all()
-        serializer = LandingPageSerializer(page, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# class LandingPageApi(APIView):
+#     def get(self, request):
+#         page = Events.objects.all()
+#         serializer = LandingPageSerializer(page, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
 ########################################### LANDING PAGE 5 SCHOOLS #######################################################
 

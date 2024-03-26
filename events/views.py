@@ -13,7 +13,7 @@ from portals.models import *
 
 ###################################### EVENT SPEAKER PAGINATION #############################################
     
-class EventPagination(PageNumberPagination):
+class EventPagination(BaseAPIView):
     page_size = 4
 
 ############################################ EVENT LIST (NON PRIMARY KEY)########################################################
@@ -22,10 +22,10 @@ class EventView(APIView):
     pagination_class = EventPagination
     
     def get(self, request):
-        events = Events.objects.all()
         paginator = self.pagination_class()
-        paginated_events = paginator.paginate_queryset(events, request)
-        serializer = EventSerializer1(paginated_events, many=True)
+        queryset = Events.objects.all()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = EventSerializer1(paginated_queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
     
     def post(self, request):
