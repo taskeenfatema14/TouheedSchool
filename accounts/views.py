@@ -9,19 +9,49 @@ from .permissions import *
 from schools.serializers import SchoolSerializer
 from .email import *
 from .models import *
+from django.http import Http404
 
 # Create your views here.
 
 
 ############################################ USER(ADMIN & PRINCIPALS) ########################################################
 
-class UserView(generics.ListCreateAPIView):
-    queryset = User.objects.all()  
-    serializer_class = UserSerializer
+class UserView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
+    
+    def get(self, request):
+        user = User.objects.all()
+        serializer = UserSerializer(user,many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class UserDetails(APIView):
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
 
-class UserDetails(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all() 
-    serializer_class = UserSerializer
+    def get(self, request, pk):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 ################################################### LOGIN #######################################################################
@@ -30,11 +60,7 @@ class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')  
         password = request.data.get('password')
-<<<<<<< HEAD
-=======
 
-        # Authenticate the user
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
         user = authenticate(request, email=email, password=password)
         if user:
             # If authentication successful, return user details
@@ -48,7 +74,6 @@ class LoginAPIView(APIView):
             # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-<<<<<<< HEAD
 from portals.services import generate_token
 
 class RegisterUserApi(APIView):
@@ -64,7 +89,6 @@ class RegisterUserApi(APIView):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e :
             return Response({"error" : True , "message" : str(e)},status=status.HTTP_400_BAD_REQUEST)
-=======
 ######################################## Forget password ###############################################################
 
 class ForgotPasswordApi(APIView):
@@ -124,8 +148,7 @@ class VerificationOtpApi(APIView):
                 'message': 'Internal Server Error',
                 'data': str(e),
             })
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
-        
+
 
 ######################################## SET NEW password ##############################################################
         

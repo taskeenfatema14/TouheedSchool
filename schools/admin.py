@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import *
-<<<<<<< HEAD
 from django.core.exceptions import ObjectDoesNotExist
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -47,8 +46,6 @@ class SchoolAdmin(admin.ModelAdmin):
 # Register the SchoolAdmin class with the School model
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
-=======
-
 ########################################### School Admin ##################################################
 
 @admin.register(School)
@@ -56,4 +53,3 @@ class SchoolAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'location', 'facility', 'contact_no'] 
 
 ###########################################################################################################
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f

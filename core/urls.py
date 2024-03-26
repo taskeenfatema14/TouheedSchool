@@ -20,19 +20,12 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    # path('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
     path('schools/', include('schools.urls')),
     path('accounts/', include('accounts.urls')),
-<<<<<<< HEAD:core/urls.py
     path('reviews/', include('reviews.urls')),
     path('events/', include('events.urls')),
-    
-
-=======
-    path('events/', include('events.urls')),
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f:backend/urls.py
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

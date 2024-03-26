@@ -2,13 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
-<<<<<<< HEAD
+
 import uuid
 from schools.models import *
-=======
 from schools.models import School
 import uuid
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+from schools.models import School
+import uuid
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -39,7 +39,7 @@ class CustomUserManager(UserManager):
 
     
 class User(AbstractBaseUser, PermissionsMixin):
-<<<<<<< HEAD
+
     id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
     email = models.EmailField(blank = True, default = '', unique = True)
     name = models.CharField(max_length = 50, blank = True, default = '')
@@ -48,7 +48,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user',blank=True,null=True)
 
 
-=======
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.OneToOneField('schools.School', related_name='staff', on_delete=models.CASCADE, null=True)
     email = models.EmailField(blank = True, default = '', unique = True)
@@ -56,7 +55,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default = True)
     is_superuser = models.BooleanField(default = True)
     is_staff = models.BooleanField(default = True)
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    school = models.OneToOneField('schools.School', related_name='staff', on_delete=models.CASCADE, null=True)
+    email = models.EmailField(blank = True, default = '', unique = True)
+    name = models.CharField(max_length = 50, blank = True, default = '')
+    is_active = models.BooleanField(default = True)
+    is_superuser = models.BooleanField(default = True)
+    is_staff = models.BooleanField(default = True)
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
     otp = models.PositiveIntegerField(null= True, blank=True)
@@ -76,14 +81,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
-<<<<<<< HEAD
-=======
+
     
     def get_school_name(self, obj):
         if obj.school:
             return obj.school.name
         return None
-    
-    
-    
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f

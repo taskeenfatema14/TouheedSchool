@@ -2,10 +2,8 @@ from django.db import models
 from portals.models import *
 from PIL import Image
 from django.core.validators import FileExtensionValidator
-<<<<<<< HEAD
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
-=======
 from portals.models import BaseModel
 import uuid
 from django.db import models
@@ -15,7 +13,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 
 from django.db import models
 from django.core.mail import send_mail
@@ -24,15 +21,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 
-<<<<<<< HEAD
 
 # class Image(models.Model):
 #     image = models.ImageField(upload_to="schoolImages", blank=True, null=True) 
     
-=======
-############################################# School model ###############################################
 
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 class School(BaseModel):
     id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
     name = models.CharField(max_length = 100)
@@ -46,7 +39,7 @@ class School(BaseModel):
     school_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
-<<<<<<< HEAD
+
     )
 
     
@@ -93,16 +86,14 @@ class QuestionAnswer(BaseModel):
 
 
 
-=======
-        null = True,
-        blank = True
-    )
+    #     null = True,
+    #     blank = True
+    # )
 
     def __str__(self):
         return self.name
     
 ########################################### CONTACT US ####################################################
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 
 class ContactUs(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='contact_us',)

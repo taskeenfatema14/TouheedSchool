@@ -1,20 +1,17 @@
-<<<<<<< HEAD
+
 from django.shortcuts import render
 from rest_framework import status
-=======
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 from rest_framework import generics
 from .models import *
 from .serializers import *
 from rest_framework.pagination import PageNumberPagination
-<<<<<<< HEAD
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
 ############################################ EVENT LIST ########################################################
-=======
+
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework.response import Response
@@ -25,24 +22,26 @@ from portals.models import *
 # Create your views here.
 
 ###################################### EVENT SPEAKER PAGINATION #############################################
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
-    
+
 class EventPagination(PageNumberPagination):
     page_size = 4
 
-<<<<<<< HEAD
-=======
 ############################################ EVENT LIST (NON PRIMARY KEY)########################################################
 
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+    
+class EventPagination(BaseAPIView):
+    page_size = 4
+
+############################################ EVENT LIST (NON PRIMARY KEY)########################################################
+
 class EventView(APIView):
     pagination_class = EventPagination
     
     def get(self, request):
-        events = Events.objects.all()
         paginator = self.pagination_class()
-        paginated_events = paginator.paginate_queryset(events, request)
-        serializer = EventSerializer1(paginated_events, many=True)
+        queryset = Events.objects.all()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = EventSerializer1(paginated_queryset, many=True)
         return paginator.get_paginated_response(serializer.data)
     
     def post(self, request):
@@ -51,32 +50,13 @@ class EventView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-<<<<<<< HEAD
-    
-    def delete(self, request, id):
-        try:
-            instance = School.objects.get(pk=id)
-            instance.delete()
-            return Response({"message" : "School deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-        except School.DoesNotExist:
-                return Response({"error": "School not found"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-class EventDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Events.objects.all()
-    serializer_class = EventSerializer
-    
-############################################ EVENT DETAILS API ########################################################
-
-class EventFullDetail(APIView):
-=======
 
 ############################################ EVENT DETAIL (USING PRIMARY KEY) ########################################################
 
 class EventDetail(APIView): 
 
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+
     def get_object(self, pk):
         try:
             return Events.objects.get(pk=pk)
@@ -85,16 +65,14 @@ class EventDetail(APIView):
 
     def get(self, request, pk):
         event = self.get_object(pk)
-<<<<<<< HEAD
         serializer = EventDetailSerializer(event)
         return Response(serializer.data)
     
-class EventSpeakersPagination(PageNumberPagination):
-    page_size = 4
+# class EventSpeakersPagination(PageNumberPagination):
+#     page_size = 4
 
-=======
-        serializer = EventSerializer(event)
-        return Response(serializer.data)
+#     serializer = EventSerializer(event)
+#     return Response(serializer.data)
     
     def put(self, request, pk):
         event = self.get_object(pk)
@@ -116,7 +94,7 @@ class EventSpeakersPagination(PageNumberPagination):
 
 ############################################ EVENT SPEAKER ##################################################
 
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+
 class EventSpeakersCard(APIView):
     
     pagination_class = EventSpeakersPagination
@@ -145,13 +123,13 @@ class EventSpeakersCard(APIView):
         else:
             return Response(serializer.errors)
 
-<<<<<<< HEAD
+
 ################################################################################################################################
         
 
         
-=======
 ###########################################################################################################
 
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
+###########################################################################################################
+
 

@@ -52,14 +52,8 @@ INSTALLED_APPS = [
     'schools',
     'portals',
     'accounts',
-<<<<<<< HEAD:core/settings.py
     'reviews',
     'events',
-    
-
-=======
-    'events',
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f:backend/settings.py
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -235,7 +229,6 @@ SIMPLE_JWT = {
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -247,7 +240,6 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
-<<<<<<< HEAD:core/settings.py
 
 # Email Backend Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
@@ -261,7 +253,7 @@ EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
 
 #########
 # username:  password:admin  email : test123@gmail.com
-=======
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -269,4 +261,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'komalsamal2001@gmail.com'
 EMAIL_HOST_PASSWORD = 'lvws ovvo qgsb visu'
 DEFAULT_FROM_EMAIL = 'samalkomalcs@gmail.com'
->>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f:backend/settings.py
+DEFAULT_FROM_EMAIL = 'samalkomalcs@gmail.com'
