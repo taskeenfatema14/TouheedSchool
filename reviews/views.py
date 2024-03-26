@@ -47,3 +47,42 @@ class ReviewRetrieveUpdateDestroyAPIView(APIView):
         review = self.get_object(pk)
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
+class MailLogAPIView(APIView):
+    def get(self, request):                                 
+        try:
+            mail_logs = MailLog.objects.all()
+            serializer = MailLogSerializer(mail_logs, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def post(self, request):
+        serializer = MailLogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        try:
+            mail_log = MailLog.objects.get(pk=pk)
+        except MailLog.DoesNotExist:
+            return Response({"error": "Mail log does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = MailLogSerializer(mail_log, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            mail_log = MailLog.objects.get(pk=pk)
+        except MailLog.DoesNotExist:
+            return Response({"error": "Mail log does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        
+        mail_log.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
