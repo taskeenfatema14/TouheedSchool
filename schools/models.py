@@ -34,14 +34,6 @@ class School(BaseModel):
     )
     principal = models.TextField(blank =True, null=True)
 
-class Event(BaseModel):
-    event_title = models.TextField(null=False,blank=False)
-    event_desc = models.TextField(null=True,blank=True)
-    event_date = models.DateTimeField(null=True,blank=True)
-    event_location = models.TextField(default = "Gangolli - karnataka.", null=True,blank=True)
-    event_image = models.ImageField(upload_to='images/event/thumbnail/', null=True, blank=True, help_text="Best Image Resolution width: 580 x Height: 565")
-    # event_image = ResizedImageField(size=[853, 853], quality=75, upload_to='images/')
-    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
     
 class ContactUs(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE,)

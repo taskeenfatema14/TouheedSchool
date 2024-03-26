@@ -31,7 +31,7 @@ class EventImages(BaseModel):
         return f"Image for {self.event.event_name}"
     
 class EventSpeaker(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, default = " "),
+    event = models.ForeignKey(Events, on_delete=models.CASCADE, default = " "),
     speaker_name = models.CharField(max_length=100)
     speaker_image = models.URLField()
     speaker_desc = models.TextField()
