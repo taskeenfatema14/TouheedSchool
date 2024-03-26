@@ -10,6 +10,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
+############################################ EVENT LIST ########################################################
+
+# Create your views here.
+
 ###################################### EVENT SPEAKER PAGINATION #############################################
 
 class EventPagination(PageNumberPagination):
