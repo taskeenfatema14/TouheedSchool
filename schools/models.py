@@ -34,14 +34,6 @@ class School(BaseModel):
     )
     principal = models.TextField(blank =True, null=True)
 
-class Event(BaseModel):
-    event_title = models.TextField(null=False,blank=False)
-    event_desc = models.TextField(null=True,blank=True)
-    event_date = models.DateTimeField(null=True,blank=True)
-    event_location = models.TextField(default = "Gangolli - karnataka.", null=True,blank=True)
-    event_image = models.ImageField(upload_to='images/event/thumbnail/', null=True, blank=True, help_text="Best Image Resolution width: 580 x Height: 565")
-    # event_image = ResizedImageField(size=[853, 853], quality=75, upload_to='images/')
-    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
     
 class ContactUs(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE,)
@@ -81,18 +73,5 @@ class FrequentlyAskedQuestions(BaseModel):
 
     
 
-class MailLog(models.Model):
-    mail_id = models.AutoField(primary_key=True)
-    mFrom = models.EmailField()
-    to = models.EmailField()
-    subject = models.CharField(max_length=255)
-    body = models.TextField()
-    sent_at = models.DateTimeField(auto_now_add=True)
-    queue = models.CharField(max_length=50)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)  # Add foreign key field to associate each mail log with a school
-    principal = models.EmailField()  # Add field to store the email address of the principal
-
-    def __str__(self):
-        return f"Mail ID: {self.mail_id}, From: {self.mFrom}, To: {self.to}, Subject: {self.subject}"
 
 

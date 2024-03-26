@@ -48,10 +48,6 @@ admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
 
 
-
-
-
 # admin.site.register(School)
 
-admin.site.register(MailLog)
 
