@@ -5,19 +5,6 @@ from events.models import *
 
 ################################################# School #################################################
 
-################################################# School #################################################
-
-######################################   MY CODE    #####################################################
-
-class BoardMemberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BoardMember
-        fields = '__all__'
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'
 
 class SchoolSerializer(ModelSerializer):
     class Meta:
@@ -26,10 +13,10 @@ class SchoolSerializer(ModelSerializer):
 
 ##################################### LANDING PAGE ########################################################
 
-# class LandingPageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Events
-#         fields = ['event_title','event_image','']
+class LandingPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Events
+        fields = ['event_title','event_image']
 
 ##################################### LANDING PAGE SCHOOLS ################################################
 

@@ -43,27 +43,6 @@ class School(BaseModel):
 
     )
 
-class BoardMember(models.Model):
-    board_id = models.AutoField(primary_key=True)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    image = models.ImageField(upload_to='board_members/', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-class Review(models.Model):
-    review_id = models.AutoField(primary_key=True)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
-    username = models.CharField(max_length=100)
-    time = models.TimeField(default=timezone.now)
-    date = models.DateField(default=timezone.now)
-    rating = models.IntegerField()
-
-    def __str__(self):
-        return f"Review for {self.school.name} by {self.username}"
 
 class Event(BaseModel):
     event_title = models.TextField(null=False,blank=False)
@@ -72,7 +51,7 @@ class Event(BaseModel):
     event_location = models.TextField(default = "Gangolli - karnataka.", null=True,blank=True)
     event_image = models.ImageField(upload_to='images/event/thumbnail/', null=True, blank=True, help_text="Best Image Resolution width: 580 x Height: 565")
     # event_image = ResizedImageField(size=[853, 853], quality=75, upload_to='images/')
-    school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='events', null=True, blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
     
 class ContactUs(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='contact_us',)

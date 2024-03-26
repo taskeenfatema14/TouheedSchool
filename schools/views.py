@@ -17,80 +17,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from portals.base import BaseAPIView
 
-
-############################################ SCHOOLS ########################################################
-
-class SchoolApi(generics.ListCreateAPIView):
-    queryset = School.objects.all()
-    serializer_class = SchoolSerializer
-    
-class SchoolPutDeleteApi(generics.RetrieveUpdateDestroyAPIView):
-    queryset = School.objects.all()
-    serializer_class = SchoolSerializer
-
 ############################################ LANDING PAGE ####################################################
 
-# class LandingPageApi(APIView):
-#     def get(self, request):
-#         page = Events.objects.all()
-#         serializer = LandingPageSerializer(page, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class LandingPageApi(APIView):
+    def get(self, request):
+        page = Events.objects.all()
+        serializer = LandingPageSerializer(page, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
-########################################### LANDING PAGE 5 SCHOOLS #######################################################
-
 class LandingPageSchools(generics.ListAPIView):
     queryset = School.objects.all()
     serializer_class = LandinPageSchoolSerializer
-
-###############################################################################################################
-
-class BoardMemberListCreate(generics.ListCreateAPIView):
-    queryset = BoardMember.objects.all()
-    serializer_class = BoardMemberSerializer
-
-class BoardMemberRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BoardMember.objects.all()
-    serializer_class = BoardMemberSerializer
-
-################################REVIEW############################################################
-
-# class ReviewListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-
-# class ReviewRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Review.objects.all()
-#     serializer_class = ReviewSerializer
-class ReviewListCreateAPIView(APIView):
-    def get(self, request):
-        reviews = Review.objects.all()
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
-    
-    def post(self, request):
-        serializer = ReviewSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class ReviewRetrieveUpdateDestroyAPIView(APIView):
-    def get_object(self, pk):
-        try:
-            return Review.objects.get(pk=pk)
-        except Review.DoesNotExist:
-            raise Http404
-    
-    def get(self, request, pk):
-        review = self.get_object(pk)
-        serializer = ReviewSerializer(review)
-        return Response(serializer.data)
-
-    def delete(self, request, pk):
-        review = self.get_object(pk)
-        review.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-###################################Maillog#############################################
+        
 class MailLogAPIView(APIView):
     def get(self, request):                                 
         try:
@@ -128,10 +66,6 @@ class MailLogAPIView(APIView):
         mail_log.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-
-
-######################taskeen#################################
 class SchoolApi(APIView):
     def post(self, request):
         serializer = SchoolSerializer(data=request.data)
@@ -168,30 +102,19 @@ class SchoolPutDeleteApi(APIView):
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
 
-class SchoolApiPagination(APIView):
-    def get(self, request):
-        params = request.GET
-        page_number = int(params.get("pg", 1))
-        page_size = int(params.get("limit", 3 ))
-        page_size = int(params.get("limit", 6 ))
-        offset = (page_number - 1) * page_size
-        limit = page_size
+# class SchoolApiPagination(APIView):
+#     def get(self, request):
+#         params = request.GET
+#         page_number = int(params.get("pg", 1))
+#         page_size = int(params.get("limit", 3 ))
+#         page_size = int(params.get("limit", 6 ))
+#         offset = (page_number - 1) * page_size
+#         limit = page_size
 
-        schools = School.objects.all()[offset:offset + limit]
-        serializer = SchoolSerializer(schools, many=True)
+#         schools = School.objects.all()[offset:offset + limit]
+#         serializer = SchoolSerializer(schools, many=True)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-#*******************************************  SCHOOL TRIAL  *******************************************#
-
-class SchoolgetAPI(BaseAPIView):
-    serializer_class = SchoolSerializer
-    model = School
-    allowed_methods = [GET, GETALL]
-    related_models = {}
-
-
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ContactUsApi(APIView):
@@ -221,20 +144,3 @@ class ContactUsAll(APIView):
 
 
 
-#*******************************************  LANDING PAGE  *******************************************#
-
-
-# class LandingPageApi(APIView):
-#     def get(self, request):
-#         page = Events.objects.all()
-#         serializer = LandingPageSerializer(page, many=True)
-
-# class LandingPageApi(APIView):
-#     def get(self, request):
-#         page = Events.objects.all()
-#         serializer = LandingPageSerializer(page, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-                # return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-###############################################################

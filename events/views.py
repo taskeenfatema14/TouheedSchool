@@ -10,26 +10,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-############################################ EVENT LIST ########################################################
-
-from rest_framework.views import APIView
-from django.http import Http404
-from rest_framework.response import Response
-from rest_framework import status
-from portals.models import *
-
-
-# Create your views here.
-
 ###################################### EVENT SPEAKER PAGINATION #############################################
 
 class EventPagination(PageNumberPagination):
-    page_size = 4
-
-############################################ EVENT LIST (NON PRIMARY KEY)########################################################
-
-    
-class EventPagination(BaseAPIView):
     page_size = 4
 
 ############################################ EVENT LIST (NON PRIMARY KEY)########################################################
@@ -67,12 +50,6 @@ class EventDetail(APIView):
         event = self.get_object(pk)
         serializer = EventDetailSerializer(event)
         return Response(serializer.data)
-    
-# class EventSpeakersPagination(PageNumberPagination):
-#     page_size = 4
-
-#     serializer = EventSerializer(event)
-#     return Response(serializer.data)
     
     def put(self, request, pk):
         event = self.get_object(pk)
@@ -122,14 +99,4 @@ class EventSpeakersCard(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
-
-
-################################################################################################################################
-        
-
-        
-###########################################################################################################
-
-###########################################################################################################
-
 
