@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+<<<<<<< HEAD
 from django.core.validators import FileExtensionValidator
 import uuid
 from schools.models import *
@@ -15,6 +16,16 @@ class EventSpeaker(models.Model):
         return self.speaker_name
     
 class Events(models.Model):
+=======
+import uuid
+from schools.models import *
+from portals.models import BaseModel
+# Create your models here.
+
+############################################### EVENTS MODEL ######################################################
+
+class Events(BaseModel):
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)
     event_name = models.CharField(max_length = 20)
@@ -24,6 +35,7 @@ class Events(models.Model):
     event_location = models.TextField(null = True, blank = True)
     event_desc = models.TextField(null=True, blank=True)
     thumbnail = models.ImageField(upload_to="img/thumbnails", null=True, blank=True)
+<<<<<<< HEAD
     event_videos = models.FileField(upload_to='videos/', validators=[FileExtensionValidator(['mp4', 'avi', 'mov', 'wmv', 'flv'])], null=True, blank=True)
     
     def _str_(self):
@@ -36,3 +48,35 @@ class EventImages(models.Model):
     
     def _str_(self):
         return f"Image for {self.event.event_name}"
+=======
+    event_videos = models.FileField(upload_to='videos/', validators=[FileExtensionValidator
+                    (['mp4', 'avi', 'mov', 'wmv', 'flv'])], null=True, blank=True)
+    
+    def __str__(self):
+        return self.event_name
+    
+############################################ EVENT IMAGES ######################################################
+
+class EventImages(BaseModel):
+    event = models.ForeignKey(Events, on_delete = models.CASCADE, related_name = "images")
+    image = models.ImageField(upload_to="img", default=" ", validators=[FileExtensionValidator
+            (['jpg', 'jpeg', 'png'])], null=True, blank=True)
+    
+    def __str__(self):
+        return f"Image for {self.event.event_name}"
+    
+########################################### EVENT SPEAKER ######################################################
+
+class EventSpeaker(BaseModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    events = models.ForeignKey('Events', related_name='event_speakers', on_delete=models.CASCADE)
+    speaker_name = models.CharField(max_length=50)
+    speaker_image = models.ImageField(upload_to='images/', validators=[FileExtensionValidator
+                    (['jpg', 'jpeg', 'png'])])
+    speaker_desc = models.TextField(max_length = 100)
+
+    def __str__(self):
+        return self.speaker_name
+
+#############################################################################################################
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f

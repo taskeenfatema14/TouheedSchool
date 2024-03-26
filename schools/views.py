@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import *
 from .models import *
+=======
+from rest_framework import generics
+from .models import *
+from .serializers import *
+from rest_framework.views import APIView
+from events.models import *
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 from rest_framework.response import Response
 from rest_framework import status
 from portals.base import BaseAPIView
 
+<<<<<<< HEAD
 from portals.constants import (
     GETALL,
     GET,
@@ -14,6 +23,36 @@ from portals.constants import (
 )
 # Create your views here.
 
+=======
+# Create your views here.
+
+############################################ SCHOOLS ########################################################
+
+class SchoolApi(generics.ListCreateAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+    
+class SchoolPutDeleteApi(generics.RetrieveUpdateDestroyAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
+
+############################################ LANDING PAGE ####################################################
+
+class LandingPageApi(APIView):
+    def get(self, request):
+        page = Events.objects.all()
+        serializer = LandingPageSerializer(page, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+########################################### LANDING PAGE 5 SCHOOLS #######################################################
+
+class LandingPageSchools(generics.ListAPIView):
+    queryset = School.objects.all()
+    serializer_class = LandinPageSchoolSerializer
+
+###############################################################################################################
+
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 class SchoolApi(APIView):
     def post(self, request):
         serializer = SchoolSerializer(data=request.data)
@@ -54,7 +93,11 @@ class SchoolApiPagination(APIView):
     def get(self, request):
         params = request.GET
         page_number = int(params.get("pg", 1))
+<<<<<<< HEAD
         page_size = int(params.get("limit", 3 ))
+=======
+        page_size = int(params.get("limit", 6 ))
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
         offset = (page_number - 1) * page_size
         limit = page_size
 
@@ -63,6 +106,7 @@ class SchoolApiPagination(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+<<<<<<< HEAD
 #*******************************************  SCHOOL TRIAL  *******************************************#
 
 class SchoolgetAPI(BaseAPIView):
@@ -75,6 +119,9 @@ class SchoolgetAPI(BaseAPIView):
 
 
 #*******************************************  CONTACT US  *******************************************#
+=======
+################################   CONTACT US    #################################
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 
 class ContactUsApi(APIView):
     def post(self, request):
@@ -101,6 +148,7 @@ class ContactUsAll(APIView):
         serializer = ContactUsSerializer(contact, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+<<<<<<< HEAD
 
 
 
@@ -133,3 +181,11 @@ class InfrastructureAPI(BaseAPIView):
         return super().put(request, id, *args, **kwargs)
 
 
+=======
+
+class LandingPageApi(APIView):
+    def get(self, request):
+        page = Events.objects.all()
+        serializer = LandingPageSerializer(page, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f

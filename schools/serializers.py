@@ -2,14 +2,20 @@ from rest_framework.serializers import ModelSerializer, ValidationError
 from .models import *
 from rest_framework import serializers
 from events.models import *
+<<<<<<< HEAD
+=======
+
+################################################# School #################################################
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 
 ######################################   MY CODE    #####################################################
 
 class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
-        fields = '__all__'
+        exclude = ['created_on','updated_on']
 
+<<<<<<< HEAD
 class ContactUsSerializer(ModelSerializer):
     class Meta:
         model = ContactUs
@@ -47,3 +53,27 @@ class InfrastructureSerializer(ModelSerializer):
 
 
 
+=======
+##################################### LANDING PAGE ########################################################
+
+# class LandingPageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Events
+#         fields = ['event_title','event_image','']
+
+##################################### LANDING PAGE SCHOOLS ################################################
+
+class LandinPageSchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fiels = ['name', 'image', 'location']
+        
+########################################## CONTACT US #######################################################
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = '_all_'
+
+############################################################################################################
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f

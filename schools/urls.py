@@ -1,6 +1,10 @@
 from django.urls import path
+<<<<<<< HEAD
 from .views import * 
 
+=======
+from .views import *
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 
 urlpatterns = [
 
@@ -11,6 +15,7 @@ urlpatterns = [
     path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
     path('schoolpagination/', SchoolApiPagination.as_view()),
 
+<<<<<<< HEAD
     path('schooltrial/<uuid:id>/', SchoolgetAPI.as_view()),
     path('schooltrial/', SchoolgetAPI.as_view()),
 
@@ -25,4 +30,8 @@ urlpatterns = [
     
 
     
+=======
+    path('contactus/', ContactUsApi.as_view()),
+    path('contactusall/', ContactUsAll.as_view()),
+>>>>>>> 749970f3ea87b628f1a409a0234452924fd0221f
 ]
