@@ -59,17 +59,4 @@ class EventImages(BaseModel):
     def __str__(self):
         return f"Image for {self.event.event_name}"
     
-########################################### EVENT SPEAKER ######################################################
 
-class EventSpeaker(BaseModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    events = models.ForeignKey('Events', related_name='event_speakers', on_delete=models.CASCADE)
-    speaker_name = models.CharField(max_length=50)
-    speaker_image = models.ImageField(upload_to='images/', validators=[FileExtensionValidator
-                    (['jpg', 'jpeg', 'png'])])
-    speaker_desc = models.TextField(max_length = 100)
-
-    def __str__(self):
-        return self.speaker_name
-
-#############################################################################################################
