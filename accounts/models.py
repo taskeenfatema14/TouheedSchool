@@ -38,7 +38,6 @@ class CustomUserManager(UserManager):
 
     
 class User(AbstractBaseUser, PermissionsMixin):
-
     id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
     email = models.EmailField(blank = True, default = '', unique = True)
     name = models.CharField(max_length = 50, blank = True, default = '')
@@ -47,7 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     school = models.OneToOneField(School, on_delete=models.CASCADE, related_name='user',blank=True,null=True)
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
-    otp = models.PositiveIntegerField(null= True, blank=True)
+    otp     = models.PositiveIntegerField(blank = True, null = True)
+
     
     objects = CustomUserManager()
 
