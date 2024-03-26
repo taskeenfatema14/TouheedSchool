@@ -2,11 +2,13 @@ from django.db import models
 from django.utils import timezone
 from portals.models import *
 from PIL import Image
+from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
 from portals.models import BaseModel
 from django.db import models
 import uuid
+from django.db.models.signals import post_save
 
 
 # class Image(models.Model):
@@ -38,7 +40,7 @@ class Event(BaseModel):
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True)
     
 class ContactUs(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE,)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
     user_email      = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
