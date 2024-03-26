@@ -3,7 +3,7 @@ from .views import *
 
 urlpatterns = [
 
-    path('school/', SchoolApi.as_view()),
+    path('post-school/', SchoolApi.as_view()),
     path('productput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
 
     path('school', SchoolApi.as_view()),
