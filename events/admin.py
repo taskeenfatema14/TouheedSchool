@@ -5,7 +5,6 @@ from .models import *
 
 # Register your models here.
 
-########################################### EVENT #########################################################
 
 @admin.register(Events)
 class EventsAdmin(admin.ModelAdmin):
@@ -29,6 +28,11 @@ class EventImagesAdmin(admin.ModelAdmin):
     
     event_name.short_description = 'Event Name'
 
+
+
+# @admin.register(EventSpeaker)
+# class EventSpeakerAdmin(admin.ModelAdmin):
+#     list_display = ['id', 'speaker_name', 'speaker_image', 'speaker_desc', 'events']  
 
 ########################################### EVENT SPEAKER #################################################
 
