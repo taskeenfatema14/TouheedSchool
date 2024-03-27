@@ -38,3 +38,5 @@ class EventSpeaker(BaseModel):
 
     def __str__(self):
         return f"{self.speaker_name} at {self.id}"
+
+
