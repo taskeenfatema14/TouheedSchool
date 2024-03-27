@@ -24,7 +24,7 @@ class LandinPageSchoolSerializer(serializers.ModelSerializer):
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
-        fields = '_all_'
+        fields = '__all__'
 
 class InfrastructureSerializer(ModelSerializer):
     class Meta:

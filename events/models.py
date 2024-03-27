@@ -36,4 +36,11 @@ class EventImages(BaseModel):
     def __str__(self):
         return f"Image for {self.event.event_name}"
     
+class EventSpeaker(BaseModel):
+    event = models.ForeignKey(Events, on_delete=models.CASCADE, ),
+    speaker_name = models.CharField(max_length=100)
+    speaker_image = models.ImageField(upload_to="speaker_images/") 
+    speaker_desc = models.TextField()
 
+    def _str_(self):
+        return f"{self.speaker_name} at {self.id}"

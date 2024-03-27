@@ -3,11 +3,11 @@ from .views import *
 
 urlpatterns = [
 
-    path('post-school/', SchoolApi.as_view()),
-    path('productput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+    path('school-getpost/', SchoolApi.as_view()),
+    path('product-putdelete/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
 
-    path('school', SchoolApi.as_view()),
-    path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+    # path('school', SchoolApi.as_view()),
+    # path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
     # path('schoolpagination/', SchoolApiPagination.as_view()),
 
     # path('schooltrial/<uuid:id>/', SchoolApi.as_view()),
