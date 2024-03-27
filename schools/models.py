@@ -4,7 +4,7 @@ from portals.models import *
 from PIL import Image
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
-from portals.models import BaseModel
+
 
 from django.db import models
 from django.core.mail import send_mail
@@ -13,10 +13,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 
-
-# class Image(models.Model):
-#     image = models.ImageField(upload_to="schoolImages", blank=True, null=True) 
-    
 
 class School(BaseModel):
     id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
@@ -65,11 +61,11 @@ class Infrastructure(BaseModel):
     image      = models.ImageField(upload_to="infrastructure",blank=True,null=True,)
     title      = models.CharField(max_length=100)
 
-
 class FrequentlyAskedQuestions(BaseModel):
     questions = models.CharField(max_length=300)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     answer  = models.CharField(max_length=300)
+
 
     
 

@@ -2,17 +2,11 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 import uuid
 from schools.models import *
-# Create your models here.
-    
-import uuid
-from schools.models import *
-from portals.models import BaseModel
-# Create your models here.
+from portals.base import BaseModel
 
-############################################### EVENTS MODEL ######################################################
+# Create your models here.
 
 class Events(BaseModel):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school = models.ForeignKey(School, related_name='events', on_delete=models.CASCADE)
     event_name = models.CharField(max_length = 20)
     event_title = models.CharField(max_length = 80)
@@ -26,10 +20,9 @@ class Events(BaseModel):
     def _str_(self):
         return self.event_name
     
-############################################ EVENT IMAGES ######################################################
 
 class EventImages(BaseModel):
-    event = models.ForeignKey(Events, on_delete = models.CASCADE, related_name = "images")
+    event = models.ForeignKey(Events, on_delete = models.CASCADE, )
     image = models.ImageField(upload_to="img", default=" ", validators=[FileExtensionValidator
             (['jpg', 'jpeg', 'png'])], null=True, blank=True)
     
@@ -42,5 +35,5 @@ class EventSpeaker(BaseModel):
     speaker_image = models.ImageField(upload_to="speaker_images/") 
     speaker_desc = models.TextField()
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.speaker_name} at {self.id}"
