@@ -9,58 +9,62 @@ class EventImageSerializer(serializers.ModelSerializer):
         model = EventImages
         fields = ["event", "image"]
 
+
 class EventSpeakersCardSerializer(ModelSerializer):
     class Meta:
         model = EventSpeaker
         fields = ["event" ,"speaker_name", "speaker_image", "speaker_desc"]
 
-class EventSerializer(serializers.ModelSerializer):
-    images = EventImageSerializer(many=True, read_only=True)
-    uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True
-    )
+class EventSpeakersCardSerializer(serializers.ModelSerializer):
+    event_id = serializers.PrimaryKeyRelatedField(queryset=Events.objects.all(), source='event', write_only=True)
 
     class Meta:
+        model = EventSpeaker
+        fields = ['event_id', 'speaker_name', 'speaker_image', 'speaker_desc']
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
         model = Events
-        fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", 
-                "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
-
-    def create(self, validated_data):
-        uploaded_images = validated_data.pop("uploaded_images")
-        event = Events.objects.create(**validated_data)
-        for image in uploaded_images:
-            EventImages.objects.create(event=event, image=image)
-        return event
-
+        fields = "__all__"
+        
 # class EventSerializer(serializers.ModelSerializer):
 #     images = EventImageSerializer(many=True, read_only=True)
 #     uploaded_images = serializers.ListField(
 #         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
 #         write_only=True
 #     )
-#     speakers = EventSpeakersCardSerializer(many=True, read_only=True)
-#     uploaded_speakers = serializers.ListField(
-#         child=EventSpeakersCardSerializer(),
+
+#     class Meta:
+#         model = Events
+#         fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", 
+#                 "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images", "event_images"]
+
+#     def create(self, validated_data):
+#         uploaded_images = validated_data.pop("uploaded_images")
+#         event = Events.objects.create(**validated_data)
+#         for image in uploaded_images:
+#             EventImages.objects.create(event=event, image=image)
+#         return event
+    
+# class EventSerializer(serializers.ModelSerializer):
+#     images = EventImageSerializer(many=True, read_only=True)
+#     uploaded_images = serializers.ListField(
+#         child=serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
 #         write_only=True
 #     )
 
 #     class Meta:
 #         model = Events
 #         fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", 
-#                 "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images", "speakers", "uploaded_speakers"]
+#                 "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
 
 #     def create(self, validated_data):
 #         uploaded_images = validated_data.pop("uploaded_images", [])
-#         uploaded_speakers = validated_data.pop("uploaded_speakers", [])
-
 #         event = Events.objects.create(**validated_data)
 
 #         for image in uploaded_images:
 #             EventImages.objects.create(event=event, image=image)
-
-#         for speaker_data in uploaded_speakers:
-#             EventSpeaker.objects.create(event=event, **speaker_data)
 
 #         return event
 

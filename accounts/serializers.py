@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 class UserSerializer(ModelSerializer):
     school_name = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
         exclude = ['last_login', 'date_joined', 'school']

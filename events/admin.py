@@ -11,7 +11,7 @@ class EventsAdmin(admin.ModelAdmin):
 
 @admin.register(EventSpeaker)
 class EventSpeakerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'speaker_name', 'speaker_image', 'speaker_desc', 'event']  
+    list_display = ['id', 'speaker_name', 'speaker_image', 'speaker_desc']  
 
 @admin.register(EventImages)
 class EventImagesAdmin(admin.ModelAdmin):
