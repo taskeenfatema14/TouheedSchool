@@ -9,10 +9,10 @@ class EventImageSerializer(serializers.ModelSerializer):
         model = EventImages
         fields = ["event", "image"]
 
-class EventSpeakersCardSerializer(serializers.ModelSerializer):
+class EventSpeakersCardSerializer(ModelSerializer):
     class Meta:
         model = EventSpeaker
-        fields = ["id", "speaker_name", "speaker_image", "speaker_desc"]
+        fields = ["event" ,"speaker_name", "speaker_image", "speaker_desc"]
 
 class EventSerializer(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)

@@ -83,8 +83,7 @@ class EventSpeakersPagination(PageNumberPagination):
 
 class EventSpeakersCard(APIView):
     
-    pagination_class = EventSpeakersPagination
-    
+    pagination_class = EventSpeakersPagination  
     def post(self, request):
         serializer = EventSpeakersCardSerializer(data=request.data)
         if serializer.is_valid():
