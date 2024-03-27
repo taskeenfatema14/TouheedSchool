@@ -11,7 +11,7 @@ from rest_framework import serializers
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
 
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True, null= True)
     updated_on = models.DateTimeField(auto_now=True)
     # is_deleted = models.BooleanField(default=False)
 
