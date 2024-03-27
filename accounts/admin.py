@@ -23,6 +23,6 @@ class CustomUserAdmin(admin.ModelAdmin):
             form.base_fields['school'].disabled = True
         return form
     
-# @admin.register(User)
-# class CustomUserAdmin(admin.ModelAdmin):
-#     list_display = ['email','is_superuser', 'is_staff'] 
+@admin.register(User)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ['email','is_superuser', 'is_staff'] 
