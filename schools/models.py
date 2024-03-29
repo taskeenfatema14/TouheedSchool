@@ -62,9 +62,9 @@ class Infrastructure(BaseModel):
     title      = models.CharField(max_length=100)
 
 class FrequentlyAskedQuestions(BaseModel):
-    questions = models.CharField(max_length=300)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    answer  = models.CharField(max_length=300)
+    question = models.CharField(max_length=300, null=True)
+    answer = models.CharField(max_length=300,null=True)
 
 
     
