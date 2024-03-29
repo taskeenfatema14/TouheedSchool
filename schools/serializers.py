@@ -31,5 +31,8 @@ class InfrastructureSerializer(ModelSerializer):
         model = Infrastructure
         fields = '__all__'
 
-
+class FaqSerializer(ModelSerializer):
+    class Meta:
+        model = FrequentlyAskedQuestions
+        fields = '__all__'
 
