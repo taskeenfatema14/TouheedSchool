@@ -1,5 +1,4 @@
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.views import APIView
 from django.db import models
 from uuid import uuid4
@@ -7,14 +6,14 @@ from django.core.exceptions import ValidationError
 from .constants import POST, PUT, DELETE, GET, GETALL
 from django.db.models import Q
 from rest_framework import serializers
-from django.core.paginator import Paginator,EmptyPage
+
 
 class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
 
-    created_on = models.DateTimeField(auto_now_add=True, null= True)
+    created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
@@ -30,7 +29,7 @@ class BaseAPIView(APIView):
     search_ignore_fields = []
     archive_in_delete = False
 
-    def _init_(self):
+    def __init__(self):
         self.model = self.get_model()
         self.serializer = self.get_serializer_class()
         self.lookup = self.get_lookup()
@@ -212,7 +211,7 @@ class BaseAPIView(APIView):
 
 from rest_framework import serializers
 
-def get_base_model_serializer(model, fields='_all_'):
+def get_base_model_serializer(model, fields='__all__'):
     def create_meta_class():
         return type('Meta', (), {'model': model, 'fields': fields})
     

@@ -25,7 +25,7 @@ class EventSpeakersCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EventSpeaker
-        fields = ['event_id', 'speaker_name', 'speaker_image', 'speaker_desc']
+        fields = ['event_id', 'speaker_name', 'speaker_image', 'speaker_desc','id']
 
 
 class EventSerializer(serializers.ModelSerializer):

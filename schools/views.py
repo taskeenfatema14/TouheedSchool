@@ -203,10 +203,10 @@ class FaqApi(BaseAPIView):
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
-    # def get(self, request):
-    #     camp = FrequentlyAskedQuestions.objects.all()
-    #     serializer = FaqSerializer(camp,many = True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    def get(self, request):
+        camp = FrequentlyAskedQuestions.objects.all()
+        serializer = FaqSerializer(camp,many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # def post(self, request):
     #     serializer = FaqSerializer(data=request.data)

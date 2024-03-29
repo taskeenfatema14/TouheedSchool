@@ -2,6 +2,7 @@ from django.db import models
 from schools.models import *
 from django.utils import timezone
 
+
 # Create your models here.
 class BoardMember(models.Model):
     board_id = models.AutoField(primary_key=True)
