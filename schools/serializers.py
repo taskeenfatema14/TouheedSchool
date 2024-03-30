@@ -19,17 +19,21 @@ class LandinPageSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fiels = ['name', 'image', 'location']
+        exclude = ['created_on','updated_on']
         
 
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
-        fields = '_all_'
+        fields = '__all__'
 
 class InfrastructureSerializer(ModelSerializer):
     class Meta:
         model = Infrastructure
         fields = '__all__'
 
-
+class FaqSerializer(ModelSerializer):
+    class Meta:
+        model = FrequentlyAskedQuestions
+        fields = '__all__'
 

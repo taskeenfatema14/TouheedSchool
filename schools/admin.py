@@ -46,7 +46,7 @@ class SchoolAdmin(admin.ModelAdmin):
 # Register the SchoolAdmin class with the School model
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
-
+admin.site.register(FrequentlyAskedQuestions)
 
 # admin.site.register(School)
 

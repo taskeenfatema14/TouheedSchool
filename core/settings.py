@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'reviews',
     'events',
     'services',
+    'landing_page',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -223,13 +224,11 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 75
@@ -238,18 +237,14 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
-
 # Email Backend Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
-
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587  
 EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
 EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  # Replace with your email username
 EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
 
-
-#########
 # username:  password:admin  email : test123@gmail.com
 
 

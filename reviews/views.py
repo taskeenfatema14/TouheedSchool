@@ -114,7 +114,6 @@ class ReviewRetrieveUpdateDestroyAPIView(APIView):
 #         review.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class MailLogAPIView(APIView):
     def get(self, request):                                 
         try:

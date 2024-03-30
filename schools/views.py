@@ -10,19 +10,10 @@ from core.settings import EMAIL_HOST_USER
 from rest_framework.response import Response
 from rest_framework import status
 from portals.base import BaseAPIView
+from django.core.paginator import Paginator, EmptyPage
+from django.urls import reverse
 
-############################################ LANDING PAGE ####################################################
 
-class LandingPageApi(APIView):
-    def get(self, request):
-        page = Events.objects.all()
-        serializer = LandingPageSerializer(page, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-class LandingPageSchools(generics.ListAPIView):
-    queryset = School.objects.all()
-    serializer_class = LandinPageSchoolSerializer
-        
 
 class SchoolApi(APIView):
     def post(self, request):
@@ -73,6 +64,36 @@ class SchoolPutDeleteApi(APIView):
 #         serializer = SchoolSerializer(schools, many=True)
 
 #         return Response(serializer.data, status=status.HTTP_200_OK)
+        
+
+class SchoolApiPagination(APIView):
+
+    serializer_class = SchoolSerializer
+    model = School
+
+    def get_paginated_data(self, request):
+        limit = max(int(request.GET.get('limit', 0)), 5) 
+        page_number = max(int(request.GET.get('page', 0)), 1)
+        
+        queryset = self.model.objects.all()
+        paginator = Paginator(queryset, limit)
+        
+        try:
+            paginated_queryset = paginator.page(page_number)
+        except EmptyPage:
+            return Response({"error": True, "message": "Page not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer_class(paginated_queryset, many=True)
+        
+        return Response({
+            "error": False,
+            "pages_count": paginator.num_pages,
+            "count": paginator.count,
+            "rows": serializer.data
+        }, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        return self.get_paginated_data(request)
 
 
 class ContactUsApi(APIView):
@@ -104,18 +125,82 @@ class ContactUsAll(APIView):
 
 #*******************************************  INFRASTRUCTURE  *******************************************#
 
-class InfrastructureAPI(BaseAPIView):
-    serializer_class = InfrastructureSerializer
-    model = Infrastructure
-    allowed_methods =  [GET, GETALL, POST, PUT] 
-    related_models = {}
+class InfrastructureAPI(APIView):
+    # serializer_class = InfrastructureSerializer
+    # model = Infrastructure
+    # allowed_methods =  [GET, GETALL, POST, PUT] 
+    # related_models = {}
 
-    def post(self, request, *args, **kwargs):
+    # def post(self, request, *args, **kwargs):
+    #     serializer = InfrastructureSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=200)
+    #     return Response(serializer.errors, status=400)
+    
+    # def put(self, request,id=None, *args, **kwargs):
+    #     return super().put(request, id, *args, **kwargs)
+
+
+    def post(self, request):
         serializer = InfrastructureSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=200)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def put(self, request,id=None, *args, **kwargs):
-        return super().put(request, id, *args, **kwargs)
+    def get(self, request):
+        camp = Infrastructure.objects.all()
+        serializer = InfrastructureSerializer(camp,many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class InfrastructurePaginationApi(APIView):
+    serializer_class = InfrastructureSerializer
+    model = Infrastructure
+
+    def get_paginated_data(self, request):
+        limit = max(int(request.GET.get('limit', 0)), 5) 
+        page_number = max(int(request.GET.get('page', 0)), 1)
+        
+        queryset = self.model.objects.all()
+        paginator = Paginator(queryset, limit)
+        
+        try:
+            paginated_queryset = paginator.page(page_number)
+        except EmptyPage:
+            return Response({"error": True, "message": "Page not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer_class(paginated_queryset, many=True)
+        
+        return Response({
+            "error": False,
+            "pages_count": paginator.num_pages,
+            "count": paginator.count,
+            "rows": serializer.data
+        }, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        return self.get_paginated_data(request)
+
+class FaqApi(BaseAPIView):
+    serializer_class = FaqSerializer
+    model = FrequentlyAskedQuestions
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
+
+    def get(self, request):
+        camp = FrequentlyAskedQuestions.objects.all()
+        serializer = FaqSerializer(camp,many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # def post(self, request):
+    #     serializer = FaqSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # def get(self, request):
+    #     camp = FrequentlyAskedQuestions.objects.all()
+    #     serializer = FaqSerializer(camp,many = True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)

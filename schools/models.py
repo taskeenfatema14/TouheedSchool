@@ -6,26 +6,24 @@ from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
 from portals.models import BaseModel
+
+
 from django.db import models
 import uuid
 from django.db.models.signals import post_save
 
 
-# class Image(models.Model):
-#     image = models.ImageField(upload_to="schoolImages", blank=True, null=True) 
-    
-
 class School(BaseModel):
-    id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
-    name = models.CharField(max_length = 100)
-    location = models.CharField(max_length = 100)
-    image = models.ImageField(upload_to="school",blank=True,null=True,)
-    video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
-    facility = models.CharField(max_length = 100)
-    description = models.TextField()
-    contact_no = models.IntegerField()
+    id                = models.UUIDField(default=uuid.uuid4,primary_key=True)
+    name              = models.CharField(max_length = 100)
+    location          = models.CharField(max_length = 100)
+    image             = models.ImageField(upload_to="school",blank=True,null=True,)
+    video             = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
+    facility          = models.CharField(max_length = 100)
+    description       = models.TextField()
+    contact_no        = models.IntegerField()
     school_email      = models.EmailField(
-        verbose_name = 'email_address',
+        verbose_name  = 'email_address',
         max_length=255,
     )
     principal = models.TextField(blank =True, null=True)
@@ -34,14 +32,14 @@ class School(BaseModel):
         return self.name
     
 class ContactUs(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE)
-    user_email      = models.EmailField(
+    school           = models.ForeignKey(School, on_delete=models.CASCADE,)
+    user_email       = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
     )
-    full_name  = models.CharField(max_length=100)
-    subject    = models.CharField(max_length=50)
-    message    = models.CharField(max_length=100)
+    full_name        = models.CharField(max_length=100)
+    subject          = models.CharField(max_length=50)
+    message          = models.CharField(max_length=100)
 
 @receiver(post_save, sender=ContactUs)
 def send_contact_email(sender, instance, created, **kwargs):
@@ -63,11 +61,18 @@ class Infrastructure(BaseModel):
     image      = models.ImageField(upload_to="infrastructure",blank=True,null=True,)
     title      = models.CharField(max_length=100)
 
-
 class FrequentlyAskedQuestions(BaseModel):
-    questions = models.CharField(max_length=300)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
-    answer  = models.CharField(max_length=300)    
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    question   = models.CharField(max_length=300, null=True)
+    answer     = models.CharField(max_length=300,null=True)
+
+class Noticeboard(BaseModel):
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    title      = models.CharField(max_length=100, null=True)
+    data       = models.FileField(upload_to="notice_board", blank=True, null=True,)
+
+
+    
 
 
 
