@@ -103,6 +103,7 @@ class BaseAPIView(APIView):
             return Q()
 
     def get(self, request, id=None, *args, **kwargs):
+        print('-------------',id)
         if id == "list":
             if not GETALL in self.allowed_methods:
                 return Response({'msg': "Not Found"}, status=404)

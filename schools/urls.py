@@ -22,7 +22,7 @@ urlpatterns = [
     path('infrastructure/<uuid:id>', InfrastructureAPI.as_view()),
     path('infra-pagination/', InfrastructurePaginationApi.as_view()),
 
+    path('faq/<str:id>/', FaqApi.as_view()),
     path('faq/', FaqApi.as_view()),
-    path('faq/<uuid:id>/', FaqApi.as_view()),
     
 ]
