@@ -3,8 +3,9 @@ from .views import *
 
 urlpatterns = [
 
-    path('school-getpost/', SchoolApi.as_view()),
+    path('school-getpost/', SchoolApi.as_view(), name = 'school-getpost'),
     path('product-putdelete/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+    path('landing-pg-school/', LandingPageSchool.as_view(), name='landing-pg-school'),
 
     # path('school', SchoolApi.as_view()),
     # path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),

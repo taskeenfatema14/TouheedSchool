@@ -11,14 +11,11 @@ from django.urls import reverse
 
 class EventView(APIView):
 
-    serializer_class = EventSerializer1
-    model = Events
-
     def get_paginated_data(self, request):
-        limit = max(int(request.GET.get('limit', 4)), 4)  
-        page_number = max(int(request.GET.get('page', 1)), 1)
+        limit = max(int(request.GET.get('limit', 0)), 4)  
+        page_number = max(int(request.GET.get('page', 0)), 1)
         
-        queryset = self.model.objects.all()
+        queryset = Events.objects.all()
         
         paginator = Paginator(queryset, limit)
         
@@ -27,7 +24,7 @@ class EventView(APIView):
         except EmptyPage:
             return Response({"error": True, "message": "Page not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = self.serializer_class(paginated_queryset, many=True)
+        serializer = EventSerializer(paginated_queryset, many=True)
         
         next_page_url = None
         if paginated_queryset.has_next():
@@ -64,17 +61,25 @@ class EventDetail(APIView):
         return Response(serializer.data)
     
     def put(self, request, pk):
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data)
+        try:
+            event = Events.objects.get(pk=pk)
+        except Events.DoesNotExist:
+            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = EventSerializer1(event, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
-        event = self.get_object(pk)
+        try:
+            event = Events.objects.get(pk=pk)
+        except Events.DoesNotExist:
+            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
+
         event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"error": "Successfully deleted event"},status=status.HTTP_204_NO_CONTENT)
 
 class EventSpeakersCard(APIView):
     
@@ -86,14 +91,11 @@ class EventSpeakersCard(APIView):
         else:
             return Response(serializer.errors)
 
-    serializer_class = EventSpeakersCardSerializer
-    model = EventSpeaker
-
     def get_paginated_data(self, request):
-        limit = max(int(request.GET.get('limit', 4)), 4)  
-        page_number = max(int(request.GET.get('page', 1)), 1)
+        limit = max(int(request.GET.get('limit', 0)), 4)  
+        page_number = max(int(request.GET.get('page', 0)), 1)
         
-        queryset = self.model.objects.all()
+        queryset = EventSpeaker.objects.all()
         
         paginator = Paginator(queryset, limit)
         
@@ -102,7 +104,7 @@ class EventSpeakersCard(APIView):
         except EmptyPage:
             return Response({"error": True, "message": "Page not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = self.serializer_class(paginated_queryset, many=True)
+        serializer = EventSpeakersCardSerializer(paginated_queryset, many=True)
         
         next_page_url = None
         if paginated_queryset.has_next():
@@ -132,7 +134,11 @@ class EventSpeakersCardPK(APIView):
         return Response(serializer.data)
     
     def put(self, request, pk, format=None):
-        event_speaker = self.get_object(pk)
+        try:
+            event_speaker = EventSpeaker.objects.get(pk=pk)
+        except EventSpeaker.DoesNotExist:
+            return Response({"error": "Event speaker not found"}, status=status.HTTP_404_NOT_FOUND)
+
         serializer = EventSpeakersCardSerializer(event_speaker, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -140,6 +146,11 @@ class EventSpeakersCardPK(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        event_speaker = self.get_object(pk)
+        try:
+            event_speaker = EventSpeaker.objects.get(pk=pk)
+        except EventSpeaker.DoesNotExist:
+            return Response({"error": "Event speaker not found"}, status=status.HTTP_404_NOT_FOUND)
+
         event_speaker.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"error": "Successfully deleted Event speaker"}, status=status.HTTP_204_NO_CONTENT)
+    
