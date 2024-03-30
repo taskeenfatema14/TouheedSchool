@@ -7,7 +7,7 @@ from events.models import *
 class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
-        exclude = ['created_on','updated_on']
+        fields = ['id','name','location', 'image','video','facility','decription','contact_no','school_email','principal']
 
 
 class LandingPageSerializer(serializers.ModelSerializer):

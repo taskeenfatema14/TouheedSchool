@@ -47,7 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default = timezone.now)
     last_login = models.DateTimeField(blank = True, null = True)
     otp     = models.PositiveIntegerField(blank = True, null = True)
-
     
     objects = CustomUserManager()
 

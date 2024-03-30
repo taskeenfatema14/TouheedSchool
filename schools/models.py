@@ -30,6 +30,8 @@ class School(BaseModel):
     )
     principal = models.TextField(blank =True, null=True)
 
+    def __str__(self):
+        return self.name
     
 class ContactUs(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE)
