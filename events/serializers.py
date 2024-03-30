@@ -21,7 +21,7 @@ class EventSpeakersCardSerializer(ModelSerializer):
         fields = ["event" ,"speaker_name", "speaker_image", "speaker_desc"]
 
 class EventSpeakersCardSerializer(serializers.ModelSerializer):
-    event_id = serializers.PrimaryKeyRelatedField(queryset=Events.objects.all(), source='event', write_only=True)
+    event_id = serializers.PrimaryKeyRelatedField(source='event.id', read_only=True)
 
     class Meta:
         model = EventSpeaker
@@ -37,7 +37,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Events
-        fields = ["id", "school", "event_name", "event_title", "event_date", "event_time", "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
+        fields = ["id", "school", "event_name" ,"event_title", "event_date", "event_time", "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop("uploaded_images")
