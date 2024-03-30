@@ -8,4 +8,5 @@ urlpatterns = [
     # path('full-details/<int:pk>/',EventFullDetail.as_view(), name = 'details'),
     path('speaker-card/',EventSpeakersCard.as_view(), name = 'speaker-card'),
     path('speaker-card-pk/<uuid:pk>/',EventSpeakersCardPK.as_view(), name = 'speaker-card'),
+    path('create-event/', EventCreateAPIView.as_view(), name='create-event'),
 ]
