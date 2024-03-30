@@ -7,8 +7,7 @@ from events.models import *
 class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
-        exclude = ['created_on','updated_on']
-        
+        exclude = ['created_on','updated_on']      
 
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,11 +16,15 @@ class ContactUsSerializer(serializers.ModelSerializer):
 
 class InfrastructureSerializer(ModelSerializer):
     class Meta:
-        model = Infrastructure
+        model  = Infrastructure
         fields = '__all__'
 
 class FaqSerializer(ModelSerializer):
     class Meta:
-        model = FrequentlyAskedQuestions
+        model  = FrequentlyAskedQuestion
         fields = '__all__'
 
+class NoticeBoardSerializer(ModelSerializer):
+    class Meta:
+        model  = Noticeboard
+        fields = '__all__'

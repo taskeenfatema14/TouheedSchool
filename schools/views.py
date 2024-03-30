@@ -55,21 +55,7 @@ class SchoolPutDeleteApi(APIView):
             return Response({"error": "School not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-
-# class SchoolApiPagination(APIView):
-#     def get(self, request):
-#         params = request.GET
-#         page_number = int(params.get("pg", 1))
-#         page_size = int(params.get("limit", 3 ))
-#         page_size = int(params.get("limit", 6 ))
-#         offset = (page_number - 1) * page_size
-#         limit = page_size
-
-#         schools = School.objects.all()[offset:offset + limit]
-#         serializer = SchoolSerializer(schools, many=True)
-
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+    
         
 
 class SchoolApiPagination(APIView):
@@ -190,12 +176,12 @@ class InfrastructurePaginationApi(APIView):
 
 class FaqApi(BaseAPIView):
     serializer_class = FaqSerializer
-    model = FrequentlyAskedQuestions
+    model = FrequentlyAskedQuestion
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
     def get(self, request):
-        camp = FrequentlyAskedQuestions.objects.all()
+        camp = FrequentlyAskedQuestion.objects.all()
         serializer = FaqSerializer(camp,many = True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -210,3 +196,9 @@ class FaqApi(BaseAPIView):
     #     camp = FrequentlyAskedQuestions.objects.all()
     #     serializer = FaqSerializer(camp,many = True)
     #     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class NoticeboardApi(BaseAPIView):
+    serializer_class = NoticeBoardSerializer
+    model = Noticeboard
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
