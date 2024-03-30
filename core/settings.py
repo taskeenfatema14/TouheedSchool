@@ -249,3 +249,38 @@ EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
 # username:  password:admin  email : test123@gmail.com
 
 
+import logging
+l = logging.getLogger('django.db.backends')
+l.setLevel(logging.DEBUG)
+l.addHandler(logging.StreamHandler())
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },'django.db.backends.sqlite3': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
+    }
+}

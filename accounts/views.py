@@ -10,6 +10,7 @@ from schools.serializers import SchoolSerializer
 from .email import *
 from .models import *
 from django.http import Http404
+from portals.services import generate_token
 
 # Create your views here.
 
@@ -73,8 +74,6 @@ class LoginAPIView(APIView):
         else:
             # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-
-from portals.services import generate_token
 
 class RegisterUserApi(APIView):
     def post(self,request,*args, **kwargs):
