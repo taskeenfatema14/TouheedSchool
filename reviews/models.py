@@ -1,22 +1,20 @@
 from django.db import models
 from schools.models import *
 from django.utils import timezone
+from portals.base import BaseModel
 
 
 # Create your models here.
-class BoardMember(models.Model):
-    board_id = models.AutoField(primary_key=True)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
+class BoardMember(BaseModel):
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='board_members/', null=True, blank=True)
 
     def _str_(self):
-        return self.name
+        return f"{self.name} at {self.id}"
 
-class Review(models.Model):
-    review_id = models.AutoField(primary_key=True)
+class Review(BaseModel):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
     time = models.TimeField(default=timezone.now)

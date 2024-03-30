@@ -13,7 +13,6 @@ urlpatterns = [
     # path('schooltrial/<uuid:id>/', SchoolApi.as_view()),
     # path('schooltrial/', SchoolApi.as_view()),
 
-
     path('contactus/', ContactUsApi.as_view()),
     path('contactusall/', ContactUsAll.as_view()),
 
