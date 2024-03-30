@@ -5,16 +5,12 @@ from PIL import Image
 from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
-# from portals.models import BaseModel
-
-
 from django.db import models
 import uuid
 from django.db.models.signals import post_save
 
 
 class School(BaseModel):
-    id                = models.UUIDField(default=uuid.uuid4,primary_key=True)
     name              = models.CharField(max_length = 100)
     location          = models.CharField(max_length = 100)
     image             = models.ImageField(upload_to="school",blank=True,null=True,)
@@ -61,10 +57,12 @@ class Infrastructure(BaseModel):
     image      = models.ImageField(upload_to="infrastructure",blank=True,null=True,)
     title      = models.CharField(max_length=100)
 
-class FrequentlyAskedQuestions(BaseModel):
+
+class FrequentlyAskedQuestion(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE)
     question   = models.CharField(max_length=300, null=True)
     answer     = models.CharField(max_length=300,null=True)
+
 
 class Noticeboard(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE)
@@ -73,6 +71,6 @@ class Noticeboard(BaseModel):
 
 
     
-
+    
 
 

@@ -5,13 +5,8 @@ urlpatterns = [
 
     path('school-getpost/', SchoolApi.as_view(), name = 'school-getpost'),
     path('product-putdelete/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
-
-    # path('school', SchoolApi.as_view()),
-    # path('schoolput/<uuid:id>/', SchoolPutDeleteApi.as_view(), name='category-detail'),
+    
     path('schoolpagination/', SchoolApiPagination.as_view()),
-
-    # path('schooltrial/<uuid:id>/', SchoolApi.as_view()),
-    # path('schooltrial/', SchoolApi.as_view()),
 
     path('contactus/', ContactUsApi.as_view()),
     path('contactusall/', ContactUsAll.as_view()),
@@ -24,5 +19,9 @@ urlpatterns = [
 
     path('faq/<str:id>/', FaqApi.as_view()),
     path('faq/', FaqApi.as_view()),
+    path('faq/<uuid:id>/', FaqApi.as_view()),
+
+    path('notice-board/', NoticeboardApi.as_view()),
+    path('notice-board/<uuid:id>', NoticeboardApi.as_view()),
     
 ]
