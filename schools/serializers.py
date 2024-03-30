@@ -8,20 +8,6 @@ class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
         exclude = ['created_on','updated_on']
-
-class LandingPgSchoolSerailizer(serializers.ModelSerializer):
-    class Meta:
-        model = School
-        fields = ['image', 'location', 'name', 'description'] 
-class LandingPageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Events
-        fields = ['event_title','event_image']
-
-class LandinPageSchoolSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = School
-        fiels = ['name', 'image', 'location']
         
 
 class ContactUsSerializer(serializers.ModelSerializer):

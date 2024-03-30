@@ -15,16 +15,16 @@ import uuid
 
 
 class School(BaseModel):
-    id         = models.UUIDField(default=uuid.uuid4,primary_key=True)
-    name = models.CharField(max_length = 100)
-    location = models.CharField(max_length = 100)
-    image = models.ImageField(upload_to="school",blank=True,null=True,)
-    video = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
-    facility = models.CharField(max_length = 100)
-    description = models.TextField()
-    contact_no = models.IntegerField()
+    id                = models.UUIDField(default=uuid.uuid4,primary_key=True)
+    name              = models.CharField(max_length = 100)
+    location          = models.CharField(max_length = 100)
+    image             = models.ImageField(upload_to="school",blank=True,null=True,)
+    video             = models.FileField(upload_to="landing_page", blank=True, null=True, validators=[FileExtensionValidator(['mp4', 'avi', 'mov'])])
+    facility          = models.CharField(max_length = 100)
+    description       = models.TextField()
+    contact_no        = models.IntegerField()
     school_email      = models.EmailField(
-        verbose_name = 'email_address',
+        verbose_name  = 'email_address',
         max_length=255,
 
     )
@@ -32,14 +32,14 @@ class School(BaseModel):
 
     
 class ContactUs(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE,)
-    user_email      = models.EmailField(
+    school           = models.ForeignKey(School, on_delete=models.CASCADE,)
+    user_email       = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
     )
-    full_name  = models.CharField(max_length=100)
-    subject    = models.CharField(max_length=50)
-    message    = models.CharField(max_length=100)
+    full_name        = models.CharField(max_length=100)
+    subject          = models.CharField(max_length=50)
+    message          = models.CharField(max_length=100)
 
 @receiver(post_save, sender=ContactUs)
 def send_contact_email(sender, instance, created, **kwargs):
@@ -62,9 +62,14 @@ class Infrastructure(BaseModel):
     title      = models.CharField(max_length=100)
 
 class FrequentlyAskedQuestions(BaseModel):
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
-    question = models.CharField(max_length=300, null=True)
-    answer = models.CharField(max_length=300,null=True)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    question   = models.CharField(max_length=300, null=True)
+    answer     = models.CharField(max_length=300,null=True)
+
+class Noticeboard(BaseModel):
+    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    title      = models.CharField(max_length=100, null=True)
+    data       = models.FileField(upload_to="notice_board", blank=True, null=True,)
 
 
     
