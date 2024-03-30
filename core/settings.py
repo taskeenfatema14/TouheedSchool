@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'reviews',
     'events',
+    'landing_page',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
