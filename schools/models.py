@@ -5,8 +5,6 @@ from PIL import Image
 from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
-from portals.models import BaseModel
-
 
 from django.db import models
 import uuid
