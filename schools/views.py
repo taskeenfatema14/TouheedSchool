@@ -3,12 +3,6 @@ from .models import *
 from .serializers import *
 from rest_framework.views import APIView
 from events.models import *
-# views.py
-from rest_framework import generics
-from django.shortcuts import render
-from rest_framework.views import APIView
-from .serializers import *
-from .models import *
 from django.conf import settings
 from django.http import Http404
 from django.core.mail import send_mail

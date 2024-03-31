@@ -2,14 +2,12 @@ from django.db import models
 from django.utils import timezone
 from portals.models import *
 from PIL import Image
+from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
 from django.db import models
-from django.core.mail import send_mail
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 import uuid
+from django.db.models.signals import post_save
 
 
 class School(BaseModel):
@@ -23,10 +21,11 @@ class School(BaseModel):
     school_email      = models.EmailField(
         verbose_name  = 'email_address',
         max_length=255,
-
     )
     principal = models.TextField(blank =True, null=True)
 
+    def __str__(self):
+        return self.name
     
 class ContactUs(BaseModel):
     school           = models.ForeignKey(School, on_delete=models.CASCADE,)
