@@ -19,6 +19,15 @@ class InfrastructureSerializer(ModelSerializer):
         model  = Infrastructure
         fields = '__all__'
 
+class InfrastructurePutSerializer(ModelSerializer):
+    class Meta:
+        model = Infrastructure
+        fields = '__all__'
+        extra_kwargs = {
+            'title': {'required': False},
+            'school': {'required': False}
+        }
+
 class FaqSerializer(ModelSerializer):
     class Meta:
         model  = FrequentlyAskedQuestion
