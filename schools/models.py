@@ -41,20 +41,6 @@ class ContactUs(BaseModel):
     subject          = models.CharField(max_length=50)
     message          = models.CharField(max_length=100)
 
-@receiver(post_save, sender=ContactUs)
-def send_contact_email(sender, instance, created, **kwargs):
-    if created:
-        subject = 'Contact Us'
-        message = 'Thank you for contacting us. We will get back to you soon.'
-        email_from = settings.EMAIL_HOST
-        send_mail(subject, message, email_from, [instance.user_email], fail_silently=False)
-
-        # Sending email to school
-        school_email = instance.school.school_email 
-        school_subject = 'New Contact Inquiry'
-        school_message = f'A new contact inquiry has been received from {instance.full_name}.'
-        send_mail(school_subject, school_message, email_from, [school_email], fail_silently=False)
-
 
 class Infrastructure(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE)
