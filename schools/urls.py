@@ -12,6 +12,7 @@ urlpatterns = [
     path('infrastructure/', InfrastructureAPI.as_view()),
     path('infrastructure/<str:id>', InfrastructureAPI.as_view()),
 
+    path('faq/<str:id>/', FaqApi.as_view()),
     path('faq/', FaqApi.as_view()),
     path('faq/<str:id>/', FaqApi.as_view()),
 

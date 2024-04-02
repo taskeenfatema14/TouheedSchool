@@ -3,8 +3,8 @@ from schools.models import *
 from django.utils import timezone
 from portals.base import BaseModel
 
-
 # Create your models here.
+
 class BoardMember(BaseModel):
     name = models.CharField(max_length=128)
     title = models.CharField(max_length=128)

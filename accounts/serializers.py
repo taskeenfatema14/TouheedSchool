@@ -3,8 +3,6 @@ from .models import User
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-####################################### USER SERIALIZER ###############################################################
-
 class UserSerializer(ModelSerializer):
     school_name = serializers.SerializerMethodField()
     
@@ -25,8 +23,6 @@ class UserSerializer(ModelSerializer):
         if obj.school:
             return obj.school.name
         return None
-
-######################################### FORGET PASSWORD #############################################################
     
 class ForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -43,9 +39,7 @@ class ForgotPasswordSerializer(serializers.Serializer):
             raise ValidationError({'message': 'Email not found in the database.'})
 
         return data
-    
-######################################### VERIFY SERIALIZER ###########################################################
-    
+        
 class VerifyForgotOTPSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     otp = serializers.CharField(required=True)
@@ -63,9 +57,7 @@ class VerifyForgotOTPSerializer(serializers.Serializer):
             raise ValidationError({'message': 'Invalid email or OTP.'})
 
         return data
-    
-########################################### SET NEW PASSWORD SERIALIZER ##############################################################
-    
+        
 class SetNewPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     new_password = serializers.CharField(required=True)
@@ -95,8 +87,6 @@ class SetNewPasswordSerializer(serializers.Serializer):
         user.set_password(self.validated_data['new_password'])
         user.save()
         print("Save1")
-
-########################################## CHANGE PASSWORD SERIALIZER #################################################
         
 # Not working
         
@@ -145,4 +135,3 @@ class ChangePasswordSerializer(serializers.Serializer):
     
 User = get_user_model()
 
-#######################################################################################################################
