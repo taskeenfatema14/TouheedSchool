@@ -47,13 +47,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
 
-    
     'tinymce',
     'schools',
     'portals',
     'accounts',
     'reviews',
     'events',
+    'services',
     'landing_page',
 ]
 
@@ -170,13 +170,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False                                                 
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rafatshaikh9990@gmail.com'
 EMAIL_HOST_PASSWORD = "paypneigerrtjjfr"
 # EMAIL_HOST_USER = 'admin@touheed.education'
 # EMAIL_HOST_PASSWORD = "Nekmg82YdX5a"
-# EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -242,9 +241,10 @@ DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587  
-EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
-EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  # Replace with your email username
-EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
+EMAIL_USE_TLS = True  
+EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  
+EMAIL_HOST_PASSWORD = 'wnjj lnwj vcht kras' 
+EMAIL_HOST_NAME='Touheed School'
 
 # username:  password:admin  email : test123@gmail.com
 
