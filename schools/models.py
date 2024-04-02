@@ -12,8 +12,6 @@ from django.core.mail import send_mail
 from core.settings import EMAIL_HOST_USER
 from django.conf import settings
 
-
-
 class School(BaseModel):
     name              = models.CharField(max_length = 100)
     location          = models.CharField(max_length = 100)

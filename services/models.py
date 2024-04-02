@@ -10,4 +10,3 @@ class Brochure(BaseModel):
 
     def __str__(self):
         return self.pdf.name
-    

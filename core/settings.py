@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'events',
     'services',
     'landing_page',
+    'admissions',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
