@@ -10,7 +10,7 @@ class BoardMemberSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ['id','school', 'username','time','date','rating'] 
+        fields = ['id','school', 'username','time','date','rating','description'] 
 
 class MailLogSerializer(serializers.ModelSerializer):
     class Meta:

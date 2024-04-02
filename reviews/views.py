@@ -50,6 +50,13 @@ class BoardMemberAPI(APIView):
         board_member.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    
+    def get_paginated_data(self, request):
+        limit = max(int(request.GET.get('limit', 0)), 4)  
+        page_number = max(int(request.GET.get('page', 0)), 1)
+        
+        queryset = BoardMember.objects.all()
+    
 ################################  REVIEW  ############################################################
 class ReviewAPI(APIView):
     def get(self, request, uuid=None):
@@ -86,6 +93,13 @@ class ReviewAPI(APIView):
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    def get_paginated_data(self, request):
+        limit = max(int(request.GET.get('limit', 0)), 4)  
+        page_number = max(int(request.GET.get('page', 0)), 1)
+        
+        queryset = Review.objects.all()
+
+
 #################################################################################
 class MailLogAPIView(APIView):
     def get(self, request):                                 
