@@ -8,6 +8,8 @@ from portals.base import BaseModel
 from django.db import models
 import uuid
 from django.db.models.signals import post_save
+from django.core.mail import send_mail
+from core.settings import EMAIL_HOST_USER
 
 
 class School(BaseModel):
