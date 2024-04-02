@@ -3,6 +3,7 @@ from .models import *
 from rest_framework import serializers
 from events.models import *
 from events.serializers import *
+from reviews.models import *
 
 class LandingPgSchoolSerailizer(serializers.ModelSerializer):
     class Meta:
@@ -20,12 +21,17 @@ class LandinPageSchoolSerializer(serializers.ModelSerializer):
         fiels = ['name', 'image', 'location']
 
 class LPLatestEventsSerializer(serializers.ModelSerializer):
-    images = EventImageSerializer(many = True, read_only = True)
+    images = EventImageSerializer(many=True, read_only=True)
     class Meta:
         model = Event
         fields = ['images', "title", "desc"]
 
-class LPInfrastructure(serializers.ModelSerializer):
+class LPInfrastructureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Infrastructure
         fields = ['image', 'title']
+
+class LPReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['username', 'description'] #Profile picture incomplete

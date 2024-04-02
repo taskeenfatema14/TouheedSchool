@@ -9,6 +9,8 @@ from portals.base import BaseAPIView
 from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
 from rest_framework import generics
+from schools.models import *
+from reviews.models import *
 
 # Create your views here.
 
@@ -30,9 +32,60 @@ class LandingPageSchools(generics.ListAPIView):
     queryset = School.objects.all()
     serializer_class = LandinPageSchoolSerializer
 
-class LPLatestEvents(APIView):
+class LatestEvents(APIView):
     def get(self, request):
         events = Event.objects.all().order_by('-created_on')
         serializer = LPLatestEventsSerializer(events, many = True)
         return Response(serializer.data)
-        
+    
+class InfrastructureAPI(APIView):
+    # def get(self, request):
+    #     infrastucture = Infrastructure.objects.all().order_by('-created_on')
+    #     serializer = LPInfrastructureSerializer(infrastucture, many = True)
+    #     return Response(serializer.data)    
+
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = Infrastructure.objects.all()
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = LPInfrastructureSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
+    
+class Testimonials(APIView):
+    # def get(self, request):
+    #     reviews = Review.objects.all().order_by('-created_on')
+    #     serializer = LPInfrastructureSerializer(reviews, many = True)
+    #     return Response(serializer.data)
+
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = Review.objects.order_by('-created_on')
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = LPReviewSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
