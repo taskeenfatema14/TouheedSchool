@@ -5,22 +5,22 @@ from .models import *
 
 # Register your models here.
 
-@admin.register(Events)
+@admin.register(Event)
 class EventsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'event_name', 'event_title', 'event_date', 'event_time', 'event_location']
+    list_display = ['id', 'name', 'title', 'date', 'time', 'location']
 
 @admin.register(EventSpeaker)
 class EventSpeakerAdmin(admin.ModelAdmin):
-    list_display = ['id', 'speaker_name', 'speaker_image', 'speaker_desc']  
+    list_display = ['id', 'name', 'image', 'desc']  
 
 @admin.register(EventImages)
 class EventImagesAdmin(admin.ModelAdmin):
-    list_display = ['id', 'event_name', 'image']
+    list_display = ['id', 'name', 'image']
 
-    def event_name(self, obj):
-        return obj.event.event_name  
+    def name(self, obj):
+        return obj.event.name  
     
-    event_name.short_description = 'Event Name'
+    name.short_description = 'Event Name'
 
 
 

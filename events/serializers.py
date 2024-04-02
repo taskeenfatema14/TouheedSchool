@@ -4,29 +4,17 @@ from rest_framework import serializers
 from .models import *
 from rest_framework import serializers
 
-class EventImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EventImages
-        fields = ('id', 'image')
-
-class EventImageSerializer1(serializers.ModelSerializer):
-    class Meta:
-        model = EventImages
-        fields = ('image',) 
-
-
-class EventSpeakersCardSerializer(ModelSerializer):
-    class Meta:
-        model = EventSpeaker
-        fields = ["event" ,"speaker_name", "speaker_image", "speaker_desc"]
-
 class EventSpeakersCardSerializer(serializers.ModelSerializer):
     event_id = serializers.PrimaryKeyRelatedField(source='event.id', read_only=True)
 
     class Meta:
         model = EventSpeaker
-        fields = ['event_id', 'speaker_name', 'speaker_image', 'speaker_desc','id']
+        fields = ['event_id', 'name', 'image', 'desc','id']
 
+class EventImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventImages
+        fields = ('id', 'image')
 
 class EventSerializer(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)
@@ -36,29 +24,30 @@ class EventSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Events
-        fields = ["id", "school", "event_name" ,"event_title", "event_date", "event_time", "event_location", "event_desc",  "thumbnail", "event_videos", "images", "uploaded_images"]
+        model = Event
+        fields = ["id", "school", "name" ,"title", "date", "time", "location", "desc",  "thumbnail", "videos", "images", "uploaded_images"]
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop("uploaded_images")
-        event = Events.objects.create(**validated_data)
+        event = Event.objects.create(**validated_data)
         for image in uploaded_images:
             EventImages.objects.create(event=event, image=image)
         return event
 
 class EventSerializer1(serializers.ModelSerializer):
-    images = EventImageSerializer(many=True, read_only=True, source='eventimages_set')
+    images = EventImageSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Events
-        fields = ["id", "school", "event_name", "event_title", "images"]
+        model = Event
+        fields = ["id", "time", "title", "images", "location", "desc", "date"]
 
 
 class EventDetailSerializer(serializers.ModelSerializer):
-    event_speakers = EventSpeakersCardSerializer(many=True)
+    # event_speakers = EventSpeakersCardSerializer(many=True)
+    images = EventImageSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Events
-        fields = ['id', 'event_name', 'event_title', 'event_date', 'event_time', 
-                'event_location', 'event_desc', 'event_image', 'event_videos', 'event_speakers']
+        model = Event
+        fields = ['id', 'name', 'title', 'date', 'time', 
+                'location', 'desc', 'images', 'videos']
 
