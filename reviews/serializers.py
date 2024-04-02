@@ -5,7 +5,7 @@ from rest_framework import serializers
 class BoardMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoardMember
-        fields = ['id','name','title','description','image'] 
+        fields = "__all__"
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
