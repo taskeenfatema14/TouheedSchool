@@ -10,6 +10,8 @@ import uuid
 from django.db.models.signals import post_save
 from django.core.mail import send_mail
 from core.settings import EMAIL_HOST_USER
+from django.conf import settings
+
 
 
 class School(BaseModel):
@@ -48,7 +50,7 @@ def send_contact_email(sender, instance, created, **kwargs):
         send_mail(subject, message, email_from, [instance.user_email], fail_silently=False)
 
         # Sending email to school
-        school_email = instance.school.school_email  # Assuming 'email' is the field name storing the email address in the School model
+        school_email = instance.school.school_email 
         school_subject = 'New Contact Inquiry'
         school_message = f'A new contact inquiry has been received from {instance.full_name}.'
         send_mail(school_subject, school_message, email_from, [school_email], fail_silently=False)

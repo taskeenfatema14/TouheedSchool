@@ -7,7 +7,7 @@ urlpatterns = [
     path('school-getpost/<str:id>', SchoolApi.as_view(), name = 'school-getpost'),
 
     path('contactus/', ContactUsApi.as_view()),
-    path('contactusall/', ContactUsAll.as_view()),
+    # path('contactusall/', ContactUsAll.as_view()),
 
     path('infrastructure/', InfrastructureAPI.as_view()),
     path('infrastructure/<str:id>', InfrastructureAPI.as_view()),
