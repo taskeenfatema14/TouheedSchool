@@ -44,6 +44,14 @@ class EventSpeakerSerializer(serializers.ModelSerializer):
         model = EventSpeaker
         fields = ('id', 'name', 'image', 'desc')
 
+class ListEventSerializer(serializers.ModelSerializer):
+    images = EventImagesSerializer(many=True, read_only=True)
+    speakers = EventSpeakerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Event
+        fields = "__all__"
+        
 class EventSerializer(serializers.ModelSerializer):
     images = EventImagesSerializer(many=True, read_only=True)
     speakers = EventSpeakerSerializer(many=True, read_only=True)
@@ -61,7 +69,6 @@ class EventSerializer1(serializers.ModelSerializer):
         model = Event
         fields = ["id", "time", "title", "images", "location", "desc", "date"]
 
-#working on this
 class EventDetailSerializer(serializers.ModelSerializer):
     speakers = EventSpeakersCardSerializer(many=True)
     images = EventImageSerializer(many=True, read_only=True)
@@ -69,5 +76,5 @@ class EventDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id', 'name', 'title', 'date', 'time', 
-                'location', 'desc', 'images', 'videos', 'speakers']
+                 'desc', 'images', 'videos', 'speakers']
 
