@@ -4,16 +4,26 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 
-class UserTRialSerializer(ModelSerializer):
+class UserTrialSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)  # Specify write_only for password field
+
     class Meta:
         model = User
-        fields = "__all__"
-        # exclude = ['last_login', 'date_joined', 'school']
-    
-    def get_fields(self, *args, **kwargs):
-        fields = super().get_fields(*args, **kwargs)
-        fields.pop('groups', None)  # Exclude 'groups' field
-        return fields
+        fields = ['id', 'email', 'name', 'is_superuser', 'is_staff', 'school', 'date_joined', 'last_login', 'otp', 'password']
+
+    def create(self, validated_data):
+        # Extract and remove password from validated_data
+        password = validated_data.pop('password', None)
+        
+        # Create the user object without setting the password initially
+        user = User.objects.create(**validated_data)
+        
+        # Set the password separately
+        if password:
+            user.set_password(password)
+            user.save()
+        
+        return user
 
 
 class UserSerializer(ModelSerializer):

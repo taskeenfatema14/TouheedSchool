@@ -22,11 +22,12 @@ class UserView(APIView):
     # related_models = {}
 
     def post(self, request):
-        serializer = UserTRialSerializer(data=request.data)
+        serializer = UserTrialSerializer(data=request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors)
-    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 #     def get(self, request):
 #         user = User.objects.all()
 #         serializer = UserSerializer(user,many = True)
@@ -186,5 +187,5 @@ class ChangePasswordApi(APIView):
 class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
-    permission_classes = [SchoolPermission]
+    # permission_classes = [SchoolPermission]
 
