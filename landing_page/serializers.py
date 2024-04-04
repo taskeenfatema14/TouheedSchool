@@ -21,10 +21,20 @@ class LandinPageSchoolSerializer(serializers.ModelSerializer):
         fiels = ['name', 'image', 'location']
 
 class LPLatestEventsSerializer(serializers.ModelSerializer):
-    images = EventImageSerializer(many=True, read_only=True)
+    # images = EventImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Event
-        fields = ['images', "title", "desc"]
+        fields = ["title", "desc", 'thumbnail']
+        # fields = ['images', "title", "desc", 'thumbnail']
+
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+    #     if 'images' not in data:
+    #         images = instance.eventimages_set.all()  
+    #         data['images'] = EventImageSerializer(images, many=True).data
+    #     return data
+
 
 class LPInfrastructureSerializer(serializers.ModelSerializer):
     class Meta:
