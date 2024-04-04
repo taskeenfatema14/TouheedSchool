@@ -7,7 +7,7 @@ def validate_mobile_no(value):
     if len(value) != 10 or not value.isdigit():
         raise ValidationError('Mobile number must be 10 digits long and contain only digits.')
 
-class Admission(BaseModel):
+class RegisterForm(BaseModel):
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     student_name = models.CharField(max_length=100)
     class_for_admission = models.CharField(max_length=50)
@@ -20,3 +20,13 @@ class Admission(BaseModel):
 
     def __str__(self):
         return self.student_name
+
+class Admission(BaseModel):
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    description = models.TextField(blank=True, null=True)
+    step1 = models.TextField(blank=True, null=True)
+    step2 = models.TextField(blank=True, null=True)
+    documents_required = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.school)

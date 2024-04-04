@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import Admission
+from .models import *
+
+class RegisterFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegisterForm
+        fields = '__all__'
 
 class AdmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admission
-        fields = '__all__'
+        exclude = ('created_on','updated_on','is_deleted')

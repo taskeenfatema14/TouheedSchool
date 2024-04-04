@@ -9,11 +9,12 @@ from portals.constants import *
 
 # Create your views here.
 
-class EventAPIView(APIView):
-    def get(self, request, *args, **kwargs):
-        events = Event.objects.all().prefetch_related('images', 'speakers')
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+class EventAPIView(BaseAPIView):
+
+    serializer_class = EventSerializer
+    model = Event
+    allowed_methods =  [GET, GETALL] 
+    related_models = {}
     
 class EventView(BaseAPIView):
     serializer_class = EventSerializer1
@@ -21,7 +22,6 @@ class EventView(BaseAPIView):
     allowed_methods =  [GETALL] 
     related_models = {}
 
-#working on this
 class EventDetails(APIView):
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
