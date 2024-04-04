@@ -8,3 +8,4 @@ from rest_framework import permissions
 #     def has_object_permission(self, request, view, obj):
 #         # Check if the user can view the school object or has permission to CRUD own school
 #         return request.user.can_view_school(obj) or request.user.can_crud_school(obj)
+
