@@ -9,11 +9,39 @@ from portals.constants import *
 
 # Create your views here.
 
+class EventAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        events = Event.objects.all().prefetch_related('images', 'speakers')
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
+    
 class EventView(BaseAPIView):
-    serializer_class = EventSerializer
+    serializer_class = EventSerializer1
     model = Event
-    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    allowed_methods =  [GETALL] 
     related_models = {}
+
+#working on this
+class EventDetails(APIView):
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = Event.objects.all().prefetch_related('images', 'speakers')
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = EventDetailSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
 
 class EventSpeakersCard(BaseAPIView):
     
@@ -22,31 +50,3 @@ class EventSpeakersCard(BaseAPIView):
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
-class EventCreateAPIView(APIView):
-    def post(self, request):
-        event_data = request.data.get('event')
-        image_data = request.data.get('images')
-        speaker_data = request.data.get('speakers')
-        
-        with transaction.atomic():
-            event = EventSerializer(data=event_data)
-            if event.is_valid():
-                events = event.save()
-            else:
-                return Response(event.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-            image_serializer = EventImageSerializer(data=image_data, many=True)
-            if image_serializer.is_valid():
-                for image in image_data:
-                    EventImages.objects.create(event=events, **image)
-            else:
-                return Response(image_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-            speaker_serializer = EventSpeakersCardSerializer(data=speaker_data, many=True)
-            if speaker_serializer.is_valid():
-                for speaker in speaker_data:
-                    EventSpeaker.objects.create(event=events, **speaker)
-            else:
-                return Response(speaker_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-                
-        return Response("Event created successfully", status=status.HTTP_201_CREATED)

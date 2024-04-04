@@ -19,5 +19,8 @@ urlpatterns = [
     path('notice-board/', NoticeboardApi.as_view()),
     path('notice-board/<str:id>', NoticeboardApi.as_view()),
 
+    path('schoolevent/', SchoolEventApi.as_view()),
+    path('schoolevent/<str:id>', SchoolEventApi.as_view()),
+
     
 ]

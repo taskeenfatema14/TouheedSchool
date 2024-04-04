@@ -109,3 +109,14 @@ class NoticeboardApi(BaseAPIView):
     related_models = {}
 
 
+class SchoolEventApi(APIView):
+    # serializer_class = SchoolEventSerializer
+    # model = Event
+    # allowed_methods = [GET, GETALL]
+    # related_models = {}
+
+    def get(self, request, format=None):
+        events = Event.objects.prefetch_related('eventimages_set').all()  # Assuming 'eventimages_set' is the related name
+        serializer = SchoolEventSerializer(events, many=True)
+        return Response(serializer.data)
+        

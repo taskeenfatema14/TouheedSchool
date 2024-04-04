@@ -3,6 +3,19 @@ from .models import User
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+
+class UserTRialSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+        # exclude = ['last_login', 'date_joined', 'school']
+    
+    def get_fields(self, *args, **kwargs):
+        fields = super().get_fields(*args, **kwargs)
+        fields.pop('groups', None)  # Exclude 'groups' field
+        return fields
+
+
 class UserSerializer(ModelSerializer):
     school_name = serializers.SerializerMethodField()
     
