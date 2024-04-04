@@ -7,19 +7,7 @@ from events.models import *
 class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
-        exclude = ['created_on','updated_on']
-
-
-class LandingPageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Events
-        fields = ['event_title','event_image']
-
-class LandinPageSchoolSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = School
-        fiels = ['name', 'image', 'location']
-        
+        exclude = ['created_on','updated_on']      
 
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,8 +16,15 @@ class ContactUsSerializer(serializers.ModelSerializer):
 
 class InfrastructureSerializer(ModelSerializer):
     class Meta:
-        model = Infrastructure
+        model  = Infrastructure
         fields = '__all__'
 
+class FaqSerializer(ModelSerializer):
+    class Meta:
+        model  = FrequentlyAskedQuestion
+        fields = '__all__'
 
-
+class NoticeBoardSerializer(ModelSerializer):
+    class Meta:
+        model  = Noticeboard
+        fields = '__all__'

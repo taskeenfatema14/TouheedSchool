@@ -33,10 +33,8 @@ class SchoolAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         if request.user.is_authenticated:
             if request.user.is_superuser:
-                # Superusers can always add schools
                 return True
             else:
-                # Check if the user has a school associated with them
                 try:
                     return request.user.school is None
                 except ObjectDoesNotExist:
@@ -46,7 +44,8 @@ class SchoolAdmin(admin.ModelAdmin):
 # Register the SchoolAdmin class with the School model
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
-# admin.site.register(FrequentlyAskedQuestions)
+admin.site.register(FrequentlyAskedQuestion)
+admin.site.register(Noticeboard)
 
 # admin.site.register(School)
 
