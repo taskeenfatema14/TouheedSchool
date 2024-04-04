@@ -22,7 +22,7 @@ class EventView(BaseAPIView):
     related_models = {}
 
 #working on this
-class EventDetails(BaseAPIView):
+class EventDetails(APIView):
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
         limit = request.GET.get("limit") or 20
