@@ -3,7 +3,28 @@ from .models import User
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-####################################### USER SERIALIZER ###############################################################
+
+class UserTrialSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)  # Specify write_only for password field
+
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'name', 'is_superuser', 'is_staff', 'school', 'date_joined', 'last_login', 'otp', 'password']
+
+    def create(self, validated_data):
+        # Extract and remove password from validated_data
+        password = validated_data.pop('password', None)
+        
+        # Create the user object without setting the password initially
+        user = User.objects.create(**validated_data)
+        
+        # Set the password separately
+        if password:
+            user.set_password(password)
+            user.save()
+        
+        return user
+
 
 class UserSerializer(ModelSerializer):
     school_name = serializers.SerializerMethodField()
@@ -25,8 +46,6 @@ class UserSerializer(ModelSerializer):
         if obj.school:
             return obj.school.name
         return None
-
-######################################### FORGET PASSWORD #############################################################
     
 class ForgotPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
@@ -43,9 +62,7 @@ class ForgotPasswordSerializer(serializers.Serializer):
             raise ValidationError({'message': 'Email not found in the database.'})
 
         return data
-    
-######################################### VERIFY SERIALIZER ###########################################################
-    
+        
 class VerifyForgotOTPSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     otp = serializers.CharField(required=True)
@@ -63,9 +80,7 @@ class VerifyForgotOTPSerializer(serializers.Serializer):
             raise ValidationError({'message': 'Invalid email or OTP.'})
 
         return data
-    
-########################################### SET NEW PASSWORD SERIALIZER ##############################################################
-    
+        
 class SetNewPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     new_password = serializers.CharField(required=True)
@@ -95,8 +110,6 @@ class SetNewPasswordSerializer(serializers.Serializer):
         user.set_password(self.validated_data['new_password'])
         user.save()
         print("Save1")
-
-########################################## CHANGE PASSWORD SERIALIZER #################################################
         
 # Not working
         
@@ -145,4 +158,3 @@ class ChangePasswordSerializer(serializers.Serializer):
     
 User = get_user_model()
 
-#######################################################################################################################

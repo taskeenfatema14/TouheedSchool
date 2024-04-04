@@ -1,5 +1,3 @@
-from rest_framework import generics
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import *
 from .models import *
@@ -7,23 +5,72 @@ from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status
 
+class BoardMemberAPI(APIView):
+    def get(self, request, uuid=None):
+        if uuid:
+            return self.retrieve(request, uuid)
+        else:
+            return self.get_paginated_data(request)
 
-class BoardMemberListCreate(generics.ListCreateAPIView):
-    queryset = BoardMember.objects.all()
-    serializer_class = BoardMemberSerializer
+    def post(self, request):
+        serializer = BoardMemberSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class BoardMemberRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = BoardMember.objects.all()
-    serializer_class = BoardMemberSerializer
+    def get_object(self, uuid):
+        try:
+            return BoardMember.objects.get(id=uuid)
+        except BoardMember.DoesNotExist:
+            raise Http404
 
-################################  REVIEW  ############################################################
-
-class ReviewListCreateAPIView(APIView):
-    def get(self, request):
-        reviews = Review.objects.all()
-        serializer = ReviewSerializer(reviews, many=True)
+    def retrieve(self, request, uuid):
+        board_member = self.get_object(uuid)
+        serializer = BoardMemberSerializer(board_member)
         return Response(serializer.data)
+
+    def put(self, request, uuid):
+        board_member = self.get_object(uuid)
+        serializer = BoardMemberSerializer(board_member, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, uuid):
+        board_member = self.get_object(uuid)
+        board_member.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = BoardMember.objects.all()
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = BoardMemberSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
+    
+################################  REVIEW  ############################################################
+class ReviewAPI(APIView):
+    def get(self, request, uuid=None):
+        if uuid:
+            return self.retrieve(request, uuid)
+        else:
+            return self.list(request)
+
     def post(self, request):
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
@@ -31,57 +78,45 @@ class ReviewListCreateAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ReviewRetrieveUpdateDestroyAPIView(APIView):
-    def get_object(self, pk):
+    def get_object(self, uuid):
         try:
-            return Review.objects.get(pk=pk)
+            return Review.objects.get(id=uuid)
         except Review.DoesNotExist:
             raise Http404
+
+    def list(self, request):
+        reviews = Review.objects.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
     
-    def get(self, request, pk):
-        review = self.get_object(pk)
+    def retrieve(self, request, uuid):
+        review = self.get_object(uuid)
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
 
-    def delete(self, request, pk):
-        review = self.get_object(pk)
+    def delete(self, request, uuid):
+        review = self.get_object(uuid)
         review.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
 
-class MailLogAPIView(APIView):
-    def get(self, request):                                 
-        try:
-            mail_logs = MailLog.objects.all()
-            serializer = MailLogSerializer(mail_logs, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        queryset = Review.objects.all()
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = ReviewSerializer(objs, many = True)
 
-    def post(self, request):
-        serializer = MailLogSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
 
-    def put(self, request, pk):
-        try:
-            mail_log = MailLog.objects.get(pk=pk)
-        except MailLog.DoesNotExist:
-            return Response({"error": "Mail log does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = MailLogSerializer(mail_log, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        try:
-            mail_log = MailLog.objects.get(pk=pk)
-        except MailLog.DoesNotExist:
-            return Response({"error": "Mail log does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        
-        mail_log.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#################################################################################

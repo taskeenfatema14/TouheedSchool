@@ -5,12 +5,12 @@ from rest_framework import serializers
 class BoardMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoardMember
-        fields = '__all__'
-        
+        fields = "__all__"
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['id','school', 'username','time','date','rating','description'] 
 
 class MailLogSerializer(serializers.ModelSerializer):
     class Meta:
