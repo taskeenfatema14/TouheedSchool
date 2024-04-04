@@ -37,3 +37,16 @@ class NoticeBoardSerializer(ModelSerializer):
     class Meta:
         model  = Noticeboard
         fields = '__all__'
+
+
+class EventImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventImages
+        fields = ['image']
+
+class SchoolEventSerializer(serializers.ModelSerializer):
+    images = EventImagesSerializer(many=True, read_only=True)
+
+    class Meta: 
+        model = Event
+        fields = ['title', 'date', 'time', 'location', 'desc', 'images']

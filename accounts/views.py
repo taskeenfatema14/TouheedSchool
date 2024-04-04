@@ -15,17 +15,17 @@ from portals.base import BaseAPIView
 
 # Create your views here.
 
-class UserView(BaseAPIView):
-    serializer_class = UserSerializer
-    model = User
-    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
-    related_models = {}
+class UserView(APIView):
+    # serializer_class = UserTRialSerializer
+    # model = User
+    # allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    # related_models = {}
 
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors)
+    def post(self, request):
+        serializer = UserTRialSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
     
 #     def get(self, request):
 #         user = User.objects.all()

@@ -24,7 +24,8 @@ class School(BaseModel):
         verbose_name  = 'email_address',
         max_length=255,
     )
-    principal = models.TextField(blank =True, null=True)
+    principal         = models.TextField(blank =True, null=True)
+    summary           = models.TextField()
 
     def __str__(self):
         return self.name
