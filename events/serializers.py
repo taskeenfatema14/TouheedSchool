@@ -43,14 +43,6 @@ class EventSpeakerSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventSpeaker
         fields = ('id', 'name', 'image', 'desc')
-
-class ListEventSerializer(serializers.ModelSerializer):
-    images = EventImagesSerializer(many=True, read_only=True)
-    speakers = EventSpeakerSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Event
-        fields = "__all__"
         
 class EventSerializer(serializers.ModelSerializer):
     images = EventImagesSerializer(many=True, read_only=True)
