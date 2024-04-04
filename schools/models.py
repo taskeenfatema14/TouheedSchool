@@ -56,7 +56,11 @@ class FrequentlyAskedQuestion(BaseModel):
 class Noticeboard(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE)
     title      = models.CharField(max_length=100, null=True)
-    data       = models.FileField(upload_to="notice_board", blank=True, null=True,)
+    
+
+class NoticeboardImage(BaseModel):
+    noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE)
+    image       = models.FileField(upload_to="notice_board", blank=True, null=True,)
 
 
     

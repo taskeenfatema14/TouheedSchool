@@ -50,3 +50,9 @@ admin.site.register(Noticeboard)
 # admin.site.register(School)
 
 
+# class NoticeBoardImageInline(admin.TabularInline):
+#     model = NoticeboardImage
+#     extra = 1
+
+# class 
+
