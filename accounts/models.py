@@ -48,7 +48,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(blank = True, null = True)
     otp     = models.PositiveIntegerField(blank = True, null = True)
     
-
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
@@ -65,7 +64,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
 
-    
     def get_school_name(self, obj):
         if obj.school:
             return obj.school.name

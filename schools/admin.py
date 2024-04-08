@@ -45,14 +45,15 @@ class SchoolAdmin(admin.ModelAdmin):
 admin.site.register(School, SchoolAdmin)
 admin.site.register(Infrastructure)
 admin.site.register(FrequentlyAskedQuestion)
-admin.site.register(Noticeboard)
-
-# admin.site.register(School)
 
 
-# class NoticeBoardImageInline(admin.TabularInline):
-#     model = NoticeboardImage
-#     extra = 1
+class NoticeBoardImageInline(admin.TabularInline):
+    model = NoticeboardImage
+    extra = 1
 
-# class 
+class NoticeBoardAdmin(admin.ModelAdmin):
+    inlines = [NoticeBoardImageInline]
+    list_display = ['id','school', 'title']
+
+admin.site.register(Noticeboard, NoticeBoardAdmin)
 

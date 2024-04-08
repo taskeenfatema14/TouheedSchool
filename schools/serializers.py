@@ -33,10 +33,20 @@ class FaqSerializer(ModelSerializer):
         model  = FrequentlyAskedQuestion
         fields = '__all__'
 
-class NoticeBoardSerializer(ModelSerializer):
+class NoticeBoardImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model  = Noticeboard
-        fields = '__all__'
+        model = NoticeboardImage
+        fields = ('image',)
+
+class NoticeBoardSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField()  
+    class Meta:
+        model = Noticeboard
+        fields = ('school', 'title', 'images')
+
+    def get_images(self, obj):
+        images = NoticeboardImage.objects.filter(noticeboard=obj)
+        return NoticeBoardImageSerializer(images, many=True).data
 
 
 class EventImagesSerializer(serializers.ModelSerializer):
@@ -50,3 +60,4 @@ class SchoolEventSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Event
         fields = ['title', 'date', 'time', 'location', 'desc', 'images']
+
