@@ -60,7 +60,7 @@ class Noticeboard(BaseModel):
 
 class NoticeboardImage(BaseModel):
     noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE)
-    image       = models.FileField(upload_to="notice_board", blank=True, null=True,)
+    image       = models.FileField(upload_to="notice_board",)
 
 
     
