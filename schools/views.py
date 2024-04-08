@@ -116,7 +116,7 @@ class SchoolEventApi(APIView):
     # related_models = {}
 
     def get(self, request, format=None):
-        events = Event.objects.prefetch_related('eventimages_set').all()  # Assuming 'eventimages_set' is the related name
+        events = Event.objects.prefetch_related('images').all()  # Assuming 'eventimages_set' is the related name
         serializer = SchoolEventSerializer(events, many=True)
         return Response(serializer.data)
         

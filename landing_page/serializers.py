@@ -8,7 +8,7 @@ from reviews.models import *
 class LandingPgSchoolSerailizer(serializers.ModelSerializer):
     class Meta:
         model = School
-        fields = ['image', 'location', 'name', 'description']
+        fields = ['id','image', 'location', 'name', 'description']
 
 class LandingPageSerializer(serializers.ModelSerializer):
     class Meta:
