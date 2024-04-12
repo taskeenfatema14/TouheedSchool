@@ -14,10 +14,10 @@ class ContactUsSerializer(serializers.ModelSerializer):
         model = ContactUs
         fields = '__all__'
 
-class InfrastructureSerializer(ModelSerializer):
+class InfrastructureSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Infrastructure
-        fields = '__all__'
+        fields = ['school','image','title']
 
 class InfrastructurePutSerializer(ModelSerializer):
     class Meta:
@@ -28,10 +28,10 @@ class InfrastructurePutSerializer(ModelSerializer):
             'school': {'required': False}
         }
 
-class FaqSerializer(ModelSerializer):
+class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model  = FrequentlyAskedQuestion
-        fields = '__all__'
+        fields = ['school','question','answer']
 
 class NoticeBoardImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,3 +61,13 @@ class SchoolEventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['title', 'date', 'time', 'location', 'desc', 'images']
 
+class SchoolDetailSerializer(serializers.ModelSerializer):
+    infrastructure = InfrastructureSerializer(many=True)
+    faq = FaqSerializer(many=True, source='frequentlyquestion_set')
+    noticeboard = NoticeBoardSerializer(many=True, source='notice_board_set')
+    noticeboard_image = NoticeBoardImageSerializer(many=True, read_only=True,source='notice_board_image_set')
+
+    class Meta:
+        model = School
+        fields = ['name', 'location', 'image', 'video', 'description', 'summary', 
+                'infrastructure', 'faq','noticeboard','noticeboard_image']
