@@ -42,24 +42,24 @@ class ContactUs(BaseModel):
 
 
 class Infrastructure(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='infrastructure')
     image      = models.ImageField(upload_to="infrastructure",blank=True,null=True,)
     title      = models.CharField(max_length=100)
 
 
 class FrequentlyAskedQuestion(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='frequentlyquestion_set',)
     question   = models.CharField(max_length=300, null=True)
     answer     = models.CharField(max_length=300,null=True)
 
 
 class Noticeboard(BaseModel):
-    school     = models.ForeignKey(School, on_delete=models.CASCADE)
+    school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='notice_board_set')
     title      = models.CharField(max_length=100, null=True)
     
 
 class NoticeboardImage(BaseModel):
-    noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE)
+    noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE, related_name='notice_board_image_set')
     image       = models.FileField(upload_to="notice_board",)
 
 

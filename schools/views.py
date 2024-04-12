@@ -119,4 +119,25 @@ class SchoolEventApi(APIView):
         events = Event.objects.prefetch_related('images').all()  # Assuming 'eventimages_set' is the related name
         serializer = SchoolEventSerializer(events, many=True)
         return Response(serializer.data)
+    
+class SchoolDetailAPiView(APIView):
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = School.objects.all().prefetch_related('frequentlyquestion_set', 'infrastructure','notice_board_set')
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]   
+        serializer = SchoolDetailSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        return self.get_paginated_data(request)
         
