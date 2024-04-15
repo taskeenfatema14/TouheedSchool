@@ -22,7 +22,7 @@ urlpatterns = [
     path('schoolevent/', SchoolEventApi.as_view()),
     path('schoolevent/<str:id>', SchoolEventApi.as_view()),
 
-    path('schooldetail/', SchoolDetailAPiView.as_view()),
+    path('schooldetail/<str:id>', SchoolDetailAPiView.as_view()),
 
     
 ]

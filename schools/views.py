@@ -138,6 +138,16 @@ class SchoolDetailAPiView(APIView):
             "rows" : serializer.data,
         }, status=status.HTTP_200_OK)
     
-    def get(self, request):
-        return self.get_paginated_data(request)
-        
+    def get_by_id(self, request, id):
+        try:
+            school = School.objects.get(id=id)
+            serializer = SchoolDetailSerializer(school)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except School.DoesNotExist:
+            return Response({"error": True, "message": "School not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, id=None):
+        if id is not None:
+            return self.get_by_id(request, id)
+        else:
+            return self.get_paginated_data(request)
