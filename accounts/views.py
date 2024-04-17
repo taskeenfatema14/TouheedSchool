@@ -90,7 +90,6 @@ class ForgotPasswordApi(APIView):
         try:
             data = request.data
             serializer = ForgotPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 send_otp_via_email(serializer.validated_data['email'])
 

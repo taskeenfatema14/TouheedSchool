@@ -15,7 +15,7 @@ class RegisterFormAPIView(APIView):
     
 ###################################Admission#############################################
     
-class AdmissionListAPIView(APIView):
+class AdmissionsAPIView(APIView):
     def get(self, request):
         try:
             queryset = Admission.objects.all()
@@ -24,7 +24,7 @@ class AdmissionListAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
-class AdmissionFieldAPIView(APIView):
+class AdmissionAPIView(APIView):
     def get_object(self, id):
         try:
             return Admission.objects.get(id=id)

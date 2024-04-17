@@ -10,7 +10,6 @@ from portals.constants import *
 # Create your views here.
 
 class EventAPIView(BaseAPIView):
-
     serializer_class = EventSerializer
     model = Event
     allowed_methods =  [GET, GETALL] 
@@ -44,7 +43,6 @@ class EventDetails(APIView):
         return self.get_paginated_data(request)
 
 class EventSpeakersCard(BaseAPIView):
-    
     serializer_class = EventSpeakersCardSerializer
     model = EventSpeaker
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 

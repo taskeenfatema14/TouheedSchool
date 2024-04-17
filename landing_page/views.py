@@ -15,14 +15,12 @@ from reviews.models import *
 # Create your views here.
 
 class LandingPageApi(APIView):
-    
     def get(self, request):
         page = Event.objects.all()
         serializer = LandingPageSerializer(page, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class LandingPageSchool(BaseAPIView):
-
     serializer_class = LandingPgSchoolSerailizer
     model = School
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
@@ -30,10 +28,9 @@ class LandingPageSchool(BaseAPIView):
     
 class LandingPageSchools(generics.ListAPIView):
     queryset = School.objects.all()
-    serializer_class = LandinPageSchoolSerializer
+    serializer_class = LandingPageSchoolSerializer
 
 class LatestEvents(APIView):
-
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
         limit = request.GET.get("limit") or 20
@@ -77,7 +74,6 @@ class InfrastructureAPI(APIView):
         return self.get_paginated_data(request)
     
 class Testimonials(APIView):
-
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
         limit = request.GET.get("limit") or 20
@@ -97,3 +93,16 @@ class Testimonials(APIView):
     
     def get(self, request):
         return self.get_paginated_data(request)
+    
+
+class SchoolEventsAPI(BaseAPIView):
+    serializer_class = EventDetailSerializer
+    model = Event
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
+    
+    def get(self, request,id,):
+        events = Event.objects.filter(school=id)
+        serialized = EventDetailSerializer(events,many=True).data
+        return Response({'data':serialized},status=200) 
+    
