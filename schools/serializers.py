@@ -76,3 +76,8 @@ class AboutUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ['image', 'video', 'name', 'description']
+
+class AboutUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = ['image', 'video', 'name', 'description']

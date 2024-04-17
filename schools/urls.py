@@ -25,4 +25,6 @@ urlpatterns = [
     path('schooldetail/<str:id>', SchoolDetailAPiView.as_view()),
 
     path('about-us/<str:pk>/', AboutUs.as_view()),
+
+    path('about-us/<str:pk>/', AboutUs.as_view()),
 ]
