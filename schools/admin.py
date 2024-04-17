@@ -2,11 +2,39 @@ from django.contrib import admin
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.contrib import admin
+from .models import *
+class ContactUsInline(admin.TabularInline):
+    model = ContactUs
+
+class InfrastructureInline(admin.TabularInline):
+    model = Infrastructure
+
+class NoticeboardInline(admin.TabularInline):
+    model = Noticeboard
 
 class SchoolFAQAdmin(admin.TabularInline):
     model = FrequentlyAskedQuestion
 
 class SchoolAdmin(admin.ModelAdmin):
+    inlines = [ContactUsInline, InfrastructureInline, NoticeboardInline, SchoolFAQAdmin]    
+
+    # Override methods as needed
+
+class SchoolCUAdmin(admin.ModelAdmin):
+    inlines =[ContactUsInline]
+
+class SchoolInfraAdmin(admin.ModelAdmin):
+    inlines =[InfrastructureInline]
+
+admin.site.register(School, SchoolAdmin)
+admin.site.register(FrequentlyAskedQuestion) #SchoolFaqAdmin
+
+
+class SchoolFAQAdmin(admin.TabularInline):
+    model = FrequentlyAskedQuestion
+
+class SchoolFaqAdmin(admin.ModelAdmin):
     inlines =[SchoolFAQAdmin]
 
     # Override the has_change_permission method
@@ -46,13 +74,3 @@ class SchoolAdmin(admin.ModelAdmin):
                 except ObjectDoesNotExist:
                     return False
         return super().has_add_permission(request)
-
-# Register the SchoolAdmin class with the School model
-admin.site.register(School, SchoolAdmin)
-admin.site.register(Infrastructure)
-admin.site.register(FrequentlyAskedQuestion)
-admin.site.register(Noticeboard)
-
-# admin.site.register(School)
-
-

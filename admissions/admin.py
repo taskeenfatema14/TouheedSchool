@@ -1,9 +1,15 @@
-
 from django.contrib import admin
 from .models import *
 
+# class AdmissionsAdmin(admin.TabularInline):
+#     model = Admission
+
+# class RegisterAdmin(admin.ModelAdmin):
+#     inlines =[AdmissionsAdmin]
 admin.site.register(RegisterForm)
 admin.site.register(Admission)
+# admin.site.register(RegisterForm, RegisterAdmin)
+# admin.site.register(Admission, AdmissionsAdmin)
 
 # from django.contrib import admin
 # from schools.models import *
