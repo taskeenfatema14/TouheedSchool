@@ -71,3 +71,13 @@ class SchoolDetailSerializer(serializers.ModelSerializer):
         model = School
         fields = ['name', 'location', 'image', 'video', 'description', 'summary', 
                 'infrastructure', 'faq','noticeboard','noticeboard_image']
+
+class AboutUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = ['image', 'video', 'name', 'description']
+
+class AboutUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = ['image', 'video', 'name', 'description']

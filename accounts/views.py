@@ -16,11 +16,6 @@ from portals.base import BaseAPIView
 # Create your views here.
 
 class UserView(APIView):
-    # serializer_class = UserTRialSerializer
-    # model = User
-    # allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
-    # related_models = {}
-
     def post(self, request):
         serializer = UserTrialSerializer(data=request.data)
         if serializer.is_valid():
@@ -28,36 +23,37 @@ class UserView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-#     def get(self, request):
-#         user = User.objects.all()
-#         serializer = UserSerializer(user,many = True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+    def get(self, request):
+        user = User.objects.all()
+        serializer = UserSerializer(user,many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
-# class UserDetails(APIView):
-#     def get_object(self, pk):
-#         try:
-#             return User.objects.get(pk=pk)
-#         except User.DoesNotExist:
-#             raise Http404
-
-#     def get(self, request, pk):
-#         user = self.get_object(pk)
-#         serializer = UserSerializer(user)
-#         return Response(serializer.data)
+class UserDetails(APIView):
     
-#     def put(self, request, pk):
-#         user = self.get_object(pk)
-#         serializer = UserSerializer(user, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
 
-#     def delete(self, request, pk):
-#         user = self.get_object(pk)
-#         user.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    def get(self, request, pk):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
     
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')  
@@ -65,16 +61,15 @@ class LoginAPIView(APIView):
 
         user = authenticate(request, email=email, password=password)
         if user:
-            # If authentication successful, return user details
             return Response({
                 'user_id': user.pk,
                 'email': user.email,
-                'name': user.name,  # Include any other fields you want to return
+                'name': user.name,  
                 'message': 'Successfully logged in'
             })
         else:
-            # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 class RegisterUserApi(APIView):
     def post(self,request,*args, **kwargs):
@@ -95,7 +90,6 @@ class ForgotPasswordApi(APIView):
         try:
             data = request.data
             serializer = ForgotPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 send_otp_via_email(serializer.validated_data['email'])
 

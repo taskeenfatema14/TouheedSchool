@@ -24,18 +24,3 @@ class Review(BaseModel):
 
     def _str_(self):
         return f"Review for {self.school.name} by {self.username}"
-    
-
-class MailLog(models.Model):
-    mail_id = models.AutoField(primary_key=True)
-    mFrom = models.EmailField()
-    to = models.EmailField()
-    subject = models.CharField(max_length=255)
-    body = models.TextField()
-    sent_at = models.DateTimeField(auto_now_add=True)
-    queue = models.CharField(max_length=50)
-    school = models.ForeignKey(School, on_delete=models.CASCADE)  # Add foreign key field to associate each mail log with a school
-    principal = models.EmailField()  # Add field to store the email address of the principal
-
-    def __str__(self):
-        return f"Mail ID: {self.mail_id}, From: {self.mFrom}, To: {self.to}, Subject: {self.subject}"

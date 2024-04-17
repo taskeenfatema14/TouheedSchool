@@ -4,9 +4,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 
-class UserTrialSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)  # Specify write_only for password field
-
+class UserTrialSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'name', 'is_superuser', 'is_staff', 'school', 'date_joined', 'last_login', 'otp', 'password']

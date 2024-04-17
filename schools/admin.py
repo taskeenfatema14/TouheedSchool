@@ -2,7 +2,13 @@ from django.contrib import admin
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
+
+class SchoolFAQAdmin(admin.TabularInline):
+    model = FrequentlyAskedQuestion
+
 class SchoolAdmin(admin.ModelAdmin):
+    inlines =[SchoolFAQAdmin]
+
     # Override the has_change_permission method
     def has_change_permission(self, request, obj=None):
         if obj is not None and request.user.is_authenticated:

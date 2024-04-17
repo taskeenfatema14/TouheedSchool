@@ -151,3 +151,17 @@ class SchoolDetailAPiView(APIView):
             return self.get_by_id(request, id)
         else:
             return self.get_paginated_data(request)
+        
+
+class AboutUs(APIView):
+    
+    def get_object(self, pk):
+        try:
+            return School.objects.get(pk=pk)
+        except School.DoesNotExist:
+            raise Http404
+        
+    def get(self, request, pk):
+        user = self.get_object(pk)
+        serializer = AboutUsSerializer(user)
+        return Response(serializer.data)
