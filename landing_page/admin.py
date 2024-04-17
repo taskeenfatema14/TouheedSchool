@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import *
-from inline_actions.admin import InlineActionsModelAdminMixin
+# from inline_actions.admin import InlineActionsModelAdminMixin
 
 # Register your models here.
 admin.site.register(AboutUs)
