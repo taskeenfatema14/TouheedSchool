@@ -12,4 +12,4 @@ djangorestframework-simplejwt
 pyjwt
 django-tinymce
 Pillow
-
+django-admin-interface
