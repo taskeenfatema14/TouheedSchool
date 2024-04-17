@@ -26,31 +26,6 @@ class SchoolApi(BaseAPIView):
         
 
 class ContactUsApi(APIView):
-    # def post(self, request):
-    #     serializer = ContactUsSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response({"message": "Contact Send Successfully"}, status=status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
-        
-#     def get(self, request):
-#         school = request.data.get('school')
-#         if school:
-#             contacts = ContactUs.objects.filter(school=school)
-#             serializer = ContactUsSerializer(contacts, many=True)
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response({"error": "Please provide a school_id parameter"}, status=status.HTTP_400_BAD_REQUEST)
-    
-# class ContactUsAll(APIView):
-#     def get(self, request):
-#         contact = ContactUs.objects.all()
-#         serializer = ContactUsSerializer(contact, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
     def post(self, request, *args, **kwargs):
         # Assuming you have a serializer for ContactUs model
         serializer = ContactUsSerializer(data=request.data)
@@ -153,14 +128,12 @@ class SchoolDetailAPiView(APIView):
             return self.get_paginated_data(request)
         
 
-class AboutUs(APIView):
-    
+class AboutUs(APIView): 
     def get_object(self, pk):
         try:
             return School.objects.get(pk=pk)
         except School.DoesNotExist:
             raise Http404
-        
     def get(self, request, pk):
         user = self.get_object(pk)
         serializer = AboutUsSerializer(user)

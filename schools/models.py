@@ -11,6 +11,8 @@ from django.db.models.signals import post_save
 from django.core.mail import send_mail
 from core.settings import EMAIL_HOST_USER
 from django.conf import settings
+from django.db import transaction
+
 
 class School(BaseModel):
     name              = models.CharField(max_length = 100)
@@ -26,9 +28,30 @@ class School(BaseModel):
     )
     principal         = models.TextField(blank =True, null=True)
     summary           = models.TextField()
+    logo              = models.ImageField(upload_to="school_logo",blank=True, null=True)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.id:
+            # If the instance already has an ID, it means it's already saved
+            super().save(*args, **kwargs)
+            return
+
+        # If there's no existing record, save the new one and delete any existing logo
+        try:
+            with transaction.atomic():
+                if School.objects.exists():
+                    # Delete existing logo if it exists
+                    existing_logo = School.objects.first().logo
+                    if existing_logo:
+                        existing_logo.delete()
+
+                super().save(*args, **kwargs)
+        except ValidationError as e:
+            # Handle validation errors
+            print("Validation Error:", e)
     
 class ContactUs(BaseModel):
     school           = models.ForeignKey(School, on_delete=models.CASCADE,)
