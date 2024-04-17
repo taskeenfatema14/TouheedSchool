@@ -4,15 +4,33 @@ from rest_framework.views import APIView
 from django.http import Http404
 from .models import *
 from .serializers import *
+from django.core.mail import send_mail
 
-class RegisterFormAPIView(APIView):
+class RegisterFormView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = RegisterFormSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+# def send_email_to_school(student_name, email):
+#     subject = 'New Registration'
+#     message = f'Hello,\n\nA new student named {student_name} has registered.'
+#     from_email = 'komalsamalcs@gmail.com'  # Your email address
+#     recipient_list = [email]
+#     send_mail(subject, message, from_email, recipient_list)
+
+# class RegisterFormView(APIView):
+#     def post(self, request, *args, **kwargs):
+#         serializer = RegisterFormSerializer(data=request.data)
+#         if serializer.is_valid():
+#             register_form = serializer.save()
+#             student_name = serializer.data['student_name']
+#             email = register_form.school.school_email  # Assuming School model has an 'email' field
+#             send_email_to_school(student_name, email)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 ###################################Admission#############################################
     
 class AdmissionsAPIView(APIView):
