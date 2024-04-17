@@ -13,11 +13,11 @@ class InfrastructureInline(admin.TabularInline):
 class NoticeboardInline(admin.TabularInline):
     model = Noticeboard
 
-class SchoolFAQAdmin(admin.TabularInline):
+class SchoolFAQInline(admin.TabularInline):
     model = FrequentlyAskedQuestion
 
 class SchoolAdmin(admin.ModelAdmin):
-    inlines = [ContactUsInline, InfrastructureInline, NoticeboardInline, SchoolFAQAdmin]    
+    inlines = [ContactUsInline, InfrastructureInline, NoticeboardInline, SchoolFAQInline]    
 
     # Override methods as needed
 
