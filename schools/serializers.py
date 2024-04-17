@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import *
 from rest_framework import serializers
 from events.models import *
+from services.models import *
 
 
 class SchoolSerializer(ModelSerializer):
@@ -17,7 +18,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
 class InfrastructureSerializer(serializers.ModelSerializer):
     class Meta:
         model  = Infrastructure
-        fields = ['school','image','title']
+        fields = ['id','school','image','title']
 
 class InfrastructurePutSerializer(ModelSerializer):
     class Meta:
@@ -31,18 +32,18 @@ class InfrastructurePutSerializer(ModelSerializer):
 class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model  = FrequentlyAskedQuestion
-        fields = ['school','question','answer']
+        fields = ['id','school','question','answer']
 
 class NoticeBoardImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = NoticeboardImage
-        fields = ('image',)
+        fields = ['image']
 
 class NoticeBoardSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()  
     class Meta:
         model = Noticeboard
-        fields = ('school', 'title', 'images')
+        fields = ['id','school', 'title', 'images']
 
     def get_images(self, obj):
         images = NoticeboardImage.objects.filter(noticeboard=obj)
@@ -59,18 +60,26 @@ class SchoolEventSerializer(serializers.ModelSerializer):
 
     class Meta: 
         model = Event
-        fields = ['title', 'date', 'time', 'location', 'desc', 'images']
+        fields = ['id','title', 'date', 'time', 'location', 'desc', 'images']
+
+
+class BrochureSchooolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model  = Brochure
+        fields = ['id', 'pdf','description']
 
 class SchoolDetailSerializer(serializers.ModelSerializer):
-    infrastructure = InfrastructureSerializer(many=True)
-    faq = FaqSerializer(many=True, source='frequentlyquestion_set')
-    noticeboard = NoticeBoardSerializer(many=True, source='notice_board_set')
+    infrastructure    = InfrastructureSerializer(many=True)
+    faq               = FaqSerializer(many=True, source='frequentlyquestion_set')
+    noticeboard       = NoticeBoardSerializer(many=True, source='notice_board_set')
     noticeboard_image = NoticeBoardImageSerializer(many=True, read_only=True,source='notice_board_image_set')
+    events            = SchoolEventSerializer(many=True,source='event_set')
+    brochure          = BrochureSchooolSerializer(many=True, source='brochure_set')
 
     class Meta:
         model = School
         fields = ['name', 'location', 'image', 'video', 'description', 'summary', 
-                'infrastructure', 'faq','noticeboard','noticeboard_image']
+                'infrastructure', 'faq','noticeboard','noticeboard_image', 'events','brochure']
 
 class AboutUsSerializer(serializers.ModelSerializer):
     class Meta:
