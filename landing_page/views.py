@@ -23,7 +23,7 @@ class LandingPageApi(APIView):
 class LandingPageSchool(BaseAPIView):
     serializer_class = LandingPgSchoolSerailizer
     model = School
-    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    allowed_methods =  [GET, GETALL] 
     related_models = {}
     
 class LandingPageSchools(generics.ListAPIView):
@@ -55,7 +55,7 @@ class InfrastructureAPI(APIView):
 
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
-        limit = request.GET.get("limit") or 20
+        limit = request.GET.get("limit") or 5
 
         queryset = Infrastructure.objects.order_by('-created_on')
         count = queryset.count()
@@ -106,3 +106,50 @@ class SchoolEventsAPI(BaseAPIView):
         serialized = EventDetailSerializer(events,many=True).data
         return Response({'data':serialized},status=200) 
     
+class AboutUsLP(APIView):
+    def get(self, request):
+        about_us = AboutUs.objects.all()
+        serializer = LPAboutUs(about_us, many = True).data
+        return Response({'data':serializer},status=200)
+    
+class GalleryView(APIView):
+    def get(self, request):
+        gallery = Gallery.objects.all()
+        serializer = GallerySerializer(gallery, many = True).data
+        return Response({'data':serializer},status=200)
+
+
+
+
+# class LandingPageDetail(APIView):
+#     def get_paginated_data(self, request):
+#         pg = request.GET.get("pg") or 0
+#         limit = request.GET.get("limit") or 20
+
+#         # queryset = Event.objects.all()
+#         events = Event.objects.all()
+#         galleries = Gallery.objects.all()
+#         schools = School.objects.all()
+#         # Create combined data dictionary
+#         combined_data = {
+#             'events': events,
+#             'galleries': galleries,
+#             'schools': schools
+#         }
+        
+#         count = sum([len(data) for data in combined_data.values()])
+#         event_objs = combined_data['events'][
+#         int(pg) * int(limit): (int(pg) + 1) * int(limit)
+#         ]
+#         print("Event Objects:", event_objs)
+#         serializer = LPDetailSerializer(event_objs, many=True)
+
+
+#         return Response({
+#             "error" : False,
+#             "count":count,
+#             "rows" : serializer.data,
+#         }, status=status.HTTP_200_OK)
+    
+#     def get(self, request):
+#         return self.get_paginated_data(request)

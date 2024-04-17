@@ -21,18 +21,10 @@ class LandingPageSchoolSerializer(serializers.ModelSerializer):
         fiels = ['id','name', 'image', 'location']
 
 class LPLatestEventsSerializer(serializers.ModelSerializer):
-    # images = EventImageSerializer(many=True, read_only=True)                  
+
     class Meta:
         model = Event
         fields = ['id','title','desc', 'thumbnail']
-        # fields = ['images', "title", "desc", 'thumbnail']
-
-    # def to_representation(self, instance):
-    #     data = super().to_representation(instance)
-    #     if 'images' not in data:
-    #         images = instance.eventimages_set.all()  
-    #         data['images'] = EventImageSerializer(images, many=True).data
-    #     return data
 
 
 class LPInfrastructureSerializer(serializers.ModelSerializer):
@@ -44,3 +36,29 @@ class LPReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id','username', 'description'] 
+
+class LPAboutUs(serializers.ModelSerializer):
+    class Meta:
+        model = AboutUs
+        fields = ['id', 'desc', 'videos']
+
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
+        fields = ['id', 'image']
+
+
+
+# class LPDetailSerializer(serializers.ModelSerializer):
+#     landing_pg = LandingPageSerializer(many = True,read_only=True)
+#     about_us = LPAboutUs(many = True,read_only=True)
+#     our_schools = LandingPageSchoolSerializer(many = True,read_only=True)
+#     latest_events = LPLatestEventsSerializer(many = True,read_only=True)
+#     our_best_features = LPInfrastructureSerializer(many = True,read_only=True)
+#     testimonials = LPReviewSerializer(many = True,read_only=True)
+#     gallery = GallerySerializer(many = True,read_only=True)
+
+#     class Meta:
+#         model = Event
+#         fields = ['id','title','desc', 'thumbnail', 'landing_pg', 'about_us', 'our_schools', 
+#                   'latest_events', 'our_best_features', 'testimonials', 'gallery']
