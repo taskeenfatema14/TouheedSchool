@@ -22,7 +22,7 @@ class UserView(APIView):
     # related_models = {}
 
     def post(self, request):
-        serializer = UserTRialSerializer(data=request.data)
+        serializer = UserTrialSerializer(data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
@@ -94,7 +94,6 @@ class ForgotPasswordApi(APIView):
         try:
             data = request.data
             serializer = ForgotPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 send_otp_via_email(serializer.validated_data['email'])
 
@@ -187,4 +186,3 @@ class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
     permission_classes = [SchoolPermission]
-

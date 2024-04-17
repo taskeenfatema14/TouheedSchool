@@ -11,8 +11,3 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id','school', 'username','time','date','rating','description'] 
-
-class MailLogSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MailLog
-        fields = '__all__'

@@ -4,7 +4,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 
-class UserTRialSerializer(ModelSerializer):
+class UserTrialSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
