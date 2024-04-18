@@ -59,7 +59,7 @@ class EventSerializer1(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ["id", "time", "title", "images", "location", "desc", "date"]
+        fields = ["id", "time", "title", "images", "location", "desc", "date", "thumbnail"]
 
 class EventDetailSerializer(serializers.ModelSerializer):
     speakers = EventSpeakersCardSerializer(many=True)
