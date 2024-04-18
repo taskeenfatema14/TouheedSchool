@@ -2,11 +2,39 @@ from django.contrib import admin
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.contrib import admin
+from .models import *
+class ContactUsInline(admin.TabularInline):
+    model = ContactUs
+
+class InfrastructureInline(admin.TabularInline):
+    model = Infrastructure
+
+class NoticeboardInline(admin.TabularInline):
+    model = Noticeboard
+
+class SchoolFAQInline(admin.TabularInline):
+    model = FrequentlyAskedQuestion
+
+class SchoolAdmin(admin.ModelAdmin):
+    inlines = [ContactUsInline, InfrastructureInline, NoticeboardInline, SchoolFAQInline]    
+
+    # Override methods as needed
+
+class SchoolCUAdmin(admin.ModelAdmin):
+    inlines =[ContactUsInline]
+
+class SchoolInfraAdmin(admin.ModelAdmin):
+    inlines =[InfrastructureInline]
+
+admin.site.register(School, SchoolAdmin)
+admin.site.register(FrequentlyAskedQuestion) #SchoolFaqAdmin
+
 
 class SchoolFAQAdmin(admin.TabularInline):
     model = FrequentlyAskedQuestion
 
-class SchoolAdmin(admin.ModelAdmin):
+class SchoolFaqAdmin(admin.ModelAdmin):
     inlines =[SchoolFAQAdmin]
 
     # Override the has_change_permission method
@@ -71,9 +99,9 @@ class SchoolAdmin(admin.ModelAdmin):
 # admin.site.register(User, UserAdmin)
 
 # Register the SchoolAdmin class with the School model
-admin.site.register(School, SchoolAdmin)
-admin.site.register(Infrastructure)
-admin.site.register(FrequentlyAskedQuestion)
+
+# admin.site.register(Infrastructure)
+# admin.site.register(FrequentlyAskedQuestion)
 
 # Notice Board Workinng ######################
 
@@ -104,3 +132,4 @@ admin.site.register(Noticeboard, NoticeBoardAdmin)
 #     # Permission to add, change, and delete schools they own
 #     perm for perm in Permission.objects.filter(content_type__app_label='schools', name__in=['add_school', 'change_school', 'delete_school'])
 # ])
+

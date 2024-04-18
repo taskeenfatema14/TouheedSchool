@@ -7,7 +7,7 @@ from portals.base import BaseModel
 # Create your models here.
 
 class Event(BaseModel):
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    school = models.ForeignKey(School, on_delete=models.CASCADE,)
     name = models.CharField(max_length = 128)
     title = models.CharField(max_length = 128)
     date = models.DateField(null = True, blank = True)

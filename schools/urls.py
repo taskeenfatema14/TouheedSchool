@@ -14,7 +14,6 @@ urlpatterns = [
 
     path('faq/<str:id>/', FaqApi.as_view()),
     path('faq/', FaqApi.as_view()),
-    path('faq/<str:id>/', FaqApi.as_view()),
 
     path('notice-board/', NoticeboardApi.as_view()),
     path('notice-board/<str:id>', NoticeboardApi.as_view()),
