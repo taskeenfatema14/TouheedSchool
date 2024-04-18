@@ -56,11 +56,11 @@ class EventImagesSerializer(serializers.ModelSerializer):
         fields = ['image']
 
 class SchoolEventSerializer(serializers.ModelSerializer):
-    images = EventImagesSerializer(many=True, read_only=True)
+    # images = EventImagesSerializer(many=True, read_only=True)
 
     class Meta: 
         model = Event
-        fields = ['id','title', 'date', 'time', 'location', 'desc', 'images']
+        fields = ['id','title', 'date', 'time', 'location', 'desc', 'thumbnail']
 
 
 class BrochureSchooolSerializer(serializers.ModelSerializer):
