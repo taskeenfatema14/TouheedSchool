@@ -81,12 +81,23 @@ class SchoolDetailSerializer(serializers.ModelSerializer):
         fields = ['name', 'location', 'image', 'video', 'description', 'summary', 
                 'infrastructure', 'faq','noticeboard','noticeboard_image', 'events','brochure']
 
-class AboutUsSerializer(serializers.ModelSerializer):
+class AdditionalConceptSerializer1(serializers.ModelSerializer):
     class Meta:
-        model = School
-        fields = ['image', 'video', 'name', 'description']
+        model  = AdditionalConcept
+        fields = ['school','id','logomark','title']
+
+class AdditionalConceptSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model  = AdditionalConcept
+        fields = ['school','id','title','image','description']
 
 class AboutUsSerializer(serializers.ModelSerializer):
+    infrastructure     = InfrastructureSerializer(many=True)
+    additional_concept = AdditionalConceptSerializer1(many=True, source='additionalconcept_set')
+    detail_additional_concept = AdditionalConceptSerializer2(many=True, source='additionalconcept_set')
+
     class Meta:
         model = School
-        fields = ['image', 'video', 'name', 'description']
+        fields = ['image', 'video', 'name', 'description','summary','vision','mission','aim',
+                'transportation','infrastructure','additional_concept','detail_additional_concept']
+

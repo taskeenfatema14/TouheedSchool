@@ -21,9 +21,12 @@ class SchoolFAQInline(admin.TabularInline):
     model = FrequentlyAskedQuestion
     extra = 1
 
+class AdditionalConceptInline(admin.TabularInline):
+    model = AdditionalConcept
+    extra = 1
 
 class SchoolAdmin(admin.ModelAdmin):
-    inlines = [InfrastructureInline,SchoolFAQInline]   
+    inlines = [InfrastructureInline,SchoolFAQInline, AdditionalConceptInline]   
 
 class SchoolInfraAdmin(admin.ModelAdmin):
     inlines =[InfrastructureInline]
