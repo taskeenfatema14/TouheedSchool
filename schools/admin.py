@@ -9,27 +9,27 @@ class ContactUsInline(admin.TabularInline):
 
 class InfrastructureInline(admin.TabularInline):
     model = Infrastructure
+    extra = 1
 
 class NoticeboardInline(admin.TabularInline):
     model = Noticeboard
 
+class NoticeboardImageInline(admin.TabularInline):
+    model = NoticeboardImage
+
 class SchoolFAQInline(admin.TabularInline):
     model = FrequentlyAskedQuestion
+    extra = 1
+
 
 class SchoolAdmin(admin.ModelAdmin):
-    inlines = [ContactUsInline, InfrastructureInline, NoticeboardInline, SchoolFAQInline]    
-
-    # Override methods as needed
-
-# class SchoolCUAdmin(admin.ModelAdmin):
-#     inlines =[ContactUsInline]
+    inlines = [InfrastructureInline,SchoolFAQInline]   
 
 class SchoolInfraAdmin(admin.ModelAdmin):
     inlines =[InfrastructureInline]
+    extra = 0
 
 admin.site.register(School, SchoolAdmin)
-admin.site.register(FrequentlyAskedQuestion) #SchoolFaqAdmin
-
 
 class SchoolFAQAdmin(admin.TabularInline):
     model = FrequentlyAskedQuestion
