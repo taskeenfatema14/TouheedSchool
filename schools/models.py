@@ -85,6 +85,20 @@ class NoticeboardImage(BaseModel):
     noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE, related_name='notice_board_image_set')
     image       = models.FileField(upload_to="notice_board",)
 
+# class AdditionalConcept(BaseModel):
+#     school      = models.ForeignKey(School, on_delete=models.CASCADE)
+#     logomark    = models.ImageField(upload_to="school_additional_concept",blank=True, null=True)
+#     title       = models.CharField(max_length=50)
+#     image       = models.ImageField(upload_to="school_additional_concept_image", blank=True, null=True)
+#     description = models.TextField()
+
+
+
+
+
+
+
+
 
     
     
