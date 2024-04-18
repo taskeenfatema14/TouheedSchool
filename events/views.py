@@ -10,11 +10,16 @@ from portals.constants import *
 # Create your views here.
 
 class EventAPIView(BaseAPIView):
-    serializer_class = EventSerializer
-    model = Event
-    allowed_methods =  [GET, GETALL] 
-    related_models = {}
-    
+    # serializer_class = EventSerializer
+    # model = Event
+    # allowed_methods =  [GET, GETALL] 
+    # related_models = {}
+
+    def get(APIView):
+        events = Event.objects.filter(school=id)
+        serializers = EventSerializer(many = True)
+        return Response({data.serializers}, status=status.HTTP_200_OK)
+
 class EventView(BaseAPIView):
     serializer_class = EventSerializer1
     model = Event
