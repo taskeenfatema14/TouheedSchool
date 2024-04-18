@@ -50,7 +50,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'school', 'name', 'title', 'date', 'time', 
+        fields = ('id', 'name', 'title', 'date', 'time', 
                   'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers')
         # depth = 1
         

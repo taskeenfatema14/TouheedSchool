@@ -3,22 +3,17 @@ from .models import *
 from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db import transaction
 from portals.base import BaseAPIView
 from portals.constants import *
 
 # Create your views here.
 
-class EventAPIView(BaseAPIView):
-    # serializer_class = EventSerializer
-    # model = Event
-    # allowed_methods =  [GET, GETALL] 
-    # related_models = {}
+class EventAPIView(APIView):
 
-    def get(APIView):
-        events = Event.objects.filter(school=id)
-        serializers = EventSerializer(many = True)
-        return Response({data.serializers}, status=status.HTTP_200_OK)
+    def get(self, request, id):  
+        events = Event.objects.filter(school=id).order_by('-created_on')
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class EventView(BaseAPIView):
     serializer_class = EventSerializer1
