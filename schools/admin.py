@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
-
 from django.contrib import admin
 from .models import *
+
 class ContactUsInline(admin.TabularInline):
     model = ContactUs
 
@@ -21,8 +21,8 @@ class SchoolAdmin(admin.ModelAdmin):
 
     # Override methods as needed
 
-class SchoolCUAdmin(admin.ModelAdmin):
-    inlines =[ContactUsInline]
+# class SchoolCUAdmin(admin.ModelAdmin):
+#     inlines =[ContactUsInline]
 
 class SchoolInfraAdmin(admin.ModelAdmin):
     inlines =[InfrastructureInline]
@@ -97,11 +97,6 @@ class SchoolFaqAdmin(admin.ModelAdmin):
 #     # ... other UserAdmin configuration options ...
 
 # admin.site.register(User, UserAdmin)
-
-# Register the SchoolAdmin class with the School model
-
-# admin.site.register(Infrastructure)
-# admin.site.register(FrequentlyAskedQuestion)
 
 # Notice Board Workinng ######################
 
