@@ -38,15 +38,21 @@ class CustomUserAdmin(admin.ModelAdmin):
     #     is_superuser = request.user.is_superuser
     #     disabled_fields = set()  # type: Set[str]
 
-    #     if not is_superuser:
-    #         disabled_fields |= {
-    #             'username',
-    #             'is_superuser',
-    #         }
+class FilterUserAdmin(UserAdmin):
+    list_display = ('email', 'name', 'school', 'is_staff', 'is_superuser')
+    list_filter = ('is_staff', 'is_superuser')
+    search_fields = ('email', 'name')
+    readonly_fields = ('date_joined',)
+    ordering = ('email',) 
 
-    #     for f in disabled_fields:
-    #         if f in form.base_fields:
-    #             form.base_fields[f].disabled = True
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            # Filter queryset based on the currently logged-in user's associated school
+            qs = qs.filter(school=request.user.school)
+            print(qs)
+        return qs
+    
 
     #     return form
     
