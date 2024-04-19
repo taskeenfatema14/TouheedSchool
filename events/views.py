@@ -48,3 +48,11 @@ class EventSpeakersCard(BaseAPIView):
     allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
+class SingleEventDetail(APIView):
+    def get(self, request, id):
+        try:
+            event = Event.objects.get(id=id)
+            serializer = EventSerializer(event)
+            return Response(serializer.data)
+        except Event.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
