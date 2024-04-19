@@ -8,3 +8,5 @@ urlpatterns = [
     path('events-details/',EventDetails.as_view(), name = 'events-details'), #Event Details(Particular School)
 ]
 
+
+
