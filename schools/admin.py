@@ -4,8 +4,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import admin
 from .models import *
 
-class ContactUsInline(admin.TabularInline):
-    model = ContactUs
 
 class InfrastructureInline(admin.TabularInline):
     model = Infrastructure
@@ -33,12 +31,15 @@ class SchoolInfraAdmin(admin.ModelAdmin):
     extra = 0
 
 admin.site.register(School, SchoolAdmin)
+admin.site.register(ContactUs)
 
 class SchoolFAQAdmin(admin.TabularInline):
     model = FrequentlyAskedQuestion
 
 class SchoolFaqAdmin(admin.ModelAdmin):
     inlines =[SchoolFAQAdmin]
+
+
 
     # Override the has_change_permission method
     # def has_change_permission(self, request, obj=None):

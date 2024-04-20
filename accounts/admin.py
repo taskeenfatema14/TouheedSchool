@@ -11,7 +11,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         # qs = super().get_queryset(request)  
         # return qs.filter(user=request.user)
 
-        qs = super().get_queryset(request)  # For Django 1.6 and later
+        qs = super().get_queryset(request)  
         if request.user.is_superuser:
             return qs  # Superuser can see all data
         elif hasattr(request.user, 'school'):  # Check if the user has a school associated
