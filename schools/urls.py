@@ -21,6 +21,5 @@ urlpatterns = [
 
     path('schoolevent/', SchoolEventApi.as_view()),
     path('schoolevent/<str:id>', SchoolEventApi.as_view()),
-
     
 ]
