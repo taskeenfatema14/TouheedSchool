@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 from typing import Set
 from django.contrib.auth.admin import UserAdmin 
+from django.utils import timezone
     
 # Password is being hashed when adding user from admin panel
 
@@ -14,26 +15,23 @@ from django.contrib.auth.admin import UserAdmin
 
 # admin.site.register(User, CustomUserAdmin)
 
-class FilterUserAdmin(UserAdmin):
-    list_display = ('email', 'name', 'school', 'is_staff', 'is_superuser')
-    list_filter = ('is_staff', 'is_superuser')
+class CustomUserAdmin(UserAdmin):
+    list_display = ('email', 'name', 'is_superuser', 'get_school_name', 'last_login')
+    list_filter = ('is_superuser',)
     search_fields = ('email', 'name')
-    readonly_fields = ('date_joined',)
-    ordering = ('email',) 
+    ordering = ('email',)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not request.user.is_superuser:
-            # Filter queryset based on the currently logged-in user's associated school
-            qs = qs.filter(school=request.user.school)
-            print(qs)
-        return qs
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(school=request.user.school)
+
+    def get_school_name(self, obj):
+        if obj.school:
+            return obj.school.name
+        return None
+    get_school_name.short_description = 'School'
     
 
-    def has_change_permission(self, request, obj=None):
-        if obj and not request.user.is_superuser:
-            # Check if the user is trying to change their own profile
-            return obj == request.user
-        return super().has_change_permission(request, obj)
-
-admin.site.register(User, FilterUserAdmin)
+admin.site.register(User, CustomUserAdmin)
