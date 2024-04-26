@@ -47,19 +47,22 @@ class EventSpeakerSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     images = EventImagesSerializer(many=True, read_only=True)
     speakers = EventSpeakerSerializer(many=True, read_only=True)
+    school_id = serializers.PrimaryKeyRelatedField(source='school.id', read_only=True)
 
     class Meta:
         model = Event
         fields = ('id', 'name', 'title', 'date', 'time', 
-                  'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers')
+                  'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers', 'school_id')
         # depth = 1
         
 class EventSerializer1(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)
+    school_id = serializers.PrimaryKeyRelatedField(source='school.id', read_only=True)
+
 
     class Meta:
         model = Event
-        fields = ["id", "time", "title", "images", "location", "desc", "date", "thumbnail"]
+        fields = ["id", "time", "title", "images", "location", "desc", "date", "thumbnail", "school_id"]
 
 class EventDetailSerializer(serializers.ModelSerializer):
     speakers = EventSpeakersCardSerializer(many=True)
@@ -70,3 +73,12 @@ class EventDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'title', 'date', 'time', 
                  'desc', 'images', 'videos', 'speakers']
 
+class SingleEventSerializer(serializers.ModelSerializer):
+    images = EventImagesSerializer(many=True, read_only=True)
+    speakers = EventSpeakerSerializer(many=True, read_only=True)
+    school_id = serializers.PrimaryKeyRelatedField(source='school.id', read_only=True)
+
+    class Meta:
+        model = Event
+        fields = ('id', 'school_id', 'name', 'title', 'date', 'time', 
+                  'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers')
