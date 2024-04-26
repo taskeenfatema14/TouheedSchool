@@ -56,3 +56,15 @@ class SingleEventDetail(APIView):
             return Response(serializer.data)
         except Event.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    # def get(self, request, id):
+    #     try:
+    #         school = get_object_or_404(School, id=id)
+    #         event = Event.objects.filter(school=school).first()
+    #         if event:
+    #             serializer = SingleEventSerializer(event)
+    #             return Response(serializer.data)
+    #         else:
+    #             return Response({"detail": "No event found for this school"}, status=status.HTTP_404_NOT_FOUND)
+    #     except School.DoesNotExist:
+    #         return Response({"detail": "School not found"}, status=status.HTTP_404_NOT_FOUND)
