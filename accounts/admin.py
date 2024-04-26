@@ -10,20 +10,22 @@ class CustomUserAdmin(admin.ModelAdmin):
     def get_queryset(self, request): 
         # qs = super().get_queryset(request)  
         # return qs.filter(user=request.user)
-
+        print(qs)
         qs = super().get_queryset(request)  
+        print(qs)
         if request.user.is_superuser:
             return qs  # Superuser can see all data
         elif hasattr(request.user, 'school'):  # Check if the user has a school associated
             return qs.filter(school=request.user.school)
-        else:
+        # If the user is not a superuser and does not have a school, they can't see any data
+        else: 
             return qs.none()  
 
     def has_change_permission(self, request, obj=None):
         if not obj:
             return True  
         return obj.user == request.user  
-    
+
     def save_model(self, request, obj, form, change):
         if 'password' in form.cleaned_data:
             password = form.cleaned_data['password']

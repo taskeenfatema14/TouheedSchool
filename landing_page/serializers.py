@@ -18,13 +18,19 @@ class LandingPageSerializer(serializers.ModelSerializer):
 class LandingPageSchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
-        fiels = ['id','name', 'image', 'location']
+        fields = ['id','name', 'image', 'location']
+
+class SchoolSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = School
+        fields = ['name']
 
 class LPLatestEventsSerializer(serializers.ModelSerializer):
+    school = SchoolSerializer()
 
     class Meta:
         model = Event
-        fields = ['id','title','desc', 'thumbnail']
+        fields = ['id','title','desc', 'thumbnail', 'school','name']
 
 
 class LPInfrastructureSerializer(serializers.ModelSerializer):
