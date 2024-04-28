@@ -78,7 +78,7 @@ class SchoolDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
-        fields = ['name', 'location', 'image', 'video', 'description', 'summary', 
+        fields = ['name', 'location', 'image', 'video', 'description', 'summary','logo', 
                 'infrastructure', 'faq','noticeboard','noticeboard_image', 'events','brochure']
 
 class AdditionalConceptSerializer1(serializers.ModelSerializer):
