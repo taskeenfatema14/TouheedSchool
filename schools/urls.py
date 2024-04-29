@@ -20,8 +20,5 @@ urlpatterns = [
 
     path('schoolevent/', SchoolEventApi.as_view()),
     path('schoolevent/<str:id>', SchoolEventApi.as_view()),
-
-    path('schooldetail/<str:id>', SchoolDetailAPiView.as_view()),
-
-    path('about-us/<str:id>/', AboutUs.as_view()),
+    
 ]
