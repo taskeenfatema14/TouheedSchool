@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import *
 from typing import Set
 
+
 class CustomUserAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if 'password' in form.cleaned_data:
