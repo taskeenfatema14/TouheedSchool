@@ -41,7 +41,7 @@ class ContactUsApi(APIView):
             # Sending email to the school
             school_email = contact_us_instance.school.school_email
             school_subject = 'New Contact Inquiry'
-            school_message = f'A new contact inquiry has been received from {serializer.data["full_name"]}.'
+            school_message = f'A new contact inquiry has been received from {serializer.data["parents_name"]}.'
             school_email_service = EmailService(school_subject, school_message, [school_email])
             print(school_email_service)
             school_email_service.send()

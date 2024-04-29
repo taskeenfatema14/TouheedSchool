@@ -4,13 +4,14 @@ from typing import Set
 
 class CustomUserAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
+        print("Inside save_model method") 
         obj.user = request.user
         obj.save()
 
     def get_queryset(self, request): 
         # qs = super().get_queryset(request)  
         # return qs.filter(user=request.user)
-        print(qs)
+        print("Inside get_queryset method")
         qs = super().get_queryset(request)  
         print(qs)
         if request.user.is_superuser:
