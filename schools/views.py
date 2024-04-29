@@ -129,12 +129,15 @@ class SchoolDetailAPiView(APIView):
         
 
 class AboutUs(APIView): 
-    def get_object(self, pk):
+    def get_object(self, id):
         try:
-            return School.objects.get(pk=pk)
+            return School.objects.get(pk=id)
         except School.DoesNotExist:
             raise Http404
-    def get(self, request, pk):
-        user = self.get_object(pk)
+    def get(self, request, id):
+        user = self.get_object(id)
         serializer = AboutUsSerializer(user)
         return Response(serializer.data)
+
+
+    

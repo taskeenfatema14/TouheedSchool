@@ -7,7 +7,7 @@ from schools.models import *
 class Brochure(BaseModel):
     school       = models.ForeignKey(School, on_delete=models.CASCADE)
     pdf          = models.FileField(upload_to='brochures')
-    description  = models.TextField(null = True, blank= True)
+    description  = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.pdf.name

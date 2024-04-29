@@ -29,6 +29,10 @@ class School(BaseModel):
     principal         = models.TextField(blank =True, null=True)
     summary           = models.TextField()
     logo              = models.ImageField(upload_to="school_logo",blank=True, null=True)
+    vision            = models.TextField(blank=True, null=True)   #blank,null=True should be removed before production
+    mission           = models.TextField(blank=True, null=True)   #blank,null=True should be removed before production
+    aim               = models.TextField(blank=True, null=True)   #blank,null=True should be removed before production
+    transportation    = models.TextField(blank=True, null=True)   #blank,null=True should be removed before production
 
     def __str__(self):
         return self.name
@@ -84,6 +88,20 @@ class Noticeboard(BaseModel):
 class NoticeboardImage(BaseModel):
     noticeboard = models.ForeignKey(Noticeboard, on_delete=models.CASCADE, related_name='notice_board_image_set')
     image       = models.FileField(upload_to="notice_board",)
+
+class AdditionalConcept(BaseModel):
+    school      = models.ForeignKey(School, on_delete=models.CASCADE, related_name='additionalconcept_set')
+    logomark    = models.ImageField(upload_to="school_additional_concept",blank=True, null=True)
+    title       = models.CharField(max_length=50,blank=True, null=True)
+    image       = models.ImageField(upload_to="school_additional_concept_image", blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+
+
+
+
+
+
 
 
     

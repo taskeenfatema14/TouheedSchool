@@ -1,10 +1,6 @@
 from django.contrib import admin
 from .models import *
 from typing import Set
-from django.contrib.auth.admin import UserAdmin 
-from django.utils import timezone
-    
-# Password is being hashed when adding user from admin panel
 
 class CustomUserAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -13,6 +9,8 @@ class CustomUserAdmin(admin.ModelAdmin):
             obj.set_password(password)
         super().save_model(request, obj, form, change)
 
+    #     return form
+    
 admin.site.register(User, CustomUserAdmin)
 
 # class CustomUserAdmin(UserAdmin):
