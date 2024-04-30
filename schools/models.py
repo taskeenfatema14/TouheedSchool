@@ -5,7 +5,6 @@ from PIL import Image
 from django.dispatch import receiver
 from django.core.validators import FileExtensionValidator
 from portals.base import BaseModel
-from django.db import models
 import uuid
 from django.db.models.signals import post_save
 from django.core.mail import send_mail
@@ -56,17 +55,21 @@ class School(BaseModel):
         except ValidationError as e:
             # Handle validation errors
             print("Validation Error:", e)
-    
+
+def validate_mobile_no(value):
+    if len(value) != 10 or not value.isdigit():
+        raise ValidationError('Mobile number must be 10 digits long and contain only digits.')
+
 class ContactUs(BaseModel):
     school           = models.ForeignKey(School, on_delete=models.CASCADE,)
     user_email       = models.EmailField(
         verbose_name = 'email_address',
         max_length=255,
     )
-    full_name        = models.CharField(max_length=100)
-    subject          = models.CharField(max_length=50)
-    message          = models.CharField(max_length=100)
-
+    parents_name     = models.CharField(max_length=100, blank=True, null=True)    #blank,null=True should be removed before production
+    mobile_no        = models.CharField(max_length=10, validators=[validate_mobile_no], blank=True, null=True)  #blank,null=True should be removed before production
+    class_grade      = models.CharField(max_length=50, blank=True, null=True)     #blank,null=True should be removed before production
+    message          = models.TextField(blank=True, null=True)                    #blank,null=True should be removed before production
 
 class Infrastructure(BaseModel):
     school     = models.ForeignKey(School, on_delete=models.CASCADE, related_name='infrastructure')

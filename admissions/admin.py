@@ -6,7 +6,7 @@ from .models import *
 
 # class RegisterAdmin(admin.ModelAdmin):
 #     inlines =[AdmissionsAdmin]
-admin.site.register(RegisterForm)
+# admin.site.register(RegisterForm)
 admin.site.register(Admission)
 # admin.site.register(RegisterForm, RegisterAdmin)
 # admin.site.register(Admission, AdmissionsAdmin)
