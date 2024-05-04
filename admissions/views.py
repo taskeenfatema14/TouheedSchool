@@ -41,20 +41,15 @@ class AdmissionsAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
+
 class AdmissionAPIView(APIView):
-    def get_object(self, id):
+    def get_admissions_by_school(self, school_id):
+        return Admission.objects.filter(school_id=school_id)
+
+    def get(self, request, school_id):
         try:
-            return Admission.objects.get(id=id)
-        except Admission.DoesNotExist:
-            raise Http404
-        
-    def get(self, request, id):
-        try:
-            admission = self.get_object(id)
-            serializer = AdmissionSerializer(admission)
+            admissions = self.get_admissions_by_school(school_id)
+            serializer = AdmissionSerializer(admissions, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Http404:
-            return Response({'error': 'Admission not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
