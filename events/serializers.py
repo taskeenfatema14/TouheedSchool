@@ -57,12 +57,12 @@ class EventSerializer(serializers.ModelSerializer):
         
 class EventSerializer1(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)
-    school_id = serializers.PrimaryKeyRelatedField(source='school.id', read_only=True)
-
-
+    school_id = serializers.PrimaryKeyRelatedField(source='school.id', 
+                read_only=True)
     class Meta:
         model = Event
-        fields = ["id", "time", "title", "images", "location", "desc", "date", "thumbnail", "school_id"]
+        fields = ["id", "time", "title", "images", "location", 
+                "desc", "date", "thumbnail", "school_id"]
 
 class EventDetailSerializer(serializers.ModelSerializer):
     speakers = EventSpeakersCardSerializer(many=True)
