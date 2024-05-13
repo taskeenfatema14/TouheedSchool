@@ -109,5 +109,6 @@ class AboutUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ['image', 'video', 'name', 'description','summary','vision','mission','aim',
-                'transportation','infrastructure','additional_concept','detail_additional_concept', 'logo']
+                'transportation','logo','contact_no','school_email','infrastructure','additional_concept',
+                'detail_additional_concept', ]
 

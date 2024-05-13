@@ -48,12 +48,18 @@ class EventSerializer(serializers.ModelSerializer):
     images = EventImagesSerializer(many=True, read_only=True)
     speakers = EventSpeakerSerializer(many=True, read_only=True)
     school_id = serializers.PrimaryKeyRelatedField(source='school.id', read_only=True)
+    slug      = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
         fields = ('id', 'name', 'title', 'date', 'time', 
-                  'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers', 'school_id')
+                'location', 'desc', 'thumbnail', 'videos', 'images', 'speakers', 'school_id','slug')
         # depth = 1
+
+    def get_slug(self, obj):
+        event_name = obj.name.upper()
+        slug = event_name.replace(' ','_')
+        return slug
         
 class EventSerializer1(serializers.ModelSerializer):
     images = EventImageSerializer(many=True, read_only=True)
