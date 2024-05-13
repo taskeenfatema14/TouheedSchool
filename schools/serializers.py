@@ -6,10 +6,16 @@ from services.models import *
 
 
 class SchoolSerializer(ModelSerializer):
+    slug = serializers.SerializerMethodField()
     class Meta:
-        model = School
-        exclude = ['created_on','updated_on']      
+        model   = School
+        fields = ['name', 'location', 'image', 'video','facility','description','contact_no','school_email','principal',
+                'summary','logo', 'vision','mission','aim','transportation','slug']
 
+    def get_slug(self, obj):
+        school_name = obj.name.upper()
+        slug = school_name.replace(' ','_')
+        return slug
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
@@ -105,10 +111,15 @@ class AboutUsSerializer(serializers.ModelSerializer):
     infrastructure     = InfrastructureSerializer(many=True)
     additional_concept = AdditionalConceptSerializer1(many=True, source='additionalconcept_set')
     detail_additional_concept = AdditionalConceptSerializer2(many=True, source='additionalconcept_set')
-
+    slug = serializers.SerializerMethodField()
     class Meta:
         model = School
         fields = ['image', 'video', 'name', 'description','summary','vision','mission','aim',
                 'transportation','logo','contact_no','school_email','infrastructure','additional_concept',
-                'detail_additional_concept', ]
+                'detail_additional_concept','slug']
+        
+    def get_slug(self, obj):
+        school_name = obj.name.upper()
+        slug = school_name.replace(' ','_')
+        return slug
 
