@@ -35,13 +35,11 @@ class School(BaseModel):
 
     def __str__(self):
         return self.name
-    
     def save(self, *args, **kwargs):
         if self.id:
             # If the instance already has an ID, it means it's already saved
             super().save(*args, **kwargs)
             return
-
         # If there's no existing record, save the new one and delete any existing logo
         try:
             with transaction.atomic():
@@ -53,7 +51,6 @@ class School(BaseModel):
 
                 super().save(*args, **kwargs)
         except ValidationError as e:
-            # Handle validation errors
             print("Validation Error:", e)
 
 def validate_mobile_no(value):
