@@ -9,7 +9,7 @@ class SchoolSerializer(ModelSerializer):
     slug = serializers.SerializerMethodField()
     class Meta:
         model   = School
-        fields = ['name', 'location', 'image', 'video','facility','description','contact_no','school_email','principal',
+        fields = ['id','name', 'location', 'image', 'video','facility','description','contact_no','school_email','principal',
                 'summary','logo', 'vision','mission','aim','transportation','slug']
 
     def get_slug(self, obj):
