@@ -114,7 +114,7 @@ class AboutUsSerializer(serializers.ModelSerializer):
     slug = serializers.SerializerMethodField()
     class Meta:
         model = School
-        fields = ['image', 'video', 'name', 'description','summary','vision','mission','aim',
+        fields = ['id','image', 'video', 'name', 'description','summary','vision','mission','aim',
                 'transportation','logo','contact_no','school_email','infrastructure','additional_concept',
                 'detail_additional_concept','slug']
         
