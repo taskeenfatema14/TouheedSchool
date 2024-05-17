@@ -10,7 +10,9 @@ class CustomUserAdmin(admin.ModelAdmin):
             obj.set_password(password)
         super().save_model(request, obj, form, change)
 
-    #     return form
+    def display_school(self, requset, obj):
+        if obj.school():
+            return obj.school.name()
     
 admin.site.register(User, CustomUserAdmin)
 
