@@ -21,6 +21,7 @@ class EventView(BaseAPIView):
     allowed_methods =  [GETALL] 
     related_models = {}
 
+from math import ceil
 class EventDetails(APIView):
     def get_paginated_data(self, request):
         pg = request.GET.get("pg") or 0
@@ -28,6 +29,7 @@ class EventDetails(APIView):
 
         queryset = Event.objects.all().prefetch_related('images', 'speakers')
         count = queryset.count()
+        pages_count = ceil(count / int(limit))  # Calculate total number of pages
         objs = queryset[
             int(pg) * int(limit) : (int(pg)+1)*int(limit)
         ]
@@ -35,6 +37,7 @@ class EventDetails(APIView):
 
         return Response({
             "error" : False,
+            "pages_count": pages_count,
             "count":count,
             "rows" : serializer.data,
         }, status=status.HTTP_200_OK)

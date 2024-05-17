@@ -118,20 +118,17 @@ class VerificationOtpApi(APIView):
         try:
             data = request.data
             serializer = VerifyForgotOTPSerializer(data=data)
-
             if serializer.is_valid():
                 return Response({
                     'status': 200,
                     'message': 'OTP verification successful.',
                     'data': serializer.validated_data,
                 })
-
             return Response({
                 'status': 400,
                 'message': 'OTP verification failed',
                 'data': serializer.errors
             })
-
         except Exception as e:
             print(e)
             return Response({
@@ -145,7 +142,6 @@ class SetNewPasswordApi(APIView):
         try:
             data = request.data
             serializer = SetNewPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 serializer.save()
                 return Response({
@@ -153,13 +149,11 @@ class SetNewPasswordApi(APIView):
                     'message': 'Password reset successful.',
                     'data': serializer.validated_data,
                 })
-
             return Response({
                 'status': 400,
                 'message': 'Password reset failed.',
                 'data': serializer.errors
             })
-
         except Exception as e:
             print(e)
             return Response({

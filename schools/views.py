@@ -3,10 +3,6 @@ from .models import *
 from .serializers import *
 from rest_framework.views import APIView
 from events.models import *
-from rest_framework import generics
-from rest_framework.views import APIView
-from .serializers import *
-from .models import *
 from django.conf import settings
 from django.http import Http404
 from rest_framework.response import Response

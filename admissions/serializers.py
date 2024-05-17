@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from .models import *
 
-# class RegisterFormSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = RegisterForm
-#         fields = '__all__'
+class AdmissionSchool(serializers.ModelSerializer):
+    class Meta:
+        model  = School
+        fields = ['name','logo'] 
 
 class AdmissionSerializer(serializers.ModelSerializer):
+    school_detail = AdmissionSchool(source='school')
     class Meta:
         model = Admission
-        exclude = ('created_on','updated_on','is_deleted')
+        fields = ['id','school','description','step1','step2','documents_required','fee_concession','school_detail']

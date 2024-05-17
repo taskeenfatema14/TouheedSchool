@@ -6,10 +6,16 @@ from services.models import *
 
 
 class SchoolSerializer(ModelSerializer):
+    slug = serializers.SerializerMethodField()
     class Meta:
-        model = School
-        exclude = ['created_on','updated_on']      
+        model   = School
+        fields = ['id','name', 'location', 'image', 'video','facility','description','contact_no','school_email','principal',
+                'summary','logo', 'vision','mission','aim','transportation','slug']
 
+    def get_slug(self, obj):
+        school_name = obj.name.upper()
+        slug = school_name.replace(' ','_')
+        return slug
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
@@ -75,11 +81,21 @@ class SchoolDetailSerializer(serializers.ModelSerializer):
     noticeboard_image = NoticeBoardImageSerializer(many=True, read_only=True,source='notice_board_image_set')
     events            = SchoolEventSerializer(many=True,source='event_set')
     brochure          = BrochureSchooolSerializer(many=True, source='brochure_set')
+    slug              = serializers.SerializerMethodField()
 
     class Meta:
         model = School
-        fields = ['name', 'location', 'image', 'video', 'description', 'summary','logo', 
-                'infrastructure', 'faq','noticeboard','noticeboard_image', 'events','brochure']
+        fields = ['id','name', 'location', 'image', 'video', 'description', 'summary','logo', 
+                'infrastructure', 'faq','noticeboard','noticeboard_image', 'events',
+                'brochure', 'school_email','contact_no', 'slug']
+
+    def get_slug(self, obj):
+        # Get the school name and convert it to uppercase
+        school_name = obj.name.upper()
+        # Replace spaces with underscores to create the slug
+        slug = school_name.replace(' ', '_')
+
+        return slug
 
 class AdditionalConceptSerializer1(serializers.ModelSerializer):
     class Meta:
@@ -95,9 +111,15 @@ class AboutUsSerializer(serializers.ModelSerializer):
     infrastructure     = InfrastructureSerializer(many=True)
     additional_concept = AdditionalConceptSerializer1(many=True, source='additionalconcept_set')
     detail_additional_concept = AdditionalConceptSerializer2(many=True, source='additionalconcept_set')
-
+    slug = serializers.SerializerMethodField()
     class Meta:
         model = School
-        fields = ['image', 'video', 'name', 'description','summary','vision','mission','aim',
-                'transportation','infrastructure','additional_concept','detail_additional_concept']
+        fields = ['id','image', 'video', 'name', 'description','summary','vision','mission','aim',
+                'transportation','logo','contact_no','school_email','infrastructure','additional_concept',
+                'detail_additional_concept','slug']
+        
+    def get_slug(self, obj):
+        school_name = obj.name.upper()
+        slug = school_name.replace(' ','_')
+        return slug
 
