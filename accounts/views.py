@@ -10,25 +10,26 @@ from schools.serializers import SchoolSerializer
 from .email import *
 from .models import *
 from django.http import Http404
+from portals.services import generate_token
+from portals.base import BaseAPIView
 
 # Create your views here.
 
-
-############################################ USER(ADMIN & PRINCIPALS) ########################################################
-
 class UserView(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserTrialSerializer(data=request.data)
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors)
-    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     def get(self, request):
         user = User.objects.all()
         serializer = UserSerializer(user,many = True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         
 class UserDetails(APIView):
+    
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -53,9 +54,6 @@ class UserDetails(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-################################################### LOGIN #######################################################################
-    
 class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')  
@@ -63,18 +61,15 @@ class LoginAPIView(APIView):
 
         user = authenticate(request, email=email, password=password)
         if user:
-            # If authentication successful, return user details
             return Response({
                 'user_id': user.pk,
                 'email': user.email,
-                'name': user.name,  # Include any other fields you want to return
+                'name': user.name,  
                 'message': 'Successfully logged in'
             })
         else:
-            # If authentication failed, return error message
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-from portals.services import generate_token
 
 class RegisterUserApi(APIView):
     def post(self,request,*args, **kwargs):
@@ -89,14 +84,12 @@ class RegisterUserApi(APIView):
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e :
             return Response({"error" : True , "message" : str(e)},status=status.HTTP_400_BAD_REQUEST)
-######################################## Forget password ###############################################################
 
 class ForgotPasswordApi(APIView):
     def post(self, request):
         try:
             data = request.data
             serializer = ForgotPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 send_otp_via_email(serializer.validated_data['email'])
 
@@ -119,28 +112,23 @@ class ForgotPasswordApi(APIView):
                 'message': 'Internal Server Error',
                 'data': str(e),
             })
-
-################################################# Verify OTP ###########################################################
         
 class VerificationOtpApi(APIView):
     def post(self, request):
         try:
             data = request.data
             serializer = VerifyForgotOTPSerializer(data=data)
-
             if serializer.is_valid():
                 return Response({
                     'status': 200,
                     'message': 'OTP verification successful.',
                     'data': serializer.validated_data,
                 })
-
             return Response({
                 'status': 400,
                 'message': 'OTP verification failed',
                 'data': serializer.errors
             })
-
         except Exception as e:
             print(e)
             return Response({
@@ -148,16 +136,12 @@ class VerificationOtpApi(APIView):
                 'message': 'Internal Server Error',
                 'data': str(e),
             })
-
-
-######################################## SET NEW password ##############################################################
         
 class SetNewPasswordApi(APIView):
     def post(self, request):
         try:
             data = request.data
             serializer = SetNewPasswordSerializer(data=data)
-
             if serializer.is_valid():
                 serializer.save()
                 return Response({
@@ -165,13 +149,11 @@ class SetNewPasswordApi(APIView):
                     'message': 'Password reset successful.',
                     'data': serializer.validated_data,
                 })
-
             return Response({
                 'status': 400,
                 'message': 'Password reset failed.',
                 'data': serializer.errors
             })
-
         except Exception as e:
             print(e)
             return Response({
@@ -179,8 +161,6 @@ class SetNewPasswordApi(APIView):
                 'message': 'Internal Server Error',
                 'data': str(e),
             })
-
-######################################## Change password #########################################################
 
 # Not working
         
@@ -192,11 +172,8 @@ class ChangePasswordApi(APIView):
             return Response({"Success": "Password updated successfully"},status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-######################################## RESTRICTING TO OTHER SCHOOLS ############################################
-
 class SchoolViewSet(viewsets.ModelViewSet):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
-    permission_classes = [SchoolPermission]
+    # permission_classes = [SchoolPermission]
 
-##################################################################################################################

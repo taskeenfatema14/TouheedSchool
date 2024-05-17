@@ -1,28 +1,38 @@
 from django.contrib import admin
 from .models import *
+from typing import Set
 
-# admin.site.register(User)
-# Register your models here.
-
-# admin.site.register(User)
 
 class CustomUserAdmin(admin.ModelAdmin):
-    def get_queryset(self, request):
-        qs = super().get_queryset(request)
-        if request.user.is_superuser:
-            return qs  
-        elif request.user.school:
-            return qs.filter(school=request.user.school)
-        else:
-            return qs.none()  
+    def save_model(self, request, obj, form, change):
+        if 'password' in form.cleaned_data:
+            password = form.cleaned_data['password']
+            obj.set_password(password)
+        super().save_model(request, obj, form, change)
 
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        if not request.user.is_superuser:
-            form.base_fields['school'].queryset = form.base_fields['school'].queryset.filter(pk=request.user.school.pk)
-            form.base_fields['school'].disabled = True
-        return form
+    #     return form
     
-@admin.register(User)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ['email','is_superuser', 'is_staff'] 
+admin.site.register(User, CustomUserAdmin)
+
+# class CustomUserAdmin(UserAdmin):
+#     list_display = ('email', 'name', 'is_superuser', 'get_school_name', 'last_login')
+#     list_filter = ('is_superuser',)
+#     search_fields = ('email', 'name')
+#     ordering = ('email',)
+
+#     def get_queryset(self, request):
+#         qs = super().get_queryset(request)
+#         print(qs)
+#         if request.user.is_superuser:
+#             return qs
+#         return qs.filter(school=request.user.school)
+        
+
+#     def get_school_name(self, obj):
+#         if obj.school:
+#             return obj.school.name
+#         return None
+#     get_school_name.short_description = 'School'
+    
+
+# admin.site.register(User, CustomUserAdmin)

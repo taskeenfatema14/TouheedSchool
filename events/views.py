@@ -1,125 +1,73 @@
-from django.shortcuts import render
 from rest_framework import status
-from rest_framework import generics
 from .models import *
 from .serializers import *
-from rest_framework.pagination import PageNumberPagination
-from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.db import transaction
+from portals.base import BaseAPIView
+from portals.constants import *
 
 # Create your views here.
 
-class EventPagination(PageNumberPagination):
-    page_size = 4
+class EventAPIView(APIView):
 
-class EventView(APIView):
-    pagination_class = EventPagination
+    def get(self, request, id):  
+        events = Event.objects.filter(school=id).order_by('-created_on')
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class EventView(BaseAPIView):
+    serializer_class = EventSerializer1
+    model = Event
+    allowed_methods =  [GETALL] 
+    related_models = {}
+
+from math import ceil
+class EventDetails(APIView):
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = Event.objects.all().prefetch_related('images', 'speakers')
+        count = queryset.count()
+        pages_count = ceil(count / int(limit))  # Calculate total number of pages
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]
+        serializer = EventDetailSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "pages_count": pages_count,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
     
     def get(self, request):
-        paginator = self.pagination_class()
-        queryset = Events.objects.all()
-        paginated_queryset = paginator.paginate_queryset(queryset, request)
-        serializer = EventSerializer1(paginated_queryset, many=True)
-        return paginator.get_paginated_response(serializer.data)
-    
-    def post(self, request):
-        serializer = EventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    # def post(self, request):
-    #     event_serializer = EventSerializer(data=request.data.get('event'))
-    #     speaker_serializers = [EventSpeakersCardSerializer(data=speaker_data) for speaker_data in request.data.get('speakers', [])]
+        return self.get_paginated_data(request)
 
-    #     if event_serializer.is_valid() and all(speaker_serializer.is_valid() for speaker_serializer in speaker_serializers):
-    #         with transaction.atomic():
-    #             event_instance = event_serializer.save()
-    #             for speaker_serializer in speaker_serializers:
-    #                 speaker_serializer.save(event=event_instance)
-                    
-    #         return Response({
-    #             "event": event_serializer.data,
-    #             "speakers": [speaker_serializer.data for speaker_serializer in speaker_serializers]
-    #         }, status=status.HTTP_201_CREATED)
-    #     else:
-    #         errors = {}
-    #         if not event_serializer.is_valid():
-    #             errors.update(event_serializer.errors)
-    #         for i, speaker_serializer in enumerate(speaker_serializers):
-    #             if not speaker_serializer.is_valid():
-    #                 errors[f'speaker_{i}'] = speaker_serializer.errors
-    #         return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+class EventSpeakersCard(BaseAPIView):
+    serializer_class = EventSpeakersCardSerializer
+    model = EventSpeaker
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
 
-class EventDetail(APIView): 
-
-    def get(self, request, pk):
+class SingleEventDetail(APIView):
+    def get(self, request, id):
         try:
-            events = Events.objects.get(pk=pk)
-        except Events.DoesNotExist:
-            return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = EventSerializer1(events)
-        return Response(serializer.data)
-    
-    def put(self, request, pk):
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+            event = Event.objects.get(id=id)
+            serializer = EventSerializer(event)
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Event.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request, pk):
-        event = self.get_object(pk)
-        event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    
-class EventSpeakersPagination(PageNumberPagination):
-    page_size = 4
-
-class EventSpeakersCard(APIView):
-    
-    pagination_class = EventSpeakersPagination
-    
-    def post(self, request):
-        serializer = EventSpeakersCardSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
-
-    def get(self, request, format=None):
-        paginator = EventSpeakersPagination()
-        event_speakers = EventSpeaker.objects.all()
-        result_page = paginator.paginate_queryset(event_speakers, request)
-        serializer = EventSpeakersCardSerializer(result_page, many=True)
-        return paginator.get_paginated_response(serializer.data)
-    
-class EventSpeakersCardPK(APIView):
-
-    # def get(self, request, pk):
+    # def get(self, request, id):
     #     try:
-    #         events = Events.objects.get(pk=pk)
-    #     except Events.DoesNotExist:
-    #         return Response({"error": "Event not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    #     serializer = EventSpeakersCardPK(events)
-    #     return Response(serializer.data)
-    
-    def put(self, request, pk, format=None):
-        event_speaker = self.get_object(pk)
-        serializer = EventSpeakersCardSerializer(event_speaker, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        event_speaker = self.get_object(pk)
-        event_speaker.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    #         school = get_object_or_404(School, id=id)
+    #         event = Event.objects.filter(school=school).first()
+    #         if event:
+    #             serializer = SingleEventSerializer(event)
+    #             return Response(serializer.data)
+    #         else:
+    #             return Response({"detail": "No event found for this school"}, status=status.HTTP_404_NOT_FOUND)
+    #     except School.DoesNotExist:
+    #         return Response({"detail": "School not found"}, status=status.HTTP_404_NOT_FOUND)

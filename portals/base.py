@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    # is_deleted = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
@@ -103,6 +103,7 @@ class BaseAPIView(APIView):
             return Q()
 
     def get(self, request, id=None, *args, **kwargs):
+        print('-------------',id)
         if id == "list":
             if not GETALL in self.allowed_methods:
                 return Response({'msg': "Not Found"}, status=404)

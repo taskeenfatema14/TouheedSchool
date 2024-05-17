@@ -3,9 +3,8 @@ from django.urls import path
 from .views import * 
 
 urlpatterns = [
-    path('events-np/',EventView.as_view(), name = 'all events'),
-    path('event-detail/<uuid:pk>/',EventDetail.as_view(), name = 'single event'),
-    # path('full-details/<int:pk>/',EventFullDetail.as_view(), name = 'details'),
-    path('speaker-card/',EventSpeakersCard.as_view(), name = 'speaker-card'),
-    path('speaker-card-pk/<uuid:pk>/',EventSpeakersCardPK.as_view(), name = 'speaker-card'),
+    path('events-list/<str:id>',EventAPIView.as_view(), name = 'events-list'), #List of Events with all fields
+    path('events-np/<str:id>/',EventView.as_view(), name = 'events-np'), #Home/Event (it has pagination)
+    path('events-details/',EventDetails.as_view(), name = 'events-details'), #Event Details(Particular School)
+    path('single-event/<str:id>/', SingleEventDetail.as_view(), name='event-detail'), #Single Event details
 ]

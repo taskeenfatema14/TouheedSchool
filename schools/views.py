@@ -3,125 +3,136 @@ from .models import *
 from .serializers import *
 from rest_framework.views import APIView
 from events.models import *
-# views.py
-from rest_framework import generics
-from django.shortcuts import render
-from rest_framework.views import APIView
-from .serializers import *
-from .models import *
 from django.conf import settings
 from django.http import Http404
-from django.core.mail import send_mail
-from core.settings import EMAIL_HOST_USER
 from rest_framework.response import Response
 from rest_framework import status
 from portals.base import BaseAPIView
+from django.core.paginator import Paginator, EmptyPage
+from django.urls import reverse
+from .email import EmailService
 
-############################################ LANDING PAGE ####################################################
 
-class LandingPageApi(APIView):
-    def get(self, request):
-        page = Events.objects.all()
-        serializer = LandingPageSerializer(page, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-class LandingPageSchools(generics.ListAPIView):
-    queryset = School.objects.all()
-    serializer_class = LandinPageSchoolSerializer
+class SchoolApi(BaseAPIView):
+    serializer_class = SchoolSerializer
+    model = School
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
         
-
-class SchoolApi(APIView):
-    def post(self, request):
-        serializer = SchoolSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def get(self, request):
-        camp = School.objects.all()
-        serializer = SchoolSerializer(camp,many = True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-class SchoolPutDeleteApi(APIView):
-    def put(self, request,id):
-        try:
-            instance = School.objects.get(pk=id)
-        except School.DoesNotExist:
-            return Response({"error" : "School not found"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = SchoolSerializer(instance, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def delete(self, request, id):
-        try:
-            instance = School.objects.get(pk=id)
-            instance.delete()
-            return Response({"message" : "School deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-        except School.DoesNotExist:
-            return Response({"error": "School not found"}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
-
-# class SchoolApiPagination(APIView):
-#     def get(self, request):
-#         params = request.GET
-#         page_number = int(params.get("pg", 1))
-#         page_size = int(params.get("limit", 3 ))
-#         page_size = int(params.get("limit", 6 ))
-#         offset = (page_number - 1) * page_size
-#         limit = page_size
-
-#         schools = School.objects.all()[offset:offset + limit]
-#         serializer = SchoolSerializer(schools, many=True)
-
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class ContactUsApi(APIView):
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
+        # Assuming you have a serializer for ContactUs model
         serializer = ContactUsSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "Contact Send Successfully"}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-        
-    def get(self, request):
-        school = request.data.get('school')
-        if school:
-            contacts = ContactUs.objects.filter(school=school)
-            serializer = ContactUsSerializer(contacts, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({"error": "Please provide a school_id parameter"}, status=status.HTTP_400_BAD_REQUEST)
-    
-class ContactUsAll(APIView):
-    def get(self, request):
-        contact = ContactUs.objects.all()
-        serializer = ContactUsSerializer(contact, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            contact_us_instance=serializer.save()
 
+            # Sending confirmation email to the user
+            user_subject = 'Contact Us'
+            user_message = 'Thank you for contacting us. We will get back to you soon.'
+            user_email_service = EmailService(user_subject, user_message, [serializer.data['user_email']])
+            user_email_service.send()
 
+            # Sending email to the school
+            school_email = contact_us_instance.school.school_email
+            school_subject = 'New Contact Inquiry'
+            school_message = f'A new contact inquiry has been received from {serializer.data["parents_name"]}.'
+            school_email_service = EmailService(school_subject, school_message, [school_email])
+            print(school_email_service)
+            school_email_service.send()
+            print('sending emails done!')
 
-#*******************************************  INFRASTRUCTURE  *******************************************#
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class InfrastructureAPI(BaseAPIView):
     serializer_class = InfrastructureSerializer
     model = Infrastructure
-    allowed_methods =  [GET, GETALL, POST, PUT] 
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
     related_models = {}
 
-    def post(self, request, *args, **kwargs):
-        serializer = InfrastructureSerializer(data=request.data)
+    def put(self, request,id=None, *args, **kwargs):
+        if id is None:
+            return Response({"error":"ID is required"}, status=400)
+        try:
+            obj= Infrastructure.objects.get(id=id)
+        except Infrastructure.DoesNotExist:
+            return Response({"error":"Object does not exist"}, status=400)
+        serializer = InfrastructurePutSerializer(obj, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
+class FaqApi(BaseAPIView):
+    serializer_class = FaqSerializer
+    model = FrequentlyAskedQuestion
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
+
+
+class NoticeboardApi(BaseAPIView):
+    serializer_class = NoticeBoardSerializer
+    model = Noticeboard
+    allowed_methods =  [GET, GETALL, POST, PUT, DELETE] 
+    related_models = {}
+
+
+class SchoolEventApi(APIView):
+    # serializer_class = SchoolEventSerializer
+    # model = Event
+    # allowed_methods = [GET, GETALL]
+    # related_models = {}
+
+    def get(self, request, format=None):
+        events = Event.objects.prefetch_related('images').all()  # Assuming 'eventimages_set' is the related name
+        serializer = SchoolEventSerializer(events, many=True)
+        return Response(serializer.data)
     
-    def put(self, request,id=None, *args, **kwargs):
-        return super().put(request, id, *args, **kwargs)
+class SchoolDetailAPiView(APIView):
+    def get_paginated_data(self, request):
+        pg = request.GET.get("pg") or 0
+        limit = request.GET.get("limit") or 20
+
+        queryset = School.objects.all().prefetch_related('frequentlyquestion_set', 'infrastructure','notice_board_set')
+        count = queryset.count()
+        objs = queryset[
+            int(pg) * int(limit) : (int(pg)+1)*int(limit)
+        ]   
+        serializer = SchoolDetailSerializer(objs, many = True)
+
+        return Response({
+            "error" : False,
+            "count":count,
+            "rows" : serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get_by_id(self, request, id):
+        try:
+            school = School.objects.get(id=id)
+            serializer = SchoolDetailSerializer(school)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except School.DoesNotExist:
+            return Response({"error": True, "message": "School not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, id=None):
+        if id is not None:
+            return self.get_by_id(request, id)
+        else:
+            return self.get_paginated_data(request)
+        
+
+class AboutUs(APIView): 
+    def get_object(self, id):
+        try:
+            return School.objects.get(pk=id)
+        except School.DoesNotExist:
+            raise Http404
+    def get(self, request, id):
+        user = self.get_object(id)
+        serializer = AboutUsSerializer(user)
+        return Response(serializer.data)
+
+
+    

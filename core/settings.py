@@ -35,7 +35,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'jet',
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,13 +48,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
 
-    
     'tinymce',
     'schools',
     'portals',
     'accounts',
     'reviews',
     'events',
+    'services',
+    'landing_page',
+    'admissions',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -67,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -166,16 +170,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #Mail Config
+# EMAIL_USE_SSL = False
 MAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rafatshaikh9990@gmail.com'
-EMAIL_HOST_PASSWORD = "paypneigerrtjjfr"
+EMAIL_HOST_PASSWORD = "payp neig errt jjfr"
+EMAIL_HOST_NAME='Touheed School'
 # EMAIL_HOST_USER = 'admin@touheed.education'
 # EMAIL_HOST_PASSWORD = "Nekmg82YdX5a"
-# EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -224,13 +228,11 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-
 # STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 DJANGORESIZED_DEFAULT_SIZE = [1920, 1080]
 DJANGORESIZED_DEFAULT_QUALITY = 75
@@ -239,18 +241,50 @@ DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'JPEG': ".jpg"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
 
-
 # Email Backend Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  
-
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587  
-EMAIL_USE_TLS = True  # Set to False if your email server doesn't use TLS
-EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  # Replace with your email username
-EMAIL_HOST_PASSWORD = 'vkhv hyag ikgf rdqa'  # Replace with your email password
+EMAIL_USE_TLS = True  
+EMAIL_HOST_USER = 'fatemataskeen14@gmail.com'  
+EMAIL_HOST_PASSWORD = 'wnjj lnwj vcht kras' 
+EMAIL_HOST_NAME='Touheed School'
 
-
-#########
 # username:  password:admin  email : test123@gmail.com
 
 
+import logging
+l = logging.getLogger('django.db.backends')
+l.setLevel(logging.DEBUG)
+l.addHandler(logging.StreamHandler())
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },'django.db.backends.sqlite3': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
+    }
+}
