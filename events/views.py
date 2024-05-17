@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from portals.base import BaseAPIView
 from portals.constants import *
+from math import ceil
 
 # Create your views here.
 
@@ -21,25 +22,58 @@ class EventView(BaseAPIView):
     allowed_methods =  [GETALL] 
     related_models = {}
 
-from math import ceil
+# from math import ceil
+# class EventDetails(APIView):
+#     def get_paginated_data(self, request):
+#         pg = request.GET.get("pg") or 0
+#         limit = request.GET.get("limit") or 20
+
+#         queryset = Event.objects.all().prefetch_related('images', 'speakers')
+#         count = queryset.count()
+#         pages_count = ceil(count / int(limit))  # Calculate total number of pages
+#         objs = queryset[
+#             int(pg) * int(limit) : (int(pg)+1)*int(limit)
+#         ]
+#         serializer = EventDetailSerializer(objs, many = True)
+
+#         return Response({
+#             "error" : False,
+#             "pages_count": pages_count,
+#             "count":count,
+#             "rows" : serializer.data,
+#         }, status=status.HTTP_200_OK)
+    
+#     def get(self, request):
+#         return self.get_paginated_data(request)
+
 class EventDetails(APIView):
     def get_paginated_data(self, request):
-        pg = request.GET.get("pg") or 0
-        limit = request.GET.get("limit") or 20
+        try:
+            page = int(request.GET.get("page", 0))
+            limit = int(request.GET.get("limit", 20))
+        except ValueError:
+            return Response({
+                "error": True,
+                "message": "Invalid pagination parameters."
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         queryset = Event.objects.all().prefetch_related('images', 'speakers')
         count = queryset.count()
-        pages_count = ceil(count / int(limit))  # Calculate total number of pages
-        objs = queryset[
-            int(pg) * int(limit) : (int(pg)+1)*int(limit)
-        ]
-        serializer = EventDetailSerializer(objs, many = True)
+        pages_count = ceil(count / limit)  
+
+        start = page * limit
+        end = start + limit
+        objs = queryset[start:end]
+
+        print(f"Page: {page}, Limit: {limit}, Start: {start}, End: {end}, Count: {count}")
+
+        serializer = EventDetailSerializer(objs, many=True)
 
         return Response({
-            "error" : False,
+            "error": False,
             "pages_count": pages_count,
-            "count":count,
-            "rows" : serializer.data,
+            "count": count,
+            "rows": serializer.data,
         }, status=status.HTTP_200_OK)
     
     def get(self, request):
