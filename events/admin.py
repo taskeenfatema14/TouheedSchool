@@ -21,6 +21,6 @@ class EventSpeakerInline(admin.TabularInline):
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventImagesInline, EventSpeakerInline]
-    list_display = ['id', 'name', 'title', 'date', 'time', 'location']
+    list_display = ['id', 'school', 'title', 'date', 'time', 'location']
     
 admin.site.register(Event, EventAdmin)

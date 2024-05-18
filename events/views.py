@@ -65,7 +65,16 @@ class EventDetails(APIView):
         end = start + limit
         objs = queryset[start:end]
 
-        print(f"Page: {page}, Limit: {limit}, Start: {start}, End: {end}, Count: {count}")
+        print(f"Page: {page}, Limit: {limit}")
+        print(f"Total Events Count: {count}")
+        print(f"Total Pages Count: {pages_count}")
+        print(f"Events on Current Page: {[event.title for event in objs]}")
+        for event in objs:
+            print(f"School Name: {event.school.name}, Event Title: {event.title}")
+
+        serializer = EventDetailSerializer(objs, many=True)
+
+        # print(f"Page: {page}, Limit: {limit}, Start: {start}, End: {end}, Count: {count}")
 
         serializer = EventDetailSerializer(objs, many=True)
 
@@ -105,3 +114,48 @@ class SingleEventDetail(APIView):
     #             return Response({"detail": "No event found for this school"}, status=status.HTTP_404_NOT_FOUND)
     #     except School.DoesNotExist:
     #         return Response({"detail": "School not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class EventsEachSchool(APIView):
+    def get_paginated_data(self, request, id):
+        try:
+            page = int(request.GET.get("page", 0))
+            limit = int(request.GET.get("limit", 20))
+        except ValueError:
+            return Response({
+                "error": True,
+                "message": "Invalid pagination parameters."
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            school = School.objects.get(id=id)
+        except School.DoesNotExist:
+            return Response({
+                "error": True,
+                "message": "School not found."
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        queryset = Event.objects.filter(school_id=id).prefetch_related('images')
+        count = queryset.count()
+        pages_count = ceil(count / limit)
+
+        start = page * limit
+        end = start + limit
+        objs = queryset[start:end]
+
+        serializer = EventSerializer1(objs, many=True)
+
+        print(f"School Name: {school.name}")
+        print(f"Total Events Count: {count}")
+        print(f"Total Pages Count: {pages_count}")
+        print(f"Current Page: {page}")
+        print(f"Events on Current Page: {[event['title'] for event in serializer.data]}")
+
+        return Response({
+            "error": False,
+            "pages_count": pages_count,
+            "count": count,
+            "rows": serializer.data,
+        }, status=status.HTTP_200_OK)
+    
+    def get(self, request, id):
+        return self.get_paginated_data(request, id)
